@@ -16,7 +16,12 @@ class MyNotesScreen extends StatelessWidget {
           if (state is MyNotesLoadedState) {
             final List<Note> notes = state.notes;
 
-            return const Placeholder();
+            if (notes.isEmpty) {
+              return const Center(
+                child: Text("No notes yet..."),
+              );
+            }
+            return Placeholder();
           }
 
           return const Placeholder();
