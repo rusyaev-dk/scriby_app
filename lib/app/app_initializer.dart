@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scriby_app/app/app_config.dart';
 import 'package:scriby_app/core/blocs/theme_cubit/theme_cubit.dart';
-import 'package:scriby_app/core/domain/repositories/my_notes/my_notes_repository.dart';
-import 'package:scriby_app/core/domain/repositories/my_notes/my_notes_repository_interface.dart';
+import 'package:scriby_app/core/domain/repositories/notes/notes.dart';
 import 'package:scriby_app/core/domain/repositories/settings/settings.dart';
-import 'package:scriby_app/features/my_notes/presentation/my_notes_bloc/my_notes_bloc.dart';
+import 'package:scriby_app/features/my_notes/presentation/presentation.dart';
+import 'package:scriby_app/features/new_note/presentation/presentation.dart';
 import 'package:scriby_app/persistence/storage/key_value_storage/key_value_storage.dart';
 
 class AppInitializer extends StatelessWidget {
@@ -20,17 +20,17 @@ class AppInitializer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final sharedPrefsStotage =
+    final sharedPrefsStorage =
         SharedPrefsStorage(prefs: appConfig.sharedPreferences);
 
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider<SettingsRepositoryI>(
           create: (context) =>
-              SettingsRepository(keyValueStorage: sharedPrefsStotage),
+              SettingsRepository(keyValueStorage: sharedPrefsStorage),
         ),
-        RepositoryProvider<MyNotesRepositoryI>(
-          create: (context) => MyNotesRepository(realm: appConfig.realm),
+        RepositoryProvider<NotesRepositoryI>(
+          create: (context) => NotesRepository(realm: appConfig.realm),
         ),
       ],
       child: MultiBlocProvider(
@@ -42,7 +42,12 @@ class AppInitializer extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => MyNotesBloc(
-              myNotesRepository: context.read<MyNotesRepositoryI>(),
+              notesRepository: context.read<NotesRepositoryI>(),
+            ),
+          ),
+          BlocProvider(
+            create: (context) => NewNoteBloc(
+              notesRepository: context.read<NotesRepositoryI>(),
             ),
           ),
         ],

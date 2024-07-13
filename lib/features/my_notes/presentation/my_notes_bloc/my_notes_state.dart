@@ -2,8 +2,6 @@ part of 'my_notes_bloc.dart';
 
 sealed class MyNotesState extends Equatable {}
 
-// final class MyNotesInitial extends MyNotesState {}
-
 final class MyNotesLoadingState extends MyNotesState {
   @override
   List<Object?> get props => [];
@@ -19,6 +17,10 @@ final class MyNotesLoadedState extends MyNotesState {
 }
 
 final class MyNotesFailureState extends MyNotesState {
+  MyNotesFailureState({required this.exception});
+
+  final Object exception;
+
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [exception];
 }

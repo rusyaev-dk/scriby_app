@@ -1,8 +1,9 @@
 import 'package:realm/realm.dart';
-import 'package:scriby_app/core/domain/repositories/my_notes/my_notes.dart';
+import 'package:scriby_app/core/domain/repositories/notes/notes.dart';
+import 'package:scriby_app/persistence/storage/realm/models/models.dart';
 
-class MyNotesRepository implements MyNotesRepositoryI {
-  MyNotesRepository({required Realm realm}) : _realm = realm;
+class NotesRepository implements NotesRepositoryI {
+  NotesRepository({required Realm realm}) : _realm = realm;
 
   final Realm _realm;
 

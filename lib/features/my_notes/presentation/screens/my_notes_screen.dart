@@ -1,8 +1,6 @@
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:scriby_app/core/domain/entity/note.dart';
-import 'package:scriby_app/features/my_notes/presentation/my_notes_bloc/my_notes_bloc.dart';
+import 'package:scriby_app/features/my_notes/presentation/presentation.dart';
 
 @RoutePage()
 class MyNotesScreen extends StatelessWidget {
@@ -10,23 +8,8 @@ class MyNotesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocBuilder<MyNotesBloc, MyNotesState>(
-        builder: (context, state) {
-          if (state is MyNotesLoadedState) {
-            final List<Note> notes = state.notes;
-
-            if (notes.isEmpty) {
-              return const Center(
-                child: Text("No notes yet..."),
-              );
-            }
-            return Placeholder();
-          }
-
-          return const Placeholder();
-        },
-      ),
+    return const Scaffold(
+      body: MyNotesBody(),
     );
   }
 }
