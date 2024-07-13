@@ -7,8 +7,9 @@ part of 'note.dart';
 // **************************************************************************
 
 // ignore_for_file: type=lint
-class Note extends _Note with RealmEntity, RealmObjectBase, RealmObject {
-  Note(
+class LocalNote extends _LocalNote
+    with RealmEntity, RealmObjectBase, RealmObject {
+  LocalNote(
     String id,
     String title,
     String dateTime,
@@ -23,7 +24,7 @@ class Note extends _Note with RealmEntity, RealmObjectBase, RealmObject {
     RealmObjectBase.set(this, 'text', text);
   }
 
-  Note._();
+  LocalNote._();
 
   @override
   String get id => RealmObjectBase.get<String>(this, 'id') as String;
@@ -54,15 +55,15 @@ class Note extends _Note with RealmEntity, RealmObjectBase, RealmObject {
   set text(String value) => RealmObjectBase.set(this, 'text', value);
 
   @override
-  Stream<RealmObjectChanges<Note>> get changes =>
-      RealmObjectBase.getChanges<Note>(this);
+  Stream<RealmObjectChanges<LocalNote>> get changes =>
+      RealmObjectBase.getChanges<LocalNote>(this);
 
   @override
-  Stream<RealmObjectChanges<Note>> changesFor([List<String>? keyPaths]) =>
-      RealmObjectBase.getChangesFor<Note>(this, keyPaths);
+  Stream<RealmObjectChanges<LocalNote>> changesFor([List<String>? keyPaths]) =>
+      RealmObjectBase.getChangesFor<LocalNote>(this, keyPaths);
 
   @override
-  Note freeze() => RealmObjectBase.freezeObject<Note>(this);
+  LocalNote freeze() => RealmObjectBase.freezeObject<LocalNote>(this);
 
   EJsonValue toEJson() {
     return <String, dynamic>{
@@ -74,8 +75,8 @@ class Note extends _Note with RealmEntity, RealmObjectBase, RealmObject {
     };
   }
 
-  static EJsonValue _toEJson(Note value) => value.toEJson();
-  static Note _fromEJson(EJsonValue ejson) {
+  static EJsonValue _toEJson(LocalNote value) => value.toEJson();
+  static LocalNote _fromEJson(EJsonValue ejson) {
     return switch (ejson) {
       {
         'id': EJsonValue id,
@@ -84,7 +85,7 @@ class Note extends _Note with RealmEntity, RealmObjectBase, RealmObject {
         'tags': EJsonValue tags,
         'text': EJsonValue text,
       } =>
-        Note(
+        LocalNote(
           fromEJson(id),
           fromEJson(title),
           fromEJson(dateTime),
@@ -96,9 +97,9 @@ class Note extends _Note with RealmEntity, RealmObjectBase, RealmObject {
   }
 
   static final schema = () {
-    RealmObjectBase.registerFactory(Note._);
+    RealmObjectBase.registerFactory(LocalNote._);
     register(_toEJson, _fromEJson);
-    return SchemaObject(ObjectType.realmObject, Note, 'Note', [
+    return SchemaObject(ObjectType.realmObject, LocalNote, 'LocalNote', [
       SchemaProperty('id', RealmPropertyType.string, primaryKey: true),
       SchemaProperty('title', RealmPropertyType.string),
       SchemaProperty('dateTime', RealmPropertyType.string),

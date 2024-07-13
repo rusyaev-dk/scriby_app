@@ -10,7 +10,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return AutoTabsRouter(
       routes: const [
-        AllNotesRoute(),
+        MyNotesRoute(),
         NewNoteRoute(),
       ],
       builder: (context, child) {
@@ -61,6 +61,5 @@ class HomeScreen extends StatelessWidget {
           ),
           label: "Add note",
         ),
-
       ];
 }

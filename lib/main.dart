@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:realm/realm.dart';
-import 'package:scriby_app/scriby_app.dart';
-
-import 'common/domain/repositories/my_notes/models/models.dart';
+import 'package:scriby_app/app/app.dart';
+import 'package:scriby_app/persistence/storage/realm/config.dart';
 
 void main() {
-  final config = Configuration.local([Note.schema]);
-  final realm = Realm(config);
-  runApp(const ScribyApp());
+  final realm = configRealm();
+
+  final appConfig = AppConfig(realm: realm);
+
+  runApp(ScribyApp(appConfig: appConfig));
 }
