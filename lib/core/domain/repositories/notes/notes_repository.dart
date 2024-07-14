@@ -4,7 +4,7 @@ import 'package:scriby_app/persistence/storage/realm/models/models.dart';
 
 class NotesRepository implements NotesRepositoryI {
   NotesRepository({required Realm realm}) : _realm = realm {
-    deleteAllNotes();
+    // deleteAllNotes();
   }
 
   final Realm _realm;

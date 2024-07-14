@@ -21,10 +21,11 @@ class MyNotesBloc extends Bloc<MyNotesEvent, MyNotesState> {
     LoadMyNotesEvent event,
     Emitter<MyNotesState> emit,
   ) async {
-    if (state is! MyNotesLoadingState) {
-      emit(MyNotesLoadingState());
-    }
     try {
+      if (state is! MyNotesLoadingState) {
+        emit(MyNotesLoadingState());
+      }
+   
       final localNotes = await _notesRepository.getAllNotes();
       List<Note> notes = [];
       for (var localNote in localNotes) {

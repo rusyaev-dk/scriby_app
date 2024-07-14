@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:scriby_app/features/my_notes/presentation/presentation.dart';
 import 'package:scriby_app/features/new_note/presentation/presentation.dart';
 
 @RoutePage()
@@ -29,9 +30,9 @@ class _NewNoteScreenState extends State<NewNoteScreen> {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          BlocBuilder<NewNoteBloc, NewNoteState>(
+          BlocConsumer<NewNoteBloc, NewNoteState>(
+            listener: _handleNewNoteSaving,
             builder: (context, state) {
-              print("Current state: $state");
               return SliverAppBar(
                 elevation: 0,
                 forceMaterialTransparency: true,
@@ -68,6 +69,12 @@ class _NewNoteScreenState extends State<NewNoteScreen> {
         ],
       ),
     );
+  }
+
+  void _handleNewNoteSaving(context, state) {
+    if (state is NewNoteInitialState) {
+      BlocProvider.of<MyNotesBloc>(context).add(LoadMyNotesEvent());
+    }
   }
 
   void _onSaveButtonPressed() async {

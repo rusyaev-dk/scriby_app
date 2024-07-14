@@ -25,7 +25,7 @@ abstract class AppThemeData {
     ),
     scaffoldBackgroundColor: _lightColorScheme.background,
     appBarTheme: AppBarTheme(
-      color: _lightColorScheme.onBackground,
+      color: _lightColorScheme.background,
       elevation: AppSizes.double0,
       iconTheme: IconThemeData(
         color: _lightColorScheme.onPrimary,

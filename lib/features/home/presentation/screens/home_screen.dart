@@ -48,7 +48,7 @@ class HomeScreen extends StatelessWidget {
             Icons.list_alt,
             color: Theme.of(context).colorScheme.primary,
           ),
-          label: "All notes",
+          label: "My notes",
         ),
         BottomNavigationBarItem(
           icon: Icon(
