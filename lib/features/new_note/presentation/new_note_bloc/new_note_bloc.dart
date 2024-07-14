@@ -10,23 +10,24 @@ part 'new_note_event.dart';
 part 'new_note_state.dart';
 
 class NewNoteBloc extends Bloc<NewNoteEvent, NewNoteState> {
-  NewNoteBloc({required NotesRepositoryI notesRepository})
-      : _notesRepository = notesRepository,
+  NewNoteBloc({
+    required NotesRepositoryI notesRepository,
+  })  : _notesRepository = notesRepository,
         super(NewNoteInitialState()) {
-    on<SaveNoteLocallyEvent>(_onSaveNewNote);
+    on<SaveNewNoteEvent>(_onSaveNewNote);
   }
 
   final NotesRepositoryI _notesRepository;
 
   Future<void> _onSaveNewNote(
-    SaveNoteLocallyEvent event,
+    SaveNewNoteEvent event,
     Emitter<NewNoteState> emit,
   ) async {
-    if (state is! NewNoteSavingState) {
-      emit(NewNoteSavingState());
-    }
-
     try {
+      if (state is! NewNoteSavingState) {
+        emit(NewNoteSavingState());
+      }
+
       final LocalNote newLocalNote = LocalNote(
         Uuid.v4().toString(),
         event.title,
@@ -34,7 +35,7 @@ class NewNoteBloc extends Bloc<NewNoteEvent, NewNoteState> {
         event.text,
         tags: event.tags,
       );
-
+      await Future.delayed(const Duration(milliseconds: 1000));
       await _notesRepository.addNote(newLocalNote);
       emit(NewNoteInitialState());
     } catch (err, stackTrace) {

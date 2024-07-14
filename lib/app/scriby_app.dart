@@ -28,10 +28,11 @@ class _ScribyAppState extends State<ScribyApp> {
       child: BlocBuilder<ThemeCubit, ThemeState>(
         builder: (context, state) {
           return MaterialApp.router(
-             theme: AppThemeData.lightTheme,
+            theme: AppThemeData.lightTheme,
             darkTheme: AppThemeData.darkTheme,
             themeMode: state.themeMode,
             title: "Scriby",
+            debugShowCheckedModeBanner: false,
             routerConfig: router.config(),
           );
         },

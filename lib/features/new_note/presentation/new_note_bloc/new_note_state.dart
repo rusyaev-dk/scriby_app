@@ -10,7 +10,7 @@ final class NewNoteInitialState extends NewNoteState {
 final class NewNoteInProgressState extends NewNoteState {
   @override
   List<Object?> get props => [];
-}
+} // убрать?
 
 final class NewNoteSavingState extends NewNoteState {
   @override

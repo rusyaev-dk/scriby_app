@@ -2,8 +2,8 @@ part of 'new_note_bloc.dart';
 
 sealed class NewNoteEvent extends Equatable {}
 
-final class SaveNoteLocallyEvent extends NewNoteEvent {
-  SaveNoteLocallyEvent({
+final class SaveNewNoteEvent extends NewNoteEvent {
+  SaveNewNoteEvent({
     required this.title,
     required this.dateTime,
     required this.tags,

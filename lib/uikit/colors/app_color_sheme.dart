@@ -95,7 +95,7 @@ class AppColorScheme extends ThemeExtension<AppColorScheme> {
   final Color inActivatedThemeButtonColor;
 
   AppColorScheme.light()
-      : primary = ColorPalette.orange,
+      : primary = ColorPalette.black,
         onPrimary = ColorPalette.white,
         secondary = ColorPalette.grey,
         onSecondary = ColorPalette.chineseBlack,
@@ -130,7 +130,7 @@ class AppColorScheme extends ThemeExtension<AppColorScheme> {
         inActivatedThemeButtonColor = const Color(0xFFf5f6f6);
 
   AppColorScheme.dark()
-      : primary = ColorPalette.orange,
+      : primary = ColorPalette.black,
         onPrimary = DarkColorPalette.white,
         secondary = ColorPalette.grey,
         onSecondary = DarkColorPalette.black,
