@@ -95,8 +95,8 @@ class AppColorScheme extends ThemeExtension<AppColorScheme> {
   final Color inActivatedThemeButtonColor;
 
   AppColorScheme.light()
-      : primary = ColorPalette.black,
-        onPrimary = ColorPalette.white,
+      : primary = ColorPalette.white,
+        onPrimary = ColorPalette.black,
         secondary = ColorPalette.grey,
         onSecondary = ColorPalette.chineseBlack,
         surface = ColorPalette.white,

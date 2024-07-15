@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'note.dart';
+part of 'local_note.dart';
 
 // **************************************************************************
 // RealmObjectGenerator
@@ -13,12 +13,14 @@ class LocalNote extends _LocalNote
     String id,
     String title,
     DateTime dateTime,
+    String colorHex,
     String text, {
     Iterable<String> tags = const [],
   }) {
     RealmObjectBase.set(this, 'id', id);
     RealmObjectBase.set(this, 'title', title);
     RealmObjectBase.set(this, 'dateTime', dateTime);
+    RealmObjectBase.set(this, 'colorHex', colorHex);
     RealmObjectBase.set<RealmList<String>>(
         this, 'tags', RealmList<String>(tags));
     RealmObjectBase.set(this, 'text', text);
@@ -41,6 +43,12 @@ class LocalNote extends _LocalNote
       RealmObjectBase.get<DateTime>(this, 'dateTime') as DateTime;
   @override
   set dateTime(DateTime value) => RealmObjectBase.set(this, 'dateTime', value);
+
+  @override
+  String get colorHex =>
+      RealmObjectBase.get<String>(this, 'colorHex') as String;
+  @override
+  set colorHex(String value) => RealmObjectBase.set(this, 'colorHex', value);
 
   @override
   RealmList<String> get tags =>
@@ -70,6 +78,7 @@ class LocalNote extends _LocalNote
       'id': id.toEJson(),
       'title': title.toEJson(),
       'dateTime': dateTime.toEJson(),
+      'colorHex': colorHex.toEJson(),
       'tags': tags.toEJson(),
       'text': text.toEJson(),
     };
@@ -82,6 +91,7 @@ class LocalNote extends _LocalNote
         'id': EJsonValue id,
         'title': EJsonValue title,
         'dateTime': EJsonValue dateTime,
+        'colorHex': EJsonValue colorHex,
         'tags': EJsonValue tags,
         'text': EJsonValue text,
       } =>
@@ -89,6 +99,7 @@ class LocalNote extends _LocalNote
           fromEJson(id),
           fromEJson(title),
           fromEJson(dateTime),
+          fromEJson(colorHex),
           fromEJson(text),
           tags: fromEJson(tags),
         ),
@@ -103,6 +114,7 @@ class LocalNote extends _LocalNote
       SchemaProperty('id', RealmPropertyType.string, primaryKey: true),
       SchemaProperty('title', RealmPropertyType.string),
       SchemaProperty('dateTime', RealmPropertyType.timestamp),
+      SchemaProperty('colorHex', RealmPropertyType.string),
       SchemaProperty('tags', RealmPropertyType.string,
           collectionType: RealmCollectionType.list),
       SchemaProperty('text', RealmPropertyType.string),

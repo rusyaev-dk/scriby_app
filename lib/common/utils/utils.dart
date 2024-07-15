@@ -1,1 +1,1 @@
-export 'gradient_generator.dart';
+export 'color_formatter.dart';

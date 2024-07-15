@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:scriby_app/common/utils/utils.dart';
 import 'package:scriby_app/features/my_notes/presentation/presentation.dart';
 import 'package:scriby_app/features/new_note/presentation/presentation.dart';
 
@@ -84,6 +85,7 @@ class _NewNoteScreenState extends State<NewNoteScreen> {
       SaveNewNoteEvent(
         title: _titleController.text,
         dateTime: DateTime.now(),
+        colorHex: ColorFormatter.generateRandomColorHex(), // пока что рандомно
         tags: const ["test_tag", "one_more_test_tag"],
         text: _noteTextController.text,
         completer: completer,

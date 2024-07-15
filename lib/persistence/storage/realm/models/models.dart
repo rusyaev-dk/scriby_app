@@ -1,1 +1,1 @@
-export 'note.dart';
+export 'local_note.dart';

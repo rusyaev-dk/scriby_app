@@ -24,11 +24,12 @@ class NoteCard extends StatelessWidget {
 
     final formattedTitle = _removeEmptyLinesAfterLastNonEmpty(note.title);
     final formattedText = _removeEmptyLinesAfterLastNonEmpty(note.text);
+    final textColor = ColorFormatter.getContrastTextColor(note.colorHex);
 
     return Container(
       width: width,
       decoration: BoxDecoration(
-        gradient: RandomGradientGenerator.generateRandomGradient(),
+        gradient: ColorFormatter.generateGradientFromColorHex(note.colorHex),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Padding(
@@ -43,7 +44,7 @@ class NoteCard extends StatelessWidget {
                     fontSize: 23,
                     fontWeight: FontWeight.bold,
                     overflow: TextOverflow.ellipsis,
-                    color: AppColorScheme.of(context).primary,
+                    color: textColor,
                   ),
             ),
             if (hasNonEmptyText) const SizedBox(height: 15),
@@ -54,7 +55,7 @@ class NoteCard extends StatelessWidget {
                 style: AppTextScheme.of(context).label.copyWith(
                       fontSize: 18,
                       overflow: TextOverflow.ellipsis,
-                      color: AppColorScheme.of(context).primary,
+                      color: textColor,
                     ),
               )
           ],
