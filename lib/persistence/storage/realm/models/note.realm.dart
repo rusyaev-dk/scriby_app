@@ -12,7 +12,7 @@ class LocalNote extends _LocalNote
   LocalNote(
     String id,
     String title,
-    String dateTime,
+    DateTime dateTime,
     String text, {
     Iterable<String> tags = const [],
   }) {
@@ -37,10 +37,10 @@ class LocalNote extends _LocalNote
   set title(String value) => RealmObjectBase.set(this, 'title', value);
 
   @override
-  String get dateTime =>
-      RealmObjectBase.get<String>(this, 'dateTime') as String;
+  DateTime get dateTime =>
+      RealmObjectBase.get<DateTime>(this, 'dateTime') as DateTime;
   @override
-  set dateTime(String value) => RealmObjectBase.set(this, 'dateTime', value);
+  set dateTime(DateTime value) => RealmObjectBase.set(this, 'dateTime', value);
 
   @override
   RealmList<String> get tags =>
@@ -102,7 +102,7 @@ class LocalNote extends _LocalNote
     return SchemaObject(ObjectType.realmObject, LocalNote, 'LocalNote', [
       SchemaProperty('id', RealmPropertyType.string, primaryKey: true),
       SchemaProperty('title', RealmPropertyType.string),
-      SchemaProperty('dateTime', RealmPropertyType.string),
+      SchemaProperty('dateTime', RealmPropertyType.timestamp),
       SchemaProperty('tags', RealmPropertyType.string,
           collectionType: RealmCollectionType.list),
       SchemaProperty('text', RealmPropertyType.string),

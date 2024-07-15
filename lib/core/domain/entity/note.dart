@@ -10,7 +10,7 @@ class Note {
   });
 
   final String title;
-  final String dateTime;
+  final DateTime dateTime;
   final List<String> tags;
   final String text;
 

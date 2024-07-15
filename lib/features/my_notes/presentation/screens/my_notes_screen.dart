@@ -42,16 +42,13 @@ class MyNotesScreen extends StatelessWidget {
                         const EdgeInsets.only(left: 10, right: 10, top: 10),
                     sliver: SliverMasonryGrid.count(
                       crossAxisCount: 2,
-                      // mainAxisSpacing: 4,
-                      // crossAxisSpacing: 4,
+                      mainAxisSpacing: 10,
+                      crossAxisSpacing: 10,
                       itemBuilder: (context, i) {
                         final Note note = state.notes[i];
-                        return Padding(
-                          padding: const EdgeInsets.all(6),
-                          child: NoteCard(
-                            note: note,
-                            key: ValueKey(note),
-                          ),
+                        return NoteCard(
+                          note: note,
+                          key: ValueKey(note),
                         );
                       },
                       childCount: state.notes.length,

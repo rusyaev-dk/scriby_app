@@ -28,12 +28,11 @@ class NewNoteBloc extends Bloc<NewNoteEvent, NewNoteState> {
         emit(NewNoteSavingState());
       }
 
-      final LocalNote newLocalNote = LocalNote(
-        Uuid.v4().toString(),
-        event.title,
-        event.dateTime,
-        event.text,
+      final LocalNote newLocalNote = _formatNote(
+        title: event.title,
+        dateTime: event.dateTime,
         tags: event.tags,
+        text: event.text,
       );
       await Future.delayed(const Duration(milliseconds: 1000));
       await _notesRepository.addNote(newLocalNote);
@@ -43,5 +42,24 @@ class NewNoteBloc extends Bloc<NewNoteEvent, NewNoteState> {
     }
 
     event.completer.complete();
+  }
+
+  LocalNote _formatNote({
+    required String title,
+    required DateTime dateTime,
+    required List<String> tags,
+    required String text,
+  }) {
+    if (title.trim().isEmpty) {
+      title = "New note";
+    }
+
+    return LocalNote(
+      Uuid.v4().toString(),
+      title,
+      dateTime,
+      text,
+      tags: tags,
+    );
   }
 }

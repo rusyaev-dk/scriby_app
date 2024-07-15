@@ -12,7 +12,7 @@ final class SaveNewNoteEvent extends NewNoteEvent {
   });
 
   final String title;
-  final String dateTime;
+  final DateTime dateTime;
   final List<String> tags;
   final String text;
   final Completer completer;

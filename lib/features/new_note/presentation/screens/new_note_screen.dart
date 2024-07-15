@@ -83,7 +83,7 @@ class _NewNoteScreenState extends State<NewNoteScreen> {
     BlocProvider.of<NewNoteBloc>(context).add(
       SaveNewNoteEvent(
         title: _titleController.text,
-        dateTime: DateTime.now().toString(),
+        dateTime: DateTime.now(),
         tags: const ["test_tag", "one_more_test_tag"],
         text: _noteTextController.text,
         completer: completer,

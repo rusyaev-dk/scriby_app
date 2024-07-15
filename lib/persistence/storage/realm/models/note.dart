@@ -7,7 +7,7 @@ class _LocalNote {
   @PrimaryKey()
   late String id;
   late String title;
-  late String dateTime;
+  late DateTime dateTime;
   late List<String> tags;
   late String text;
 }
