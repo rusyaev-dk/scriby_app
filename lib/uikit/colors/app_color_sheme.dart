@@ -1,164 +1,113 @@
 import 'package:flutter/material.dart';
 import 'package:scriby_app/uikit/colors/color_palette.dart';
 
-const _skeletonOpacity = 0.06;
-
 @immutable
 class AppColorScheme extends ThemeExtension<AppColorScheme> {
-  /// Base branding color for the app.
-  ///
-  /// Can be used as an accent color for buttons, switches, labels, icons, etc.
   final Color primary;
-
-  /// The color of the text on [primary].
   final Color onPrimary;
-
-  /// Secondary branding color for the app.
-  ///
-  /// Can be used as an accent color for buttons, switches, labels, icons, etc.
-  ///
-  /// Complements [primary] color.
+  final Color primaryContainer;
+  final Color onPrimaryContainer;
   final Color secondary;
-
-  /// The color of the text on [secondary].
   final Color onSecondary;
-
-  /// Surface color.
-  ///
-  /// Usually, the background color of cards, alerts, dialogs, bottom sheets, etc
-  /// is considered a surface.
-  final Color surface;
-
-  /// Secondary surface color.
-  ///
-  /// Usually, the background color of cards, alerts, dialogs, bottom sheets, etc
-  /// is considered a surface.
-  final Color surfaceSecondary;
-
-  final Color onSurface;
-
+  final Color secondaryContainer;
+  final Color onSecondaryContainer;
+  final Color tertiary;
+  final Color onTertiary;
+  final Color tertiaryContainer;
+  final Color onTertiaryContainer;
+  final Color error;
+  final Color onError;
+  final Color errorContainer;
+  final Color onErrorContainer;
   final Color background;
-
-  final Color backgroundSecondary;
-
-  final Color backgroundTertiary;
-
-  final Color tetradicBackground;
-
   final Color onBackground;
-
-  final Color onBackgroundSecondary;
-
-  final Color danger;
-
-  final Color dangerSecondary;
-
-  /// The color of the text on [danger].
-  final Color onDanger;
-
-  /// Color of text in text field.
-  final Color textField;
-
-  /// Color of label in text field.
-  final Color textFieldLabel;
-
-  /// Color of helper text in text field.
-  final Color textFieldHelper;
-
-  /// Color of border and cursor in text field.
-  final Color frameTextFieldSecondary;
-
-  /// Color of inactive elements.
-  final Color inactive;
-
-  /// Positive color.
-  ///
-  /// Typically used for informational success messages.
-  final Color positive;
-
-  final Color onPositive;
-
-  final Color skeletonPrimary;
-
-  final Color skeletonOnPrimary;
-
-  final Color skeletonSecondary;
-
-  final Color skeletonTertiary;
-
+  final Color surface;
+  final Color onSurface;
+  final Color surfaceVariant;
+  final Color onSurfaceVariant;
+  final Color outline;
+  final Color surfaceContainer;
+  final Color surfaceContainerHighest;
+  final Color surfaceContainerHigh;
+  final Color surfaceContainerLow;
+  final Color surfaceContainerLowest;
+  final Color surfaceBright;
+  final Color surfaceDim;
   final Color shimmer;
-
-  final Color surfaceDarker;
   final Color activatedFilterButtonColor;
   final Color inActivatedFilterButtonColor;
   final Color activatedThemeButtonColor;
   final Color inActivatedThemeButtonColor;
 
-  AppColorScheme.light()
-      : primary = ColorPalette.white,
-        onPrimary = ColorPalette.black,
-        secondary = ColorPalette.grey,
-        onSecondary = ColorPalette.chineseBlack,
-        surface = ColorPalette.white,
-        surfaceSecondary = ColorPalette.cultured,
-        onSurface = ColorPalette.chineseBlack,
-        background = ColorPalette.cultured,
-        backgroundSecondary = ColorPalette.darkScarlet,
-        backgroundTertiary = ColorPalette.cultured,
-        onBackground = ColorPalette.chineseBlack,
-        onBackgroundSecondary = ColorPalette.white,
-        danger = ColorPalette.folly,
-        dangerSecondary = ColorPalette.vividRaspberry,
-        onDanger = ColorPalette.white,
-        textField = ColorPalette.chineseBlack,
-        textFieldLabel = ColorPalette.black,
-        textFieldHelper = ColorPalette.black,
-        frameTextFieldSecondary = ColorPalette.chineseBlack,
-        inactive = ColorPalette.black,
-        positive = ColorPalette.greenYellow,
-        onPositive = ColorPalette.chineseBlack,
-        skeletonPrimary = ColorPalette.black.withOpacity(_skeletonOpacity),
-        skeletonOnPrimary = ColorPalette.white,
-        skeletonSecondary = ColorPalette.cultured,
-        skeletonTertiary = ColorPalette.lightSilver,
-        tetradicBackground = ColorPalette.lightGreen,
+  const AppColorScheme.light()
+      : primary = const Color(0xFF7d3be1),
+        onPrimary = const Color(0xFFFFFFFF),
+        primaryContainer = const Color(0xFFC8BFE6),
+        onPrimaryContainer = const Color(0xFF1E1833),
+        secondary = const Color.fromARGB(255, 158, 158, 158),
+        onSecondary = const Color.fromARGB(255, 63, 63, 63),
+        secondaryContainer = const Color(0xFFDCD8E6),
+        onSecondaryContainer = const Color(0xFF2C2933),
+        tertiary = const Color(0xFF996576),
+        onTertiary = const Color(0xFFFFFFFF),
+        tertiaryContainer = const Color(0xFFE6CDD5),
+        onTertiaryContainer = const Color(0xFF332227),
+        error = const Color(0xFF99201A),
+        onError = const Color(0xFFFFFFFF),
+        errorContainer = const Color(0xFFE6ACA9),
+        onErrorContainer = const Color(0xFF330B09),
+        background = const Color(0xFFFFFFFF),
+        onBackground = const Color(0xFF000000),
+        surface = const Color(0xFFF5F5F5),
+        onSurface = const Color(0xFF323233),
+        surfaceVariant = const Color(0xFFe0dee6),
+        onSurfaceVariant = const Color(0xFF5e5b66),
+        outline = const Color(0xFF8c8999),
+        surfaceContainer = const Color(0xFFE6E1F2),
+        surfaceContainerHighest = const Color(0xFFD1CAE1),
+        surfaceContainerHigh = const Color(0xFFE0DAF2),
+        surfaceContainerLow = const Color(0xFFF2F0FC),
+        surfaceContainerLowest = const Color(0xFFFFFFFF),
+        surfaceBright = const Color(0xFFFFFFFF),
+        surfaceDim = const Color(0xFFFCF7FF),
         shimmer = ColorPalette.platinum,
-        surfaceDarker = const Color(0xFFf5f6f6),
         activatedFilterButtonColor = const Color(0xFFb2b2b2),
         inActivatedFilterButtonColor = const Color(0xFFe0e0e2),
         activatedThemeButtonColor = ColorPalette.white,
         inActivatedThemeButtonColor = const Color(0xFFf5f6f6);
 
-  AppColorScheme.dark()
-      : primary = ColorPalette.black,
-        onPrimary = DarkColorPalette.white,
-        secondary = ColorPalette.grey,
-        onSecondary = DarkColorPalette.black,
-        surface = DarkColorPalette.darkestGrey,
-        surfaceSecondary = DarkColorPalette.raisinBlack,
-        onSurface = DarkColorPalette.white,
-        background = DarkColorPalette.raisinBlack,
-        backgroundSecondary = DarkColorPalette.maroon,
-        backgroundTertiary = DarkColorPalette.raisinBlack,
-        onBackground = DarkColorPalette.white,
-        onBackgroundSecondary = DarkColorPalette.white,
-        danger = DarkColorPalette.brinkPink,
-        dangerSecondary = DarkColorPalette.cyclamen,
-        onDanger = DarkColorPalette.white,
-        textField = DarkColorPalette.lightSilver,
-        textFieldLabel = DarkColorPalette.white,
-        textFieldHelper = DarkColorPalette.black,
-        frameTextFieldSecondary = DarkColorPalette.lightSilver,
-        inactive = DarkColorPalette.black,
-        positive = DarkColorPalette.inchworm,
-        onPositive = DarkColorPalette.black,
-        skeletonPrimary = DarkColorPalette.black.withOpacity(_skeletonOpacity),
-        skeletonOnPrimary = DarkColorPalette.white,
-        skeletonSecondary = DarkColorPalette.raisinBlack,
-        skeletonTertiary = DarkColorPalette.lightSilver,
-        tetradicBackground = DarkColorPalette.etonBlue,
+  const AppColorScheme.dark()
+      : primary = const Color(0xFF483D70),
+        onPrimary = const Color(0xFFFFFFFF),
+        primaryContainer = const Color(0xFF211C33),
+        onPrimaryContainer = const Color(0xFFC8BFE6),
+        secondary = const Color(0xFF625B71),
+        onSecondary = const Color(0xFFFFFFFF),
+        secondaryContainer = const Color(0xFF2C2933),
+        onSecondaryContainer = const Color(0xFFDCD8E6),
+        tertiary = const Color(0xFF7D5260),
+        onTertiary = const Color(0xFFFFFFFF),
+        tertiaryContainer = const Color(0xFF332227),
+        onTertiaryContainer = const Color(0xFFE6CDD5),
+        error = const Color(0xFFB3261E),
+        onError = const Color(0xFFFFFFFF),
+        errorContainer = const Color(0xFF330B09),
+        onErrorContainer = const Color(0xFFE6ACA9),
+        background = const Color(0xFF1D1B1E),
+        onBackground = const Color(0xFFE5E1E6),
+        surface = const Color(0xFF1D1B1E),
+        onSurface = const Color(0xFFE5E1E6),
+        surfaceVariant = const Color(0xFF49454F),
+        onSurfaceVariant = const Color(0xFFCAC4D0),
+        outline = const Color(0xFF938F99),
+        surfaceContainer = const Color(0xFF242329),
+        surfaceContainerHighest = const Color(0xFF3B383E),
+        surfaceContainerHigh = const Color(0xFF2E2B32),
+        surfaceContainerLow = const Color(0xFF1C1B1F),
+        surfaceContainerLowest = const Color(0xFF121212),
+        surfaceBright = const Color(0xFF36343B),
+        surfaceDim = const Color(0xFF1C1A1F),
         shimmer = ColorPalette.platinum,
-        surfaceDarker = const Color(0xFF151515),
         activatedFilterButtonColor = const Color(0xFF4d4d4d),
         inActivatedFilterButtonColor = const Color(0xFF151515),
         activatedThemeButtonColor = DarkColorPalette.black,
@@ -167,33 +116,35 @@ class AppColorScheme extends ThemeExtension<AppColorScheme> {
   const AppColorScheme._({
     required this.primary,
     required this.onPrimary,
+    required this.primaryContainer,
+    required this.onPrimaryContainer,
     required this.secondary,
     required this.onSecondary,
-    required this.surface,
-    required this.surfaceSecondary,
-    required this.onSurface,
+    required this.secondaryContainer,
+    required this.onSecondaryContainer,
+    required this.tertiary,
+    required this.onTertiary,
+    required this.tertiaryContainer,
+    required this.onTertiaryContainer,
+    required this.error,
+    required this.onError,
+    required this.errorContainer,
+    required this.onErrorContainer,
     required this.background,
-    required this.backgroundSecondary,
-    required this.backgroundTertiary,
     required this.onBackground,
-    required this.onBackgroundSecondary,
-    required this.danger,
-    required this.dangerSecondary,
-    required this.onDanger,
-    required this.textField,
-    required this.textFieldLabel,
-    required this.textFieldHelper,
-    required this.frameTextFieldSecondary,
-    required this.inactive,
-    required this.positive,
-    required this.onPositive,
-    required this.skeletonPrimary,
-    required this.skeletonOnPrimary,
-    required this.skeletonSecondary,
-    required this.skeletonTertiary,
-    required this.tetradicBackground,
+    required this.surface,
+    required this.onSurface,
+    required this.surfaceVariant,
+    required this.onSurfaceVariant,
+    required this.outline,
+    required this.surfaceContainer,
+    required this.surfaceContainerHighest,
+    required this.surfaceContainerHigh,
+    required this.surfaceContainerLow,
+    required this.surfaceContainerLowest,
+    required this.surfaceBright,
+    required this.surfaceDim,
     required this.shimmer,
-    required this.surfaceDarker,
     required this.activatedFilterButtonColor,
     required this.inActivatedFilterButtonColor,
     required this.activatedThemeButtonColor,
@@ -204,33 +155,35 @@ class AppColorScheme extends ThemeExtension<AppColorScheme> {
   ThemeExtension<AppColorScheme> copyWith({
     Color? primary,
     Color? onPrimary,
+    Color? primaryContainer,
+    Color? onPrimaryContainer,
     Color? secondary,
     Color? onSecondary,
-    Color? surface,
-    Color? surfaceSecondary,
-    Color? onSurface,
+    Color? secondaryContainer,
+    Color? onSecondaryContainer,
+    Color? tertiary,
+    Color? onTertiary,
+    Color? tertiaryContainer,
+    Color? onTertiaryContainer,
+    Color? error,
+    Color? onError,
+    Color? errorContainer,
+    Color? onErrorContainer,
     Color? background,
-    Color? backgroundSecondary,
-    Color? backgroundTertiary,
     Color? onBackground,
-    Color? onBackgroundSecondary,
-    Color? danger,
-    Color? dangerSecondary,
-    Color? onDanger,
-    Color? textField,
-    Color? textFieldLabel,
-    Color? textFieldHelper,
-    Color? frameTextFieldSecondary,
-    Color? inactive,
-    Color? positive,
-    Color? onPositive,
-    Color? skeletonPrimary,
-    Color? skeletonOnPrimary,
-    Color? skeletonSecondary,
-    Color? skeletonTertiary,
-    Color? tetradicBackground,
+    Color? surface,
+    Color? onSurface,
+    Color? surfaceVariant,
+    Color? onSurfaceVariant,
+    Color? outline,
+    Color? surfaceContainer,
+    Color? surfaceContainerHighest,
+    Color? surfaceContainerHigh,
+    Color? surfaceContainerLow,
+    Color? surfaceContainerLowest,
+    Color? surfaceBright,
+    Color? surfaceDim,
     Color? shimmer,
-    Color? surfaceDarker,
     Color? activatedFilterButtonColor,
     Color? inActivatedFilterButtonColor,
     Color? activatedThemeButtonColor,
@@ -239,35 +192,37 @@ class AppColorScheme extends ThemeExtension<AppColorScheme> {
     return AppColorScheme._(
       primary: primary ?? this.primary,
       onPrimary: onPrimary ?? this.onPrimary,
+      primaryContainer: primaryContainer ?? this.primaryContainer,
+      onPrimaryContainer: onPrimaryContainer ?? this.onPrimaryContainer,
       secondary: secondary ?? this.secondary,
       onSecondary: onSecondary ?? this.onSecondary,
-      surface: surface ?? this.surface,
-      surfaceSecondary: surfaceSecondary ?? this.surfaceSecondary,
-      onSurface: onSurface ?? this.onSurface,
+      secondaryContainer: secondaryContainer ?? this.secondaryContainer,
+      onSecondaryContainer: onSecondaryContainer ?? this.onSecondaryContainer,
+      tertiary: tertiary ?? this.tertiary,
+      onTertiary: onTertiary ?? this.onTertiary,
+      tertiaryContainer: tertiaryContainer ?? this.tertiaryContainer,
+      onTertiaryContainer: onTertiaryContainer ?? this.onTertiaryContainer,
+      error: error ?? this.error,
+      onError: onError ?? this.onError,
+      errorContainer: errorContainer ?? this.errorContainer,
+      onErrorContainer: onErrorContainer ?? this.onErrorContainer,
       background: background ?? this.background,
-      backgroundSecondary: backgroundSecondary ?? this.backgroundSecondary,
-      backgroundTertiary: backgroundTertiary ?? this.backgroundTertiary,
       onBackground: onBackground ?? this.onBackground,
-      onBackgroundSecondary:
-          onBackgroundSecondary ?? this.onBackgroundSecondary,
-      danger: danger ?? this.danger,
-      dangerSecondary: dangerSecondary ?? this.dangerSecondary,
-      onDanger: onDanger ?? this.onDanger,
-      textField: textField ?? this.textField,
-      textFieldLabel: textFieldLabel ?? this.textFieldLabel,
-      textFieldHelper: textFieldHelper ?? this.textFieldHelper,
-      frameTextFieldSecondary:
-          frameTextFieldSecondary ?? this.frameTextFieldSecondary,
-      inactive: inactive ?? this.inactive,
-      positive: positive ?? this.positive,
-      onPositive: onPositive ?? this.onPositive,
-      skeletonPrimary: skeletonPrimary ?? this.skeletonPrimary,
-      skeletonOnPrimary: skeletonOnPrimary ?? this.skeletonOnPrimary,
-      skeletonSecondary: skeletonSecondary ?? this.skeletonSecondary,
-      skeletonTertiary: skeletonTertiary ?? this.skeletonTertiary,
-      tetradicBackground: tetradicBackground ?? this.tetradicBackground,
+      surface: surface ?? this.surface,
+      onSurface: onSurface ?? this.onSurface,
+      surfaceVariant: surfaceVariant ?? this.surfaceVariant,
+      onSurfaceVariant: onSurfaceVariant ?? this.onSurfaceVariant,
+      outline: outline ?? this.outline,
+      surfaceContainer: surfaceContainer ?? this.surfaceContainer,
+      surfaceContainerHighest:
+          surfaceContainerHighest ?? this.surfaceContainerHighest,
+      surfaceContainerHigh: surfaceContainerHigh ?? this.surfaceContainerHigh,
+      surfaceContainerLow: surfaceContainerLow ?? this.surfaceContainerLow,
+      surfaceContainerLowest:
+          surfaceContainerLowest ?? this.surfaceContainerLowest,
+      surfaceBright: surfaceBright ?? this.surfaceBright,
+      surfaceDim: surfaceDim ?? this.surfaceDim,
       shimmer: shimmer ?? this.shimmer,
-      surfaceDarker: surfaceDarker ?? this.surfaceDarker,
       activatedFilterButtonColor:
           activatedFilterButtonColor ?? this.activatedFilterButtonColor,
       inActivatedFilterButtonColor:
@@ -291,42 +246,48 @@ class AppColorScheme extends ThemeExtension<AppColorScheme> {
     return AppColorScheme._(
       primary: Color.lerp(primary, other.primary, t)!,
       onPrimary: Color.lerp(onPrimary, other.onPrimary, t)!,
+      primaryContainer:
+          Color.lerp(primaryContainer, other.primaryContainer, t)!,
+      onPrimaryContainer:
+          Color.lerp(onPrimaryContainer, other.onPrimaryContainer, t)!,
       secondary: Color.lerp(secondary, other.secondary, t)!,
       onSecondary: Color.lerp(onSecondary, other.onSecondary, t)!,
-      surface: Color.lerp(surface, other.surface, t)!,
-      surfaceSecondary:
-          Color.lerp(surfaceSecondary, other.surfaceSecondary, t)!,
-      onSurface: Color.lerp(onSurface, other.onSurface, t)!,
+      secondaryContainer:
+          Color.lerp(secondaryContainer, other.secondaryContainer, t)!,
+      onSecondaryContainer:
+          Color.lerp(onSecondaryContainer, other.onSecondaryContainer, t)!,
+      tertiary: Color.lerp(tertiary, other.tertiary, t)!,
+      onTertiary: Color.lerp(onTertiary, other.onTertiary, t)!,
+      tertiaryContainer:
+          Color.lerp(tertiaryContainer, other.tertiaryContainer, t)!,
+      onTertiaryContainer:
+          Color.lerp(onTertiaryContainer, other.onTertiaryContainer, t)!,
+      error: Color.lerp(error, other.error, t)!,
+      onError: Color.lerp(onError, other.onError, t)!,
+      errorContainer: Color.lerp(errorContainer, other.errorContainer, t)!,
+      onErrorContainer:
+          Color.lerp(onErrorContainer, other.onErrorContainer, t)!,
       background: Color.lerp(background, other.background, t)!,
-      backgroundSecondary:
-          Color.lerp(backgroundSecondary, other.backgroundSecondary, t)!,
-      backgroundTertiary:
-          Color.lerp(backgroundTertiary, other.backgroundTertiary, t)!,
       onBackground: Color.lerp(onBackground, other.onBackground, t)!,
-      onBackgroundSecondary:
-          Color.lerp(onBackgroundSecondary, other.onBackgroundSecondary, t)!,
-      danger: Color.lerp(danger, other.danger, t)!,
-      dangerSecondary: Color.lerp(dangerSecondary, other.dangerSecondary, t)!,
-      onDanger: Color.lerp(onDanger, other.onDanger, t)!,
-      textField: Color.lerp(textField, other.textField, t)!,
-      textFieldLabel: Color.lerp(textFieldLabel, other.textFieldLabel, t)!,
-      textFieldHelper: Color.lerp(textFieldHelper, other.textFieldHelper, t)!,
-      frameTextFieldSecondary: Color.lerp(
-          frameTextFieldSecondary, other.frameTextFieldSecondary, t)!,
-      inactive: Color.lerp(inactive, other.inactive, t)!,
-      positive: Color.lerp(positive, other.positive, t)!,
-      onPositive: Color.lerp(onPositive, other.onPositive, t)!,
-      skeletonPrimary: Color.lerp(skeletonPrimary, other.skeletonPrimary, t)!,
-      skeletonOnPrimary:
-          Color.lerp(skeletonOnPrimary, other.skeletonOnPrimary, t)!,
-      skeletonSecondary:
-          Color.lerp(skeletonSecondary, other.skeletonSecondary, t)!,
-      skeletonTertiary:
-          Color.lerp(skeletonTertiary, other.skeletonTertiary, t)!,
-      tetradicBackground:
-          Color.lerp(tetradicBackground, other.tetradicBackground, t)!,
+      surface: Color.lerp(surface, other.surface, t)!,
+      onSurface: Color.lerp(onSurface, other.onSurface, t)!,
+      surfaceVariant: Color.lerp(surfaceVariant, other.surfaceVariant, t)!,
+      onSurfaceVariant:
+          Color.lerp(onSurfaceVariant, other.onSurfaceVariant, t)!,
+      outline: Color.lerp(outline, other.outline, t)!,
+      surfaceContainer:
+          Color.lerp(surfaceContainer, other.surfaceContainer, t)!,
+      surfaceContainerHighest: Color.lerp(
+          surfaceContainerHighest, other.surfaceContainerHighest, t)!,
+      surfaceContainerHigh:
+          Color.lerp(surfaceContainerHigh, other.surfaceContainerHigh, t)!,
+      surfaceContainerLow:
+          Color.lerp(surfaceContainerLow, other.surfaceContainerLow, t)!,
+      surfaceContainerLowest:
+          Color.lerp(surfaceContainerLowest, other.surfaceContainerLowest, t)!,
+      surfaceBright: Color.lerp(surfaceBright, other.surfaceBright, t)!,
+      surfaceDim: Color.lerp(surfaceDim, other.surfaceDim, t)!,
       shimmer: Color.lerp(shimmer, other.shimmer, t)!,
-      surfaceDarker: Color.lerp(surfaceDarker, other.surfaceDarker, t)!,
       activatedFilterButtonColor: Color.lerp(
           activatedFilterButtonColor, other.activatedFilterButtonColor, t)!,
       inActivatedFilterButtonColor: Color.lerp(

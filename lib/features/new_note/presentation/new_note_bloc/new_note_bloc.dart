@@ -31,7 +31,7 @@ class NewNoteBloc extends Bloc<NewNoteEvent, NewNoteState> {
       final LocalNote newLocalNote = _formatNote(
         title: event.title,
         dateTime: event.dateTime,
-        colorHex: event.colorHex,
+        hexColor: event.hexColor,
         tags: event.tags,
         text: event.text,
       );
@@ -48,7 +48,7 @@ class NewNoteBloc extends Bloc<NewNoteEvent, NewNoteState> {
   LocalNote _formatNote({
     required String title,
     required DateTime dateTime,
-    required String colorHex,
+    required String hexColor,
     required List<String> tags,
     required String text,
   }) {
@@ -60,11 +60,9 @@ class NewNoteBloc extends Bloc<NewNoteEvent, NewNoteState> {
       Uuid.v4().toString(),
       title,
       dateTime,
-      colorHex,
+      hexColor,
       text,
       tags: tags,
     );
   }
-
-  
 }

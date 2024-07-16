@@ -18,7 +18,7 @@ abstract class ColorPalette {
   static const black = Colors.black;
 
   static const vividRaspberry = Color(0xFFFF176B);
-
+  
   static const lightSilver = Color(0xFFD9D9D9);
 
   static const lightGreen = Color(0xFFB5CCAE);

@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:scriby_app/core/navigation/router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:scriby_app/features/home/presentation/presentation.dart';
+import 'package:scriby_app/uikit/uikit.dart';
 
 @RoutePage()
 class HomeScreen extends StatelessWidget {
@@ -8,58 +10,36 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AutoTabsRouter(
-      routes: const [
-        MyNotesRoute(),
-        NewNoteRoute(),
-      ],
-      builder: (context, child) {
-        final tabsRouter = AutoTabsRouter.of(context);
+    final colorScheme = AppColorScheme.of(context);
 
-        return Scaffold(
-          body: child,
-          bottomNavigationBar: BottomNavigationBar(
-            type: BottomNavigationBarType.fixed,
-            selectedFontSize: 12.0,
-            unselectedFontSize: 12.0,
-            showUnselectedLabels: true,
-            items: generateNavigationBarItems(context),
-            currentIndex: tabsRouter.activeIndex,
-            onTap: (index) => _openPage(index, tabsRouter),
-          ),
-        );
-      },
+    return Scaffold(
+      floatingActionButton: const NewNoteButton(),
+      body: BlocBuilder<HomeBloc, HomeState>(
+        builder: (context, state) {
+          return CustomScrollView(
+            slivers: [
+              const HomeAppBar(),
+              if (state is HomeLoadedState)
+                if (state.notes.isEmpty)
+                  const NoNotesWidget()
+                else
+                  SliverPadding(
+                    padding: const EdgeInsets.only(
+                        left: 13, right: 13, top: 10, bottom: 10),
+                    sliver: MyNotesGrid(notes: state.notes),
+                  )
+              else if (state is HomeLoadingState)
+                const SliverToBoxAdapter(
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                )
+            ],
+          );
+        },
+      ),
     );
   }
-
-  void _openPage(int index, TabsRouter tabsRouter) {
-    tabsRouter.setActiveIndex(index);
-  }
-
-  List<BottomNavigationBarItem> generateNavigationBarItems(
-          BuildContext context) =>
-      [
-        BottomNavigationBarItem(
-          icon: Icon(
-            Icons.list_alt,
-            color: Theme.of(context).colorScheme.secondary,
-          ),
-          activeIcon: Icon(
-            Icons.list_alt,
-            color: Theme.of(context).colorScheme.primary,
-          ),
-          label: "My notes",
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(
-            Icons.add,
-            color: Theme.of(context).colorScheme.secondary,
-          ),
-          activeIcon: Icon(
-            Icons.add,
-            color: Theme.of(context).colorScheme.primary,
-          ),
-          label: "Add note",
-        ),
-      ];
 }
+
+

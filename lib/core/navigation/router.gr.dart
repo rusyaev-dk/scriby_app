@@ -21,16 +21,16 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const HomeScreen(),
       );
     },
-    MyNotesRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const MyNotesScreen(),
-      );
-    },
     NewNoteRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const NewNoteScreen(),
+      );
+    },
+    SettingsRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const SettingsScreen(),
       );
     },
   };
@@ -51,20 +51,6 @@ class HomeRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [MyNotesScreen]
-class MyNotesRoute extends PageRouteInfo<void> {
-  const MyNotesRoute({List<PageRouteInfo>? children})
-      : super(
-          MyNotesRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'MyNotesRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
 /// [NewNoteScreen]
 class NewNoteRoute extends PageRouteInfo<void> {
   const NewNoteRoute({List<PageRouteInfo>? children})
@@ -74,6 +60,20 @@ class NewNoteRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'NewNoteRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [SettingsScreen]
+class SettingsRoute extends PageRouteInfo<void> {
+  const SettingsRoute({List<PageRouteInfo>? children})
+      : super(
+          SettingsRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'SettingsRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

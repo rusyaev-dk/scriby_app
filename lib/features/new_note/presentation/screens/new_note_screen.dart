@@ -1,10 +1,10 @@
 import 'dart:async';
 
-import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scriby_app/common/utils/utils.dart';
-import 'package:scriby_app/features/my_notes/presentation/presentation.dart';
+import 'package:scriby_app/features/home/presentation/presentation.dart';
 import 'package:scriby_app/features/new_note/presentation/presentation.dart';
 
 @RoutePage()
@@ -74,7 +74,7 @@ class _NewNoteScreenState extends State<NewNoteScreen> {
 
   void _handleNewNoteSaving(context, state) {
     if (state is NewNoteInitialState) {
-      BlocProvider.of<MyNotesBloc>(context).add(LoadMyNotesEvent());
+      BlocProvider.of<HomeBloc>(context).add(LoadMyNotesEvent());
     }
   }
 
@@ -85,16 +85,20 @@ class _NewNoteScreenState extends State<NewNoteScreen> {
       SaveNewNoteEvent(
         title: _titleController.text,
         dateTime: DateTime.now(),
-        colorHex: ColorFormatter.generateRandomColorHex(), // пока что рандомно
+        hexColor: ColorFormatter.generateRandomHexColor(), // пока что рандомно
         tags: const ["test_tag", "one_more_test_tag"],
         text: _noteTextController.text,
         completer: completer,
       ),
     );
 
-    await completer.future;
-    _titleController.clear();
-    _noteTextController.clear();
+    // AutoRouter.of(context).back();
+    await completer.future.then((context) {
+      FocusScope.of(context).unfocus();
+      AutoRouter.of(context).back();
+    });
+    // _titleController.clear();
+    // _noteTextController.clear();
   }
 
   @override

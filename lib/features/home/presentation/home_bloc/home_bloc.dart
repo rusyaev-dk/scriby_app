@@ -3,14 +3,14 @@ import 'package:equatable/equatable.dart';
 import 'package:scriby_app/core/domain/entity/note.dart';
 import 'package:scriby_app/core/domain/repositories/notes/notes_repository_interface.dart';
 
-part 'my_notes_event.dart';
-part 'my_notes_state.dart';
+part 'home_event.dart';
+part 'home_state.dart';
 
-class MyNotesBloc extends Bloc<MyNotesEvent, MyNotesState> {
-  MyNotesBloc({
+class HomeBloc extends Bloc<HomeEvent, HomeState> {
+  HomeBloc({
     required NotesRepositoryI notesRepository,
   })  : _notesRepository = notesRepository,
-        super(MyNotesLoadingState()) {
+        super(HomeLoadingState()) {
     on<LoadMyNotesEvent>(_onLoadNotes);
     add(LoadMyNotesEvent());
   }
@@ -19,21 +19,21 @@ class MyNotesBloc extends Bloc<MyNotesEvent, MyNotesState> {
 
   Future<void> _onLoadNotes(
     LoadMyNotesEvent event,
-    Emitter<MyNotesState> emit,
+    Emitter<HomeState> emit,
   ) async {
     try {
-      if (state is! MyNotesLoadingState) {
-        emit(MyNotesLoadingState());
+      if (state is! HomeLoadingState) {
+        emit(HomeLoadingState());
       }
-   
+
       final localNotes = await _notesRepository.getAllNotes();
       List<Note> notes = [];
       for (var localNote in localNotes) {
         notes.add(Note.fromLocal(localNote));
       }
-      emit(MyNotesLoadedState(notes: notes));
+      emit(HomeLoadedState(notes: notes));
     } catch (err, stackTrace) {
-      emit(MyNotesFailureState(exception: err));
+      emit(HomeFailureState(exception: err));
     }
   }
 }

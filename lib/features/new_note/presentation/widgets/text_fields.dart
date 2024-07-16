@@ -16,7 +16,7 @@ class TitleTextField extends StatelessWidget {
       decoration: InputDecoration(
         hintText: "Title",
         hintStyle: AppTextScheme.of(context).display.copyWith(
-            color: AppColorScheme.of(context).inactive.withOpacity(0.4)),
+            color: AppColorScheme.of(context).surfaceVariant.withOpacity(0.4)),
         border: InputBorder.none,
         contentPadding: const EdgeInsets.symmetric(horizontal: 15),
       ),
@@ -44,7 +44,7 @@ class MainInputTextField extends StatelessWidget {
         hintText: "Enter your note here",
         hintStyle: AppTextScheme.of(context).headline.copyWith(
               fontSize: 21,
-              color: AppColorScheme.of(context).inactive.withOpacity(0.4),
+              color: AppColorScheme.of(context).surfaceVariant.withOpacity(0.4),
             ),
         border: InputBorder.none,
         contentPadding: const EdgeInsets.symmetric(horizontal: 15),

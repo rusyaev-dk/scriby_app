@@ -6,7 +6,7 @@ final class SaveNewNoteEvent extends NewNoteEvent {
   SaveNewNoteEvent({
     required this.title,
     required this.dateTime,
-    required this.colorHex,
+    required this.hexColor,
     required this.tags,
     required this.text,
     required this.completer,
@@ -14,11 +14,11 @@ final class SaveNewNoteEvent extends NewNoteEvent {
 
   final String title;
   final DateTime dateTime;
-  final String colorHex;
+  final String hexColor;
   final List<String> tags;
   final String text;
   final Completer completer;
 
   @override
-  List<Object?> get props => [title, dateTime, colorHex, tags, text];
+  List<Object?> get props => [title, dateTime, hexColor, tags, text];
 }

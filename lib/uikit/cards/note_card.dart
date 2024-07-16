@@ -24,12 +24,12 @@ class NoteCard extends StatelessWidget {
 
     final formattedTitle = _removeEmptyLinesAfterLastNonEmpty(note.title);
     final formattedText = _removeEmptyLinesAfterLastNonEmpty(note.text);
-    final textColor = ColorFormatter.getContrastTextColor(note.colorHex);
+    final textColor = ColorFormatter.getContrastTextColor(note.hexColor);
 
     return Container(
       width: width,
       decoration: BoxDecoration(
-        gradient: ColorFormatter.generateGradientFromColorHex(note.colorHex),
+        color: Color(int.parse(note.hexColor)),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Padding(

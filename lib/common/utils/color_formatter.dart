@@ -3,11 +3,11 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 class ColorFormatter {
-  static const _defaultColorHex = 0xFFABCD;
+  static const _defaultHexColor = 0xFFABCD;
 
-  static Color getContrastTextColor(String backgroundColorHex) {
+  static Color getContrastTextColor(String backgroundHexColor) {
     final Color backgroundColor =
-        Color(int.tryParse(backgroundColorHex) ?? _defaultColorHex);
+        Color(int.tryParse(backgroundHexColor) ?? _defaultHexColor);
 
     // Расчет яркости цвета по формуле WCAG
     double brightness = ((backgroundColor.red * 299) +
@@ -15,20 +15,21 @@ class ColorFormatter {
             (backgroundColor.blue * 114)) /
         1000;
 
-    // Если яркость выше 128, выбираем черный цвет, иначе белый
     return brightness > 128 ? Colors.black : Colors.white;
   }
 
-  static LinearGradient generateGradientFromColorHex(String colorHex) {
-    final Color color = Color(int.tryParse(colorHex) ?? _defaultColorHex);
+  static LinearGradient generateGradientFromHexColor(String hexColor) {
+    final Color color = Color(int.tryParse(hexColor) ?? _defaultHexColor);
 
     return LinearGradient(
       colors: [
         color,
-        _adjustBrightness(color, 0.9),
+        _adjustBrightness(color, 0.96),
+        _adjustBrightness(color, 0.88),
       ],
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
+      stops: const [0.45, 0.7, 0.88],
+      begin: Alignment.topCenter,
+      end: Alignment.bottomCenter,
     );
   }
 
@@ -42,22 +43,25 @@ class ColorFormatter {
       ],
       begin: Alignment.topLeft,
       end: Alignment.bottomRight,
-      stops: const [1.0, 0.0],
+      stops: const [0.45, 0.88],
     );
   }
 
-  static String generateRandomColorHex() {
+  static String generateRandomHexColor() {
     final Random random = Random();
 
-    // Генерация случайного числа в диапазоне 0x000000 - 0xFFFFFF
-    final int randomColor = random.nextInt(0xFFFFFF + 1);
+    // Генерация случайных значений для красного, зеленого и синего компонентов
+    final int red = (random.nextInt(128) + 128); // Диапазон от 128 до 255
+    final int green = (random.nextInt(128) + 128); // Диапазон от 128 до 255
+    final int blue = (random.nextInt(128) + 128); // Диапазон от 128 до 255
 
     // Преобразование в шестнадцатеричную строку и добавление префикса '0xFF'
+    final int randomColor = (red << 16) | (green << 8) | blue;
     return '0xFF${randomColor.toRadixString(16).padLeft(6, '0').toUpperCase()}';
   }
 
   static Color _generateRandomColor() {
-    Random random = Random();
+    final Random random = Random();
     return Color.fromRGBO(
       random.nextInt(256),
       random.nextInt(256),

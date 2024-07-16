@@ -18,9 +18,10 @@ abstract class AppThemeData {
       onPrimary: _lightColorScheme.onPrimary,
       secondary: _lightColorScheme.secondary,
       onSecondary: _lightColorScheme.onSecondary,
-      error: _lightColorScheme.danger,
-      onError: _lightColorScheme.onDanger,
+      error: _lightColorScheme.error,
+      onError: _lightColorScheme.onError,
       surface: _lightColorScheme.surface,
+      surfaceContainer: _lightColorScheme.surfaceContainer,
       onSurface: _lightColorScheme.onSurface,
     ),
     scaffoldBackgroundColor: _lightColorScheme.background,
@@ -29,6 +30,11 @@ abstract class AppThemeData {
       elevation: AppSizes.double0,
       iconTheme: IconThemeData(
         color: _lightColorScheme.onPrimary,
+      ),
+    ),
+    navigationBarTheme: NavigationBarThemeData(
+      labelTextStyle: WidgetStateProperty.all<TextStyle>(
+        const TextStyle(fontSize: 14),
       ),
     ),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
@@ -57,9 +63,10 @@ abstract class AppThemeData {
       onPrimary: _darkColorScheme.onPrimary,
       secondary: _darkColorScheme.secondary,
       onSecondary: _darkColorScheme.onSecondary,
-      error: _darkColorScheme.danger,
-      onError: _darkColorScheme.onDanger,
+      error: _darkColorScheme.error,
+      onError: _darkColorScheme.onError,
       surface: _darkColorScheme.surface,
+      surfaceContainer: _lightColorScheme.surfaceContainer,
       onSurface: _darkColorScheme.onSurface,
     ),
     scaffoldBackgroundColor: _darkColorScheme.background,
@@ -83,8 +90,8 @@ abstract class AppThemeData {
     ),
   );
 
-  static final _lightColorScheme = AppColorScheme.light();
-  static final _darkColorScheme = AppColorScheme.dark();
+  static const _lightColorScheme = AppColorScheme.light();
+  static const _darkColorScheme = AppColorScheme.dark();
   static final _textScheme = AppTextScheme.base();
   static const _lightGradients = AppGradients.light();
   static const _darkGradients = AppGradients.dark();
