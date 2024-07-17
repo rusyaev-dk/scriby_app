@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:scriby_app/core/domain/entity/note.dart';
 import 'package:scriby_app/core/domain/repositories/notes/notes_repository_interface.dart';
+import 'package:scriby_app/persistence/storage/realm/models/models.dart';
 
 part 'all_notes_event.dart';
 part 'all_notes_state.dart';
@@ -12,6 +13,7 @@ class AllNotesBloc extends Bloc<AllNotesEvent, AllNotesState> {
   })  : _notesRepository = notesRepository,
         super(AllNotesLoadingState()) {
     on<LoadAllNotesEvent>(_onLoadNotes);
+    on<DeleteNoteEvent>(_onDeleteNote);
     add(LoadAllNotesEvent());
   }
 
@@ -27,12 +29,33 @@ class AllNotesBloc extends Bloc<AllNotesEvent, AllNotesState> {
       }
 
       final localNotes = await _notesRepository.getAllNotes();
-      await Future.delayed(Duration(milliseconds: 500));
+
+      ///
+      await Future.delayed(const Duration(milliseconds: 500));
+
+      ///
+
       List<Note> notes = [];
       for (var localNote in localNotes) {
         notes.add(Note.fromLocal(localNote));
       }
       emit(AllNotesLoadedState(notes: notes));
+    } catch (err, stackTrace) {
+      emit(AllNotesFailureState(exception: err));
+    }
+  }
+
+  Future<void> _onDeleteNote(
+    DeleteNoteEvent event,
+    Emitter<AllNotesState> emit,
+  ) async {
+    try {
+      if (state is! AllNotesLoadingState) {
+        emit(AllNotesLoadingState());
+      }
+
+      LocalNote noteToDelete = event.note.toLocal();
+      _notesRepository.deleteNote(noteToDelete);
     } catch (err, stackTrace) {
       emit(AllNotesFailureState(exception: err));
     }

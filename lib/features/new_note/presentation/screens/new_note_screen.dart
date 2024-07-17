@@ -4,8 +4,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scriby_app/common/utils/utils.dart';
+import 'package:scriby_app/core/domain/domain.dart';
 import 'package:scriby_app/features/home/presentation/presentation.dart';
 import 'package:scriby_app/features/new_note/presentation/presentation.dart';
+import 'package:scriby_app/uikit/uikit.dart';
 
 @RoutePage()
 class NewNoteScreen extends StatefulWidget {
@@ -28,6 +30,8 @@ class _NewNoteScreenState extends State<NewNoteScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = AppColorScheme.of(context);
+
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -35,10 +39,13 @@ class _NewNoteScreenState extends State<NewNoteScreen> {
             listener: _handleNewNoteSaving,
             builder: (context, state) {
               return SliverAppBar(
-                elevation: 0,
-                forceMaterialTransparency: true,
-                pinned: false,
+                forceElevated: false,
+                scrolledUnderElevation: 0,
+                floating: true,
+                pinned: true,
                 backgroundColor: Colors.transparent,
+                foregroundColor: colorScheme.onBackground,
+                iconTheme: IconThemeData(color: colorScheme.onBackground),
                 actions: [
                   Padding(
                     padding: const EdgeInsets.only(right: 10),
@@ -81,13 +88,17 @@ class _NewNoteScreenState extends State<NewNoteScreen> {
   void _onSaveButtonPressed() async {
     final Completer completer = Completer();
 
+    final Note newNote = Note.create(
+      title: _titleController.text,
+      dateTime: DateTime.now(),
+      hexColor: ColorFormatter.getRandomHexColor(),
+      tags: const ["test_tag", "one_more_test_tag"],
+      text: _noteTextController.text,
+    );
+
     BlocProvider.of<NewNoteBloc>(context).add(
       SaveNewNoteEvent(
-        title: _titleController.text,
-        dateTime: DateTime.now(),
-        hexColor: ColorFormatter.getRandomHexColor(), // пока что рандомно
-        tags: const ["test_tag", "one_more_test_tag"],
-        text: _noteTextController.text,
+        note: newNote,
         completer: completer,
       ),
     );

@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:realm/realm.dart';
-import 'package:scriby_app/core/domain/repositories/notes/notes.dart';
+import 'package:scriby_app/core/domain/domain.dart';
 import 'package:scriby_app/persistence/storage/realm/models/models.dart';
 
 part 'new_note_event.dart';
@@ -28,13 +28,7 @@ class NewNoteBloc extends Bloc<NewNoteEvent, NewNoteState> {
         emit(NewNoteSavingState());
       }
 
-      final LocalNote newLocalNote = _formatNote(
-        title: event.title,
-        dateTime: event.dateTime,
-        hexColor: event.hexColor,
-        tags: event.tags,
-        text: event.text,
-      );
+      final LocalNote newLocalNote = _formatNote(event.note);
       await Future.delayed(const Duration(milliseconds: 1000));
       await _notesRepository.addNote(newLocalNote);
       emit(NewNoteInitialState());
@@ -45,24 +39,21 @@ class NewNoteBloc extends Bloc<NewNoteEvent, NewNoteState> {
     event.completer.complete();
   }
 
-  LocalNote _formatNote({
-    required String title,
-    required DateTime dateTime,
-    required String hexColor,
-    required List<String> tags,
-    required String text,
-  }) {
-    if (title.trim().isEmpty) {
-      title = "New note";
+  LocalNote _formatNote(Note note) {
+    String actualTitle;
+    if (note.title.trim().isEmpty) {
+      actualTitle = "New note";
+    } else {
+      actualTitle = note.title;
     }
 
     return LocalNote(
       Uuid.v4().toString(),
-      title,
-      dateTime,
-      hexColor,
-      text,
-      tags: tags,
+      actualTitle,
+      note.dateTime,
+      note.hexColor,
+      note.text,
+      tags: note.tags,
     );
   }
 }

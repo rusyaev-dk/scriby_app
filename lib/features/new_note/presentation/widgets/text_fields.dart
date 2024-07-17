@@ -11,17 +11,21 @@ class TitleTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textScheme = AppTextScheme.of(context);
+
     return TextField(
       controller: controller,
       decoration: InputDecoration(
         hintText: "Title",
-        hintStyle: AppTextScheme.of(context).display.copyWith(
-            color: AppColorScheme.of(context).surfaceVariant.withOpacity(0.4)),
+        hintStyle: textScheme.display.copyWith(
+          color: AppColorScheme.of(context).secondary.withOpacity(0.7),
+          fontWeight: FontWeight.bold,
+        ),
         border: InputBorder.none,
         contentPadding: const EdgeInsets.symmetric(horizontal: 15),
       ),
-      style: const TextStyle(
-        fontSize: 28.0,
+      style: textScheme.display.copyWith(
+        fontWeight: FontWeight.bold,
       ),
     );
   }
@@ -37,20 +41,22 @@ class MainInputTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textScheme = AppTextScheme.of(context);
+
     return TextField(
       controller: controller,
       maxLines: null,
       decoration: InputDecoration(
         hintText: "Enter your note here",
-        hintStyle: AppTextScheme.of(context).headline.copyWith(
-              fontSize: 21,
-              color: AppColorScheme.of(context).surfaceVariant.withOpacity(0.4),
-            ),
+        hintStyle: textScheme.headline.copyWith(
+          fontSize: 24.5,
+          color: AppColorScheme.of(context).secondary.withOpacity(0.7),
+        ),
         border: InputBorder.none,
         contentPadding: const EdgeInsets.symmetric(horizontal: 15),
       ),
-      style: const TextStyle(
-        fontSize: 24.0, // Makes the text larger
+      style: textScheme.headline.copyWith(
+        fontSize: 24.5,
       ),
     );
   }

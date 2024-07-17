@@ -15,6 +15,8 @@ class HomeAppBar extends StatelessWidget {
 
     return SliverAppBar(
       snap: true,
+      forceElevated: false,
+      scrolledUnderElevation: 0,
       floating: true,
       pinned: true,
       title: const Text('Scriby'),
@@ -43,11 +45,8 @@ class HomeAppBar extends StatelessWidget {
       ],
       bottom: PreferredSize(
         preferredSize: const Size.fromHeight(65),
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: 15),
-          child: CustomTabBar(
-            tabController: tabController,
-          ),
+        child: CustomTabBar(
+          tabController: tabController,
         ),
       ),
       elevation: 0,
@@ -70,6 +69,7 @@ class CustomTabBar extends StatelessWidget {
     return TabBar(
       controller: tabController,
       dividerColor: Colors.transparent,
+      padding: const EdgeInsets.only(bottom: 15),
       indicator: CustomTabIndicator(
         color: colorScheme.onBackground,
         height: 30,
@@ -99,11 +99,6 @@ class AnimatedTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("dsafasdfasdfasdf");
-    print("dsafasdfasdfasdf");
-    print("dsafasdfasdfasdf");
-    print("dsafasdfasdfasdf");
-
     final colorScheme = AppColorScheme.of(context);
     final textScheme = AppTextScheme.of(context);
 
