@@ -85,7 +85,7 @@ class _NewNoteScreenState extends State<NewNoteScreen> {
       SaveNewNoteEvent(
         title: _titleController.text,
         dateTime: DateTime.now(),
-        hexColor: ColorFormatter.generateRandomHexColor(), // пока что рандомно
+        hexColor: ColorFormatter.getRandomHexColor(), // пока что рандомно
         tags: const ["test_tag", "one_more_test_tag"],
         text: _noteTextController.text,
         completer: completer,

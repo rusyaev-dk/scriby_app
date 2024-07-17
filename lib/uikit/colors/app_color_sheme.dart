@@ -40,7 +40,7 @@ class AppColorScheme extends ThemeExtension<AppColorScheme> {
   final Color inActivatedThemeButtonColor;
 
   const AppColorScheme.light()
-      : primary = const Color(0xFF7d3be1),
+      : primary = ColorPalette.black,
         onPrimary = const Color(0xFFFFFFFF),
         primaryContainer = const Color(0xFFC8BFE6),
         onPrimaryContainer = const Color(0xFF1E1833),

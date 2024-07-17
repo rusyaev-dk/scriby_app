@@ -5,6 +5,32 @@ import 'package:flutter/material.dart';
 class ColorFormatter {
   static const _defaultHexColor = 0xFFABCD;
 
+  static const List<int> _noteHexColors = [
+    0xFFE4717A,
+    0xFFFFB28B,
+    0xFFFCE883,
+    0xFFBADBAD,
+    0xFFAFDAFC,
+    0xFFEDCC8B,
+    0xFF9194E2,
+    0xFFFFC1CC,
+    0xFF7FC7FF,
+    0xFFDCD0FF,
+  ];
+
+  static const List<Color> _noteColors = [
+    Color(0xFFE4717A),
+    Color(0xFFFFB28B),
+    Color(0xFFFCE883),
+    Color(0xFFBADBAD),
+    Color(0xFFAFDAFC),
+    Color(0xFFEDCC8B),
+    Color(0xFF9194E2),
+    Color(0xFFFFC1CC),
+    Color(0xFF7FC7FF),
+    Color(0xFFDCD0FF),
+  ];
+
   static Color getContrastTextColor(String backgroundHexColor) {
     final Color backgroundColor =
         Color(int.tryParse(backgroundHexColor) ?? _defaultHexColor);
@@ -34,7 +60,7 @@ class ColorFormatter {
   }
 
   static LinearGradient generateRandomGradient() {
-    Color color = _generateRandomColor();
+    Color color = _getRandomColor();
 
     return LinearGradient(
       colors: [
@@ -47,27 +73,18 @@ class ColorFormatter {
     );
   }
 
-  static String generateRandomHexColor() {
+  static String getRandomHexColor() {
     final Random random = Random();
 
-    // Генерация случайных значений для красного, зеленого и синего компонентов
-    final int red = (random.nextInt(128) + 128); // Диапазон от 128 до 255
-    final int green = (random.nextInt(128) + 128); // Диапазон от 128 до 255
-    final int blue = (random.nextInt(128) + 128); // Диапазон от 128 до 255
-
-    // Преобразование в шестнадцатеричную строку и добавление префикса '0xFF'
-    final int randomColor = (red << 16) | (green << 8) | blue;
-    return '0xFF${randomColor.toRadixString(16).padLeft(6, '0').toUpperCase()}';
+    final index = random.nextInt(_noteHexColors.length);
+    return _noteHexColors[index].toString();
   }
 
-  static Color _generateRandomColor() {
+  static Color _getRandomColor() {
     final Random random = Random();
-    return Color.fromRGBO(
-      random.nextInt(256),
-      random.nextInt(256),
-      random.nextInt(256),
-      1.0,
-    );
+
+    final index = random.nextInt(_noteHexColors.length);
+    return _noteColors[index];
   }
 
   static Color _adjustBrightness(Color color, double factor) {
