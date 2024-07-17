@@ -74,7 +74,7 @@ class _NewNoteScreenState extends State<NewNoteScreen> {
 
   void _handleNewNoteSaving(context, state) {
     if (state is NewNoteInitialState) {
-      BlocProvider.of<HomeBloc>(context).add(LoadMyNotesEvent());
+      BlocProvider.of<AllNotesBloc>(context).add(LoadAllNotesEvent());
     }
   }
 
@@ -92,13 +92,12 @@ class _NewNoteScreenState extends State<NewNoteScreen> {
       ),
     );
 
-    // AutoRouter.of(context).back();
-    await completer.future.then((context) {
-      FocusScope.of(context).unfocus();
-      AutoRouter.of(context).back();
-    });
-    // _titleController.clear();
-    // _noteTextController.clear();
+    await completer.future;
+
+    if (!mounted) return;
+
+    FocusScope.of(context).unfocus();
+    AutoRouter.of(context).back();
   }
 
   @override

@@ -13,6 +13,7 @@ class HomeAppBar extends StatelessWidget {
     return SliverAppBar(
       snap: true,
       floating: true,
+      pinned: true,
       title: const Text('Scriby'),
       leading: IconButton(
         onPressed: () {},
@@ -37,34 +38,19 @@ class HomeAppBar extends StatelessWidget {
           ),
         ),
       ],
-      bottom: const PreferredSize(
-        preferredSize: Size.fromHeight(70),
-        child: HomeTabBar(),
+      bottom: const TabBar(
+        dividerColor: Colors.white,
+        tabs: [
+          SizedBox(
+            height: 20,
+            width: 70,
+            child: Text("All notes"),
+          ),
+          Tab(text: "Pinned"),
+          Tab(text: "Folders"),
+        ],
       ),
       elevation: 0,
-    );
-  }
-}
-
-class HomeTabBar extends StatelessWidget {
-  const HomeTabBar({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: TabBar(tabs: [
-        Tab(
-          text: "dasfasdf",
-          child: const Text("asdfasdf"),
-        ),
-        Tab(
-          text: "dasfewr43r",
-          child: const Text("asdfasdf"),
-        ),
-      ]),
     );
   }
 }

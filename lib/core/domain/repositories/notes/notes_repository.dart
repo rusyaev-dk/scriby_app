@@ -11,7 +11,7 @@ class NotesRepository implements NotesRepositoryI {
 
   @override
   Future<List<LocalNote>> getAllNotes() async {
-    return _realm.all<LocalNote>().toList();
+    return _realm.all<LocalNote>().toList().reversed.toList();
   }
 
   @override

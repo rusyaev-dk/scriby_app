@@ -41,7 +41,7 @@ class AppInitializer extends StatelessWidget {
             ),
           ),
           BlocProvider(
-            create: (context) => HomeBloc(
+            create: (context) => AllNotesBloc(
               notesRepository: context.read<NotesRepositoryI>(),
             ),
           ),
