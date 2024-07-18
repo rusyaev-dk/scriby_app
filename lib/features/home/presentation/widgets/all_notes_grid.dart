@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -32,7 +34,7 @@ class AllNotesGridView extends StatelessWidget {
             else if (state is AllNotesLoadingState)
               const SliverToBoxAdapter(
                 child: Center(
-                  child: CircularProgressIndicator(),
+                  child: CircularProgressIndicator(color: Colors.red,),
                 ),
               )
           ],
@@ -57,12 +59,30 @@ class _AllNotesSliverGrid extends StatelessWidget {
       crossAxisSpacing: 10,
       itemBuilder: (context, i) {
         final Note note = notes[i];
-        return NoteCard(
-          note: note,
-          key: ValueKey(note),
+        return GestureDetector(
+          onDoubleTap: () => _onDeleteNote(context, note),
+          child: NoteCard(
+            note: note,
+            key: ValueKey(note),
+          ),
         );
       },
       childCount: notes.length,
     );
+  }
+
+  Future<void> _onDeleteNote(
+    BuildContext context,
+    Note note,
+  ) async {
+    final Completer completer = Completer();
+    BlocProvider.of<AllNotesBloc>(context).add(
+      DeleteNoteEvent(
+        note: note,
+        completer: completer,
+      ),
+    );
+
+    await completer.future;
   }
 }

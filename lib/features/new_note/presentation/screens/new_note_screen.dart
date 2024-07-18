@@ -38,25 +38,15 @@ class _NewNoteScreenState extends State<NewNoteScreen> {
           BlocConsumer<NewNoteBloc, NewNoteState>(
             listener: _handleNewNoteSaving,
             builder: (context, state) {
-              return SliverAppBar(
-                forceElevated: false,
-                scrolledUnderElevation: 0,
-                floating: true,
-                pinned: true,
-                backgroundColor: Colors.transparent,
-                foregroundColor: colorScheme.onBackground,
-                iconTheme: IconThemeData(color: colorScheme.onBackground),
-                actions: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 10),
-                    child: SaveNoteButton(
-                      onPressed: _onSaveButtonPressed,
-                      isSaving: state is NewNoteSavingState,
-                    ),
-                  ),
-                ],
+              return NewNoteAppBar(
+                isSaving: state is NewNoteSavingState,
+                titleController: _titleController,
+                noteTextController: _noteTextController,
               );
             },
+          ),
+          const SliverToBoxAdapter(
+            child: SizedBox(height: 10),
           ),
           SliverToBoxAdapter(
             child: TitleTextField(
@@ -64,9 +54,7 @@ class _NewNoteScreenState extends State<NewNoteScreen> {
             ),
           ),
           const SliverToBoxAdapter(
-            child: SizedBox(
-              height: 10,
-            ),
+            child: SizedBox(height: 10),
           ),
           SliverFillRemaining(
             hasScrollBody: false,
@@ -83,32 +71,6 @@ class _NewNoteScreenState extends State<NewNoteScreen> {
     if (state is NewNoteInitialState) {
       BlocProvider.of<AllNotesBloc>(context).add(LoadAllNotesEvent());
     }
-  }
-
-  void _onSaveButtonPressed() async {
-    final Completer completer = Completer();
-
-    final Note newNote = Note.create(
-      title: _titleController.text,
-      dateTime: DateTime.now(),
-      hexColor: ColorFormatter.getRandomHexColor(),
-      tags: const ["test_tag", "one_more_test_tag"],
-      text: _noteTextController.text,
-    );
-
-    BlocProvider.of<NewNoteBloc>(context).add(
-      SaveNewNoteEvent(
-        note: newNote,
-        completer: completer,
-      ),
-    );
-
-    await completer.future;
-
-    if (!mounted) return;
-
-    FocusScope.of(context).unfocus();
-    AutoRouter.of(context).back();
   }
 
   @override

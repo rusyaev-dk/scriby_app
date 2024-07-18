@@ -1,1 +1,1 @@
-export 'color_formatter.dart';
+export 'formatters/color_formatter.dart';

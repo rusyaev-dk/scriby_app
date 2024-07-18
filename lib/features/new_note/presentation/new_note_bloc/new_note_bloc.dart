@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:realm/realm.dart';
+import 'package:scriby_app/common/utils/formatters/formatters.dart';
 import 'package:scriby_app/core/domain/domain.dart';
 import 'package:scriby_app/persistence/storage/realm/models/models.dart';
 
@@ -40,16 +41,16 @@ class NewNoteBloc extends Bloc<NewNoteEvent, NewNoteState> {
   }
 
   LocalNote _formatNote(Note note) {
-    String actualTitle;
+    String formattedTitle;
     if (note.title.trim().isEmpty) {
-      actualTitle = "New note";
+      formattedTitle = "New note";
     } else {
-      actualTitle = note.title;
+      formattedTitle = TextFormatter.removeLeadingEmptyLines(note.title);
     }
 
     return LocalNote(
       Uuid.v4().toString(),
-      actualTitle,
+      formattedTitle,
       note.dateTime,
       note.hexColor,
       note.text,

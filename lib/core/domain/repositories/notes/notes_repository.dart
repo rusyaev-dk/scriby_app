@@ -21,7 +21,12 @@ class NotesRepository implements NotesRepositoryI {
 
   @override
   Future<void> deleteNote(LocalNote noteToDelete) async {
-    _realm.write(() => _realm.delete<LocalNote>(noteToDelete));
+    final note = _realm
+        .query<LocalNote>(
+          "id == '${noteToDelete.id}' ",
+        )
+        .first;
+    _realm.write(() => _realm.delete(note));
   }
 
   @override

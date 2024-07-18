@@ -17,7 +17,7 @@ class SaveNoteButton extends StatelessWidget {
     final textScheme = AppTextScheme.of(context);
 
     return SizedBox(
-      width: MediaQuery.of(context).size.width / 3,
+      width: MediaQuery.of(context).size.width / 3.5,
       height: 40,
       child: ElevatedButton(
         onPressed: isSaving ? () {} : onPressed,

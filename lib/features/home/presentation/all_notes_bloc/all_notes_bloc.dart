@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:scriby_app/core/domain/entity/note.dart';
@@ -31,7 +33,7 @@ class AllNotesBloc extends Bloc<AllNotesEvent, AllNotesState> {
       final localNotes = await _notesRepository.getAllNotes();
 
       ///
-      await Future.delayed(const Duration(milliseconds: 500));
+      await Future.delayed(const Duration(milliseconds: 300));
 
       ///
 
@@ -55,9 +57,17 @@ class AllNotesBloc extends Bloc<AllNotesEvent, AllNotesState> {
       }
 
       LocalNote noteToDelete = event.note.toLocal();
-      _notesRepository.deleteNote(noteToDelete);
+      await _notesRepository.deleteNote(noteToDelete);
+
+      ///
+      await Future.delayed(const Duration(milliseconds: 300));
+
+      ///
+      add(LoadAllNotesEvent());
     } catch (err, stackTrace) {
       emit(AllNotesFailureState(exception: err));
     }
+
+    event.completer.complete();
   }
 }
