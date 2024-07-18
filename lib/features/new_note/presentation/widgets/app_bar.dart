@@ -24,23 +24,41 @@ class NewNoteAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = AppColorScheme.of(context);
 
-    return SliverAppBar(
-      forceElevated: false,
-      scrolledUnderElevation: 0,
-      floating: true,
-      pinned: true,
-      backgroundColor: colorScheme.background,
-      foregroundColor: colorScheme.onBackground,
-      iconTheme: IconThemeData(color: colorScheme.onBackground),
-      actions: [
-        Padding(
-          padding: const EdgeInsets.only(right: 10),
-          child: SaveNoteButton(
-            onPressed: () => _onSaveButtonPressed(context),
-            isSaving: isSaving,
+    return SafeArea(
+      child: Container(
+        decoration: const BoxDecoration(
+          color: Colors.black,
+        ),
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Row(
+              children: [
+                Container(
+                  height: 50,
+                  width: 50,
+                  decoration: BoxDecoration(
+                      color: colorScheme.background,
+                      borderRadius: BorderRadius.circular(25)),
+                  child: IconButton(
+                    onPressed: () => AutoRouter.of(context).back(),
+                    icon: Icon(
+                      Icons.arrow_back,
+                      color: colorScheme.onBackground,
+                    ),
+                  ),
+                ),
+                const Spacer(),
+                SaveNoteButton(
+                  onPressed: () => _onSaveButtonPressed(context),
+                  isSaving: isSaving,
+                  height: 50,
+                ),
+              ],
+            ),
           ),
         ),
-      ],
+      ),
     );
   }
 
@@ -63,7 +81,7 @@ class NewNoteAppBar extends StatelessWidget {
       tags: const ["test_tag", "one_more_test_tag"],
       text: noteTextController.text,
     );
-    
+
     if (!context.mounted) return;
 
     BlocProvider.of<NewNoteBloc>(context).add(

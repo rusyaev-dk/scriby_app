@@ -6,10 +6,12 @@ class SaveNoteButton extends StatelessWidget {
     super.key,
     required this.onPressed,
     required this.isSaving,
+    required this.height,
   });
 
   final void Function() onPressed;
   final bool isSaving;
+  final double height;
 
   @override
   Widget build(BuildContext context) {
@@ -18,25 +20,26 @@ class SaveNoteButton extends StatelessWidget {
 
     return SizedBox(
       width: MediaQuery.of(context).size.width / 3.5,
-      height: 40,
+      height: height,
       child: ElevatedButton(
         onPressed: isSaving ? () {} : onPressed,
         style: ButtonStyle(
-            backgroundColor: WidgetStateProperty.all<Color>(
-                AppColorScheme.of(context).onBackground)),
+          backgroundColor: WidgetStateProperty.all<Color>(
+              AppColorScheme.of(context).background),
+        ),
         child: isSaving
             ? SizedBox(
                 height: 24,
                 width: 24,
                 child: CircularProgressIndicator(
-                  color: colorScheme.background,
+                  color: colorScheme.onBackground,
                 ),
               )
             : Text(
                 'Save',
                 style: textScheme.label.copyWith(
                   fontSize: 19,
-                  color: colorScheme.background,
+                  color: colorScheme.onBackground,
                 ),
               ),
       ),

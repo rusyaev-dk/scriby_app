@@ -1,10 +1,6 @@
-import 'dart:async';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:scriby_app/common/utils/utils.dart';
-import 'package:scriby_app/core/domain/domain.dart';
 import 'package:scriby_app/features/home/presentation/presentation.dart';
 import 'package:scriby_app/features/new_note/presentation/presentation.dart';
 import 'package:scriby_app/uikit/uikit.dart';
@@ -33,36 +29,51 @@ class _NewNoteScreenState extends State<NewNoteScreen> {
     final colorScheme = AppColorScheme.of(context);
 
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          BlocConsumer<NewNoteBloc, NewNoteState>(
-            listener: _handleNewNoteSaving,
-            builder: (context, state) {
-              return NewNoteAppBar(
-                isSaving: state is NewNoteSavingState,
-                titleController: _titleController,
-                noteTextController: _noteTextController,
-              );
-            },
+      backgroundColor: colorScheme.onBackground,
+      appBar: PreferredSize(
+        preferredSize: const Size(double.infinity, 70),
+        child: BlocConsumer<NewNoteBloc, NewNoteState>(
+          listener: _handleNewNoteSaving,
+          builder: (context, state) {
+            return NewNoteAppBar(
+              isSaving: state is NewNoteSavingState,
+              titleController: _titleController,
+              noteTextController: _noteTextController,
+            );
+          },
+        ),
+      ),
+      body: Container(
+        padding: const EdgeInsets.only(top: 10),
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: colorScheme.background,
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(30),
+            topRight: Radius.circular(30),
           ),
-          const SliverToBoxAdapter(
-            child: SizedBox(height: 10),
-          ),
-          SliverToBoxAdapter(
-            child: TitleTextField(
-              controller: _titleController,
+        ),
+        child: CustomScrollView(
+          slivers: [
+            const SliverToBoxAdapter(
+              child: SizedBox(height: 10),
             ),
-          ),
-          const SliverToBoxAdapter(
-            child: SizedBox(height: 10),
-          ),
-          SliverFillRemaining(
-            hasScrollBody: false,
-            child: MainInputTextField(
-              controller: _noteTextController,
+            SliverToBoxAdapter(
+              child: TitleTextField(
+                controller: _titleController,
+              ),
             ),
-          ),
-        ],
+            const SliverToBoxAdapter(
+              child: SizedBox(height: 10),
+            ),
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: MainInputTextField(
+                controller: _noteTextController,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
