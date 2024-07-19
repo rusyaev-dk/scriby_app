@@ -44,7 +44,6 @@ class _NewNoteScreenState extends State<NewNoteScreen> {
         ),
       ),
       body: Container(
-        padding: const EdgeInsets.only(top: 10),
         width: double.infinity,
         decoration: BoxDecoration(
           color: colorScheme.background,
@@ -56,7 +55,7 @@ class _NewNoteScreenState extends State<NewNoteScreen> {
         child: CustomScrollView(
           slivers: [
             const SliverToBoxAdapter(
-              child: SizedBox(height: 10),
+              child: SizedBox(height: 15),
             ),
             SliverToBoxAdapter(
               child: TitleTextField(

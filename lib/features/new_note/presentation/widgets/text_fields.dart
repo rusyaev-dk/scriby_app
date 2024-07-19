@@ -20,6 +20,7 @@ class TitleTextField extends StatelessWidget {
       decoration: InputDecoration(
         hintText: "Title",
         hintStyle: textScheme.display.copyWith(
+          fontSize: 33.5,
           color: colorScheme.secondary.withOpacity(0.7),
           fontWeight: FontWeight.bold,
         ),
@@ -27,6 +28,7 @@ class TitleTextField extends StatelessWidget {
         contentPadding: const EdgeInsets.symmetric(horizontal: 15),
       ),
       style: textScheme.display.copyWith(
+        fontSize: 33.5,
         color: colorScheme.onBackground,
         fontWeight: FontWeight.bold,
       ),
@@ -53,7 +55,7 @@ class MainInputTextField extends StatelessWidget {
       decoration: InputDecoration(
         hintText: "Enter your note here",
         hintStyle: textScheme.headline.copyWith(
-          fontSize: 24.5,
+          fontSize: 22,
           color: colorScheme.secondary.withOpacity(0.7),
         ),
         border: InputBorder.none,
@@ -63,7 +65,7 @@ class MainInputTextField extends StatelessWidget {
       style: textScheme.headline.copyWith(
         height: 1.5,
         color: colorScheme.onBackground,
-        fontSize: 24.5,
+        fontSize: 22,
       ),
     );
   }

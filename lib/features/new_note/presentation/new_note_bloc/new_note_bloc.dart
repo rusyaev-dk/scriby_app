@@ -51,7 +51,7 @@ class NewNoteBloc extends Bloc<NewNoteEvent, NewNoteState> {
     return LocalNote(
       Uuid.v4().toString(),
       formattedTitle,
-      note.dateTime,
+      note.date,
       note.hexColor,
       note.text,
       tags: note.tags,

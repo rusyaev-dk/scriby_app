@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:scriby_app/common/utils/utils.dart';
+import 'package:scriby_app/common/utils/formatters/formatters.dart';
 import 'package:scriby_app/core/domain/entity/note.dart';
 import 'package:scriby_app/uikit/uikit.dart';
 
@@ -22,9 +22,15 @@ class NoteCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final bool hasNonEmptyText = note.text.trim().isNotEmpty;
 
-    final formattedTitle = _removeEmptyLinesAfterLastNonEmpty(note.title);
-    final formattedText = _removeEmptyLinesAfterLastNonEmpty(note.text);
+    final formattedTitle =
+        TextFormatter.removeEmptyLinesAfterLastNonEmpty(note.title);
+    final formattedText =
+        TextFormatter.removeEmptyLinesAfterLastNonEmpty(note.text);
     final textColor = ColorFormatter.getContrastTextColor(note.hexColor);
+
+    // final dateText = TextFormatter.formatDateText(note.date);
+
+    final textScheme = AppTextScheme.of(context);
 
     return Container(
       width: width,
@@ -40,38 +46,38 @@ class NoteCard extends StatelessWidget {
             Text(
               formattedTitle,
               maxLines: _maxTitleLines,
-              style: AppTextScheme.of(context).headline.copyWith(
-                    fontSize: 23,
-                    fontWeight: FontWeight.bold,
-                    overflow: TextOverflow.ellipsis,
-                    color: textColor,
-                  ),
+              style: textScheme.headline.copyWith(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                overflow: TextOverflow.ellipsis,
+                color: textColor,
+              ),
             ),
-            if (hasNonEmptyText) const SizedBox(height: 15),
+            if (hasNonEmptyText) const SizedBox(height: 12),
             if (hasNonEmptyText)
               Text(
                 formattedText,
                 maxLines: _maxTextLines,
-                style: AppTextScheme.of(context).label.copyWith(
-                      fontSize: 18,
-                      overflow: TextOverflow.ellipsis,
-                      color: textColor,
-                    ),
-              )
+                style: textScheme.label.copyWith(
+                  fontSize: 16.5,
+                  fontWeight: FontWeight.w400,
+                  overflow: TextOverflow.ellipsis,
+                  color: textColor,
+                ),
+              ),
+            // const SizedBox(height: 12),
+            // Text(
+            //   dateText,
+            //   style: textScheme.label.copyWith(
+            //     fontSize: 16,
+            //     overflow: TextOverflow.ellipsis,
+            //     fontWeight: FontWeight.w400,
+            //     color: textColor,
+            //   ),
+            // ),
           ],
         ),
       ),
     );
-  }
-
-  String _removeEmptyLinesAfterLastNonEmpty(String text) {
-    List<String> lines = text.split('\n');
-
-    final int lastNonEmptyIndex =
-        lines.lastIndexWhere((line) => line.trim().isNotEmpty);
-
-    lines = lines.sublist(0, lastNonEmptyIndex + 1);
-
-    return lines.join('\n');
   }
 }

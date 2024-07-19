@@ -76,7 +76,7 @@ class NewNoteAppBar extends StatelessWidget {
 
     final Note newNote = Note.create(
       title: titleController.text,
-      dateTime: DateTime.now(),
+      date: DateTime.now(),
       hexColor: ColorFormatter.getRandomHexColor(),
       tags: const ["test_tag", "one_more_test_tag"],
       text: noteTextController.text,

@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 import 'package:realm/realm.dart';
 import 'package:scriby_app/persistence/storage/realm/models/models.dart';
 
@@ -7,7 +6,7 @@ class Note extends Equatable {
   const Note({
     required this.id,
     required this.title,
-    required this.dateTime,
+    required this.date,
     required this.hexColor,
     required this.tags,
     required this.text,
@@ -15,14 +14,14 @@ class Note extends Equatable {
 
   final String id;
   final String title;
-  final DateTime dateTime;
+  final DateTime date;
   final String hexColor;
   final List<String> tags;
   final String text;
 
   factory Note.create({
     required String title,
-    required DateTime dateTime,
+    required DateTime date,
     required String hexColor,
     required List<String> tags,
     required String text,
@@ -31,7 +30,7 @@ class Note extends Equatable {
     return Note(
       id: id,
       title: title,
-      dateTime: dateTime,
+      date: date,
       hexColor: hexColor,
       tags: tags,
       text: text,
@@ -41,7 +40,7 @@ class Note extends Equatable {
   LocalNote toLocal() => LocalNote(
         id,
         title,
-        dateTime,
+        date,
         hexColor,
         text,
         tags: tags,
@@ -51,7 +50,7 @@ class Note extends Equatable {
     return Note(
       id: localNote.id,
       title: localNote.title,
-      dateTime: localNote.dateTime,
+      date: localNote.date,
       hexColor: localNote.hexColor,
       tags: localNote.tags,
       text: localNote.text,
@@ -59,5 +58,5 @@ class Note extends Equatable {
   }
 
   @override
-  List<Object?> get props => [title, dateTime, hexColor, tags, text];
+  List<Object?> get props => [title, date, hexColor, tags, text];
 }
