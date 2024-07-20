@@ -35,6 +35,7 @@ class _HomeScreenState extends State<HomeScreen>
     final colorScheme = AppColorScheme.of(context);
 
     return Scaffold(
+      backgroundColor: colorScheme.surface,
       floatingActionButton: const NewNoteButton(),
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {

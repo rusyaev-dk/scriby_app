@@ -25,7 +25,8 @@ class SaveNoteButton extends StatelessWidget {
         onPressed: isSaving ? () {} : onPressed,
         style: ButtonStyle(
           backgroundColor: WidgetStateProperty.all<Color>(
-              AppColorScheme.of(context).background),
+            colorScheme.surface,
+          ),
         ),
         child: isSaving
             ? SizedBox(

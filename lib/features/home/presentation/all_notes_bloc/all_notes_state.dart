@@ -13,7 +13,7 @@ final class AllNotesLoadedState extends AllNotesState {
   AllNotesLoadedState({required this.notes});
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [notes];
 }
 
 final class AllNotesFailureState extends AllNotesState {

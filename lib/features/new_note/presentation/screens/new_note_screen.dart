@@ -29,9 +29,9 @@ class _NewNoteScreenState extends State<NewNoteScreen> {
     final colorScheme = AppColorScheme.of(context);
 
     return Scaffold(
-      backgroundColor: colorScheme.onBackground,
+      backgroundColor: Colors.black,
       appBar: PreferredSize(
-        preferredSize: const Size(double.infinity, 70),
+        preferredSize: const Size(double.infinity, 60),
         child: BlocConsumer<NewNoteBloc, NewNoteState>(
           listener: _handleNewNoteSaving,
           builder: (context, state) {
@@ -46,7 +46,7 @@ class _NewNoteScreenState extends State<NewNoteScreen> {
       body: Container(
         width: double.infinity,
         decoration: BoxDecoration(
-          color: colorScheme.background,
+          color: colorScheme.surface,
           borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(30),
             topRight: Radius.circular(30),

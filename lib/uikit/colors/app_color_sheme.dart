@@ -34,6 +34,7 @@ class AppColorScheme extends ThemeExtension<AppColorScheme> {
   final Color surfaceBright;
   final Color surfaceDim;
   final Color shimmer;
+  
   final Color activatedFilterButtonColor;
   final Color inActivatedFilterButtonColor;
   final Color activatedThemeButtonColor;
@@ -41,7 +42,7 @@ class AppColorScheme extends ThemeExtension<AppColorScheme> {
 
   const AppColorScheme.light()
       : primary = ColorPalette.black,
-        onPrimary = const Color(0xFFFFFFFF),
+        onPrimary = ColorPalette.white,
         primaryContainer = const Color(0xFFC8BFE6),
         onPrimaryContainer = const Color(0xFF1E1833),
         secondary = const Color.fromARGB(255, 158, 158, 158),
@@ -56,8 +57,8 @@ class AppColorScheme extends ThemeExtension<AppColorScheme> {
         onError = const Color(0xFFFFFFFF),
         errorContainer = const Color(0xFFE6ACA9),
         onErrorContainer = const Color(0xFF330B09),
-        background = const Color(0xFFFFFFFF),
-        onBackground = const Color(0xFF000000),
+        background = ColorPalette.white,
+        onBackground = ColorPalette.black,
         surface = const Color(0xFFF5F5F5),
         onSurface = const Color(0xFF323233),
         surfaceVariant = const Color(0xFFe0dee6),
@@ -77,11 +78,11 @@ class AppColorScheme extends ThemeExtension<AppColorScheme> {
         inActivatedThemeButtonColor = const Color(0xFFf5f6f6);
 
   const AppColorScheme.dark()
-      : primary = const Color(0xFF483D70),
-        onPrimary = const Color(0xFFFFFFFF),
+      : primary = ColorPalette.white,
+        onPrimary = ColorPalette.black,
         primaryContainer = const Color(0xFF211C33),
         onPrimaryContainer = const Color(0xFFC8BFE6),
-        secondary = const Color(0xFF625B71),
+        secondary = const Color(0xFF757477),
         onSecondary = const Color(0xFFFFFFFF),
         secondaryContainer = const Color(0xFF2C2933),
         onSecondaryContainer = const Color(0xFFDCD8E6),
@@ -93,9 +94,9 @@ class AppColorScheme extends ThemeExtension<AppColorScheme> {
         onError = const Color(0xFFFFFFFF),
         errorContainer = const Color(0xFF330B09),
         onErrorContainer = const Color(0xFFE6ACA9),
-        background = const Color(0xFF1D1B1E),
-        onBackground = const Color(0xFFE5E1E6),
-        surface = const Color(0xFF1D1B1E),
+        background = ColorPalette.black,
+        onBackground = ColorPalette.white,
+        surface = const Color(0xFF282828),
         onSurface = const Color(0xFFE5E1E6),
         surfaceVariant = const Color(0xFF49454F),
         onSurfaceVariant = const Color(0xFFCAC4D0),

@@ -21,14 +21,14 @@ class ColorFormatter {
   static const List<Color> _noteColors = [
     Color(0xFFE4717A),
     Color(0xFFFFB28B),
+    Color(0xFFFFC1CC),
+    Color(0xFFEDCC8B),
     Color(0xFFFCE883),
     Color(0xFFBADBAD),
-    Color(0xFFAFDAFC),
-    Color(0xFFEDCC8B),
     Color(0xFF9194E2),
-    Color(0xFFFFC1CC),
-    Color(0xFF7FC7FF),
     Color(0xFFDCD0FF),
+    Color(0xFF7FC7FF),
+    Color(0xFFAFDAFC),
   ];
 
   static Color getContrastTextColor(String backgroundHexColor) {

@@ -17,45 +17,57 @@ class HomeAppBar extends StatelessWidget {
       snap: true,
       forceElevated: false,
       scrolledUnderElevation: 0,
+      elevation: 0,
+      surfaceTintColor: Colors.transparent,
       floating: true,
       pinned: true,
+      // backgroundColor: Colors.red,
       title: const Text('Scriby'),
+      toolbarHeight: 60,
+      expandedHeight: 110,
       actions: [
-        IconButton(
+        AppBarButton.round(
+          diameter: 40,
+          icon: Icons.filter_alt,
           onPressed: () {},
-          icon: Icon(
-            Icons.filter_alt_outlined,
-            color: colorScheme.onBackground,
-          ),
         ),
-        IconButton(
+        const SizedBox(width: 8),
+        AppBarButton.round(
+          diameter: 40,
+          icon: Icons.search,
           onPressed: () {},
-          icon: Icon(
-            Icons.search,
-            color: colorScheme.onBackground,
-          ),
         ),
-        IconButton(
+        const SizedBox(width: 8),
+        AppBarButton.round(
+          diameter: 40,
+          icon: Icons.settings,
           onPressed: () {},
-          icon: Icon(
-            Icons.settings,
-            color: colorScheme.onBackground,
-          ),
         ),
+        const SizedBox(width: 10),
       ],
       bottom: PreferredSize(
-        preferredSize: const Size.fromHeight(65),
-        child: CustomTabBar(
-          tabController: tabController,
+        preferredSize: const Size(double.infinity, 50),
+        child: Container(
+          height: 50,
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          decoration: BoxDecoration(
+            color: colorScheme.surface,
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(30),
+              topRight: Radius.circular(30),
+            ),
+          ),
+          child: HomeTabBar(
+            tabController: tabController,
+          ),
         ),
       ),
-      elevation: 0,
     );
   }
 }
 
-class CustomTabBar extends StatelessWidget {
-  const CustomTabBar({
+class HomeTabBar extends StatelessWidget {
+  const HomeTabBar({
     super.key,
     required this.tabController,
   });
@@ -69,11 +81,10 @@ class CustomTabBar extends StatelessWidget {
     return TabBar(
       controller: tabController,
       dividerColor: Colors.transparent,
-      padding: const EdgeInsets.only(bottom: 15),
       indicator: CustomTabIndicator(
         color: colorScheme.onBackground,
-        height: 30,
-        width: 100,
+        height: 35,
+        width: 105,
       ),
       overlayColor: const WidgetStatePropertyAll(Colors.transparent),
       tabs: [
@@ -118,7 +129,7 @@ class AnimatedTab extends StatelessWidget {
           child: Text(
             label,
             style: textScheme.label.copyWith(
-              fontSize: 17.5,
+              fontSize: 18,
               color: color,
             ),
           ),
@@ -163,7 +174,7 @@ class _CustomTabIndicatorPainter extends BoxPainter {
   void paint(Canvas canvas, Offset offset, ImageConfiguration configuration) {
     final Rect rect = Offset(
           offset.dx + (configuration.size!.width - width) / 2,
-          (configuration.size!.height - height),
+          (configuration.size!.height - height) / 2,
         ) &
         Size(width, height);
 

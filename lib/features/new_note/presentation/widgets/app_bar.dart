@@ -35,11 +35,11 @@ class NewNoteAppBar extends StatelessWidget {
             child: Row(
               children: [
                 Container(
-                  height: 50,
-                  width: 50,
+                  height: 40,
+                  width: 40,
                   decoration: BoxDecoration(
-                      color: colorScheme.background,
-                      borderRadius: BorderRadius.circular(25)),
+                      color: colorScheme.surface,
+                      borderRadius: BorderRadius.circular(20)),
                   child: IconButton(
                     onPressed: () => AutoRouter.of(context).back(),
                     icon: Icon(
@@ -52,7 +52,7 @@ class NewNoteAppBar extends StatelessWidget {
                 SaveNoteButton(
                   onPressed: () => _onSaveButtonPressed(context),
                   isSaving: isSaving,
-                  height: 50,
+                  height: 40,
                 ),
               ],
             ),
