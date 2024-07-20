@@ -21,7 +21,6 @@ class HomeAppBar extends StatelessWidget {
       surfaceTintColor: Colors.transparent,
       floating: true,
       pinned: true,
-      // backgroundColor: Colors.red,
       title: const Text('Scriby'),
       toolbarHeight: 60,
       expandedHeight: 110,

@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
 import 'package:scriby_app/features/home/presentation/presentation.dart';
 import 'package:scriby_app/features/new_note/presentation/screens/screens.dart';
 import 'package:scriby_app/features/settings/presentation/screens/screens.dart';
@@ -7,7 +8,6 @@ part 'router.gr.dart';
 
 @AutoRouterConfig()
 class AppRouter extends _$AppRouter {
-  
   @override
   List<AutoRoute> get routes => [
         AutoRoute(
@@ -15,12 +15,43 @@ class AppRouter extends _$AppRouter {
           path: '/',
         ),
         AutoRoute(
-          page: NewNoteRoute.page,
-          path: '/new_note',
-        ),
-        AutoRoute(
           page: SettingsRoute.page,
           path: '/settings',
         ),
+        CustomRoute(
+          page: NewNoteRoute.page,
+          path: '/new_note',
+          opaque: true,
+          customRouteBuilder:
+              (BuildContext context, Widget child, AutoRoutePage page) {
+            return PageRouteBuilder(
+              transitionDuration: const Duration(milliseconds: 500),
+              fullscreenDialog: page.fullscreenDialog,
+              transitionsBuilder: _transitionsBuilder,
+              settings: page,
+              pageBuilder: (context, animation, ___) => child,
+            );
+          },
+        ),
       ];
+
+  static Widget _transitionsBuilder(
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+    Widget child,
+  ) {
+    const curve = Curves.fastEaseInToSlowEaseOut;
+
+    final curvedAnimation = CurvedAnimation(
+      parent: animation,
+      curve: curve,
+    );
+
+    return ScaleTransition(
+      alignment: const FractionalOffset(0.92, 0.92),
+      scale: curvedAnimation,
+      child: child,
+    );
+  }
 }
