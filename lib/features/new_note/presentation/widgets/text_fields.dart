@@ -61,7 +61,7 @@ class MainInputTextField extends StatelessWidget {
         border: InputBorder.none,
         contentPadding: const EdgeInsets.symmetric(horizontal: 15),
       ),
-      cursorHeight: 40,
+      cursorHeight: 30,
       style: textScheme.headline.copyWith(
         height: 1.5,
         color: colorScheme.onBackground,

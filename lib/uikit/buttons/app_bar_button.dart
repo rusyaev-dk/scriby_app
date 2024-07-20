@@ -32,19 +32,15 @@ class AppBarButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = AppColorScheme.of(context);
 
-    return Container(
+    return SizedBox(
       height: height,
       width: width,
-      decoration: BoxDecoration(
-        color: colorScheme.onBackground,
-        borderRadius: BorderRadius.circular(width / 2),
-      ),
       child: Center(
         child: IconButton(
           onPressed: onPressed,
           icon: Icon(
             icon,
-            color: colorScheme.background,
+            color: colorScheme.onBackground,
           ),
         ),
       ),

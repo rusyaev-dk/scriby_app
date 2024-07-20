@@ -63,7 +63,7 @@ class _NewNoteScreenState extends State<NewNoteScreen> {
               ),
             ),
             const SliverToBoxAdapter(
-              child: SizedBox(height: 10),
+              child: SizedBox(height: 6),
             ),
             SliverFillRemaining(
               hasScrollBody: false,
