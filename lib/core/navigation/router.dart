@@ -49,7 +49,7 @@ class AppRouter extends _$AppRouter {
     );
 
     return ScaleTransition(
-      alignment: const FractionalOffset(0.92, 0.92),
+      alignment: const FractionalOffset(0.91, 0.91),
       scale: curvedAnimation,
       child: child,
     );

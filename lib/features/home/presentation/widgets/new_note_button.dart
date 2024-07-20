@@ -24,7 +24,7 @@ class _NewNoteButtonState extends State<NewNoteButton>
       vsync: this,
     );
 
-    _scaleAnimation = Tween<double>(begin: 1.0, end: 30).animate(
+    _scaleAnimation = Tween<double>(begin: 1.0, end: 33).animate(
       CurvedAnimation(
         parent: _animationController,
         curve: Curves.easeInOut,
