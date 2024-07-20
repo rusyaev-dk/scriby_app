@@ -24,7 +24,7 @@ class _NewNoteButtonState extends State<NewNoteButton>
       vsync: this,
     );
 
-    _scaleAnimation = Tween<double>(begin: 1.0, end: 45).animate(
+    _scaleAnimation = Tween<double>(begin: 1.0, end: 30).animate(
       CurvedAnimation(
         parent: _animationController,
         curve: Curves.easeInOut,
@@ -72,7 +72,7 @@ class _NewNoteButtonState extends State<NewNoteButton>
     });
 
     _animationController.forward();
-    await Future.delayed(const Duration(milliseconds: 220));
+    await Future.delayed(const Duration(milliseconds: 180));
 
     if (!mounted) return;
     context.router.push(const NewNoteRoute()).then((value) async {
