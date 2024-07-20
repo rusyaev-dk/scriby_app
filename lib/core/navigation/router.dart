@@ -25,7 +25,7 @@ class AppRouter extends _$AppRouter {
           customRouteBuilder:
               (BuildContext context, Widget child, AutoRoutePage page) {
             return PageRouteBuilder(
-              transitionDuration: const Duration(milliseconds: 500),
+              transitionDuration: const Duration(milliseconds: 450),
               fullscreenDialog: page.fullscreenDialog,
               transitionsBuilder: _transitionsBuilder,
               settings: page,
