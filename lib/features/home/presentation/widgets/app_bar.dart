@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:scriby_app/features/settings/presentation/presentation.dart';
 import 'package:scriby_app/uikit/uikit.dart';
 
 class HomeAppBar extends StatelessWidget {
@@ -40,7 +41,15 @@ class HomeAppBar extends StatelessWidget {
         AppBarButton.round(
           diameter: 40,
           icon: Icons.settings,
-          onPressed: () {},
+          onPressed: () {
+            showModalBottomSheet(
+              isScrollControlled: true,
+              context: context,
+              builder: (context) {
+                return const SettingsBottomSheet();
+              },
+            );
+          },
         ),
         const SizedBox(width: 10),
       ],
