@@ -41,7 +41,7 @@ class AppRouter extends _$AppRouter {
     Animation<double> secondaryAnimation,
     Widget child,
   ) {
-    const curve = Curves.ease; //fastEaseInToSlowEaseOut
+    const curve = Curves.ease;
 
     final curvedAnimation = CurvedAnimation(
       parent: animation,
