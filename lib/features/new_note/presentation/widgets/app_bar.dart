@@ -26,9 +26,7 @@ class NewNoteAppBar extends StatelessWidget {
 
     return SafeArea(
       child: Container(
-        decoration: const BoxDecoration(
-          color: Colors.black,
-        ),
+        color: colorScheme.background,
         child: Center(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),

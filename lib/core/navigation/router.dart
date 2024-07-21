@@ -29,7 +29,7 @@ class AppRouter extends _$AppRouter {
               fullscreenDialog: page.fullscreenDialog,
               transitionsBuilder: _transitionsBuilder,
               settings: page,
-              pageBuilder: (context, animation, ___) => child,
+              pageBuilder: (context, animation, _) => child,
             );
           },
         ),
@@ -41,7 +41,7 @@ class AppRouter extends _$AppRouter {
     Animation<double> secondaryAnimation,
     Widget child,
   ) {
-    const curve = Curves.fastEaseInToSlowEaseOut;
+    const curve = Curves.ease; //fastEaseInToSlowEaseOut
 
     final curvedAnimation = CurvedAnimation(
       parent: animation,

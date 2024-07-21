@@ -29,7 +29,7 @@ class _NewNoteScreenState extends State<NewNoteScreen> {
     final colorScheme = AppColorScheme.of(context);
 
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: colorScheme.background,
       appBar: PreferredSize(
         preferredSize: const Size(double.infinity, 60),
         child: BlocConsumer<NewNoteBloc, NewNoteState>(

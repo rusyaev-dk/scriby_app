@@ -20,14 +20,14 @@ class _NewNoteButtonState extends State<NewNoteButton>
   void initState() {
     super.initState();
     _animationController = AnimationController(
-      duration: const Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 450),
       vsync: this,
     );
 
     _scaleAnimation = Tween<double>(begin: 1.0, end: 36.5).animate(
       CurvedAnimation(
         parent: _animationController,
-        curve: Curves.easeInOut,
+        curve: Curves.easeInOutCubic,
       ),
     );
   }
@@ -50,7 +50,7 @@ class _NewNoteButtonState extends State<NewNoteButton>
           height: 65,
           width: 65,
           decoration: BoxDecoration(
-            color: colorScheme.onBackground,
+            color: colorScheme.background,
             borderRadius: BorderRadius.circular(32.5),
           ),
           child: Visibility(
@@ -58,7 +58,7 @@ class _NewNoteButtonState extends State<NewNoteButton>
             child: Icon(
               Icons.add,
               size: 33,
-              color: colorScheme.surface,
+              color: colorScheme.onBackground,
             ),
           ),
         ),
@@ -72,7 +72,7 @@ class _NewNoteButtonState extends State<NewNoteButton>
     });
 
     _animationController.forward();
-    await Future.delayed(const Duration(milliseconds: 150));
+    await Future.delayed(const Duration(milliseconds: 100));
 
     if (!mounted) return;
     context.router.push(const NewNoteRoute()).then((value) async {
