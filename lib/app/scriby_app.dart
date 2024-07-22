@@ -24,7 +24,7 @@ class _ScribyAppState extends State<ScribyApp> {
     final router = AppRouter();
 
     return AppInitializer(
-      appConfig: widget.appConfig, // there will be theme cubit between them
+      appConfig: widget.appConfig,
       child: BlocBuilder<ThemeCubit, ThemeState>(
         builder: (context, state) {
           return MaterialApp.router(

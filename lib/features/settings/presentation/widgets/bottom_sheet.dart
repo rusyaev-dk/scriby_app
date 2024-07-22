@@ -31,6 +31,8 @@ class SettingsBottomSheet extends StatelessWidget {
               isActive: false,
               onSwitcherChanged: (bool isActive) {},
             ),
+            const SizedBox(height: 250),
+            const ThemeSwitcherCard(),
           ],
         ),
       ),
