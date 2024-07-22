@@ -3,7 +3,7 @@ abstract interface class KeyValueStorageI {
 
   Future<T?> get<T>({required String key});
 
-  Future<void> set<T>({required String key, required T value});
+  Future<bool> set<T>({required String key, required T value});
 
   Future<void> delete<T>({required String key});
 }

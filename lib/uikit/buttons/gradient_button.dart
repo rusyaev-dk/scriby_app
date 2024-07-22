@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:scriby_app/uikit/uikit.dart';
 
-class CustomGradientButton extends StatelessWidget {
-  const CustomGradientButton({
+class GradientButton extends StatelessWidget {
+  const GradientButton({
     super.key,
     this.onPressed,
     required this.text,

@@ -13,7 +13,7 @@ extension ThemeModeX on ThemeMode {
   }
 
   static ThemeMode fromString(String? value) {
-    if (value == null || value.isEmpty) {
+    if (value == null || value.trim().isEmpty) {
       return ThemeMode.system;
     }
 
@@ -31,6 +31,6 @@ extension ThemeModeX on ThemeMode {
 }
 
 abstract interface class SettingsRepositoryI {
-  Future<void> setTheme(ThemeMode themeMode);
+  Future<bool> setTheme(ThemeMode themeMode);
   Future<ThemeMode> getCurrentTheme();
 }

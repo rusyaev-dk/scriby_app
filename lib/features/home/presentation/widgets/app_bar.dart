@@ -41,15 +41,7 @@ class HomeAppBar extends StatelessWidget {
         AppBarButton.round(
           diameter: 40,
           icon: Icons.settings,
-          onPressed: () {
-            showModalBottomSheet(
-              isScrollControlled: true,
-              context: context,
-              builder: (context) {
-                return const SettingsBottomSheet();
-              },
-            );
-          },
+          onPressed: () => _openSettings(context),
         ),
         const SizedBox(width: 10),
       ],
@@ -65,132 +57,27 @@ class HomeAppBar extends StatelessWidget {
               topRight: Radius.circular(30),
             ),
           ),
-          child: HomeTabBar(
+          child: CustomTabBar(
+            indicator: CustomTabBarIndicator.rounded(
+              color: colorScheme.onBackground,
+              height: 35,
+              width: 105,
+            ),
             tabController: tabController,
+            labels: const ["All notes", "Pinned", "Folders"],
           ),
         ),
       ),
     );
   }
-}
 
-class HomeTabBar extends StatelessWidget {
-  const HomeTabBar({
-    super.key,
-    required this.tabController,
-  });
-
-  final TabController tabController;
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = AppColorScheme.of(context);
-
-    return TabBar(
-      controller: tabController,
-      dividerColor: Colors.transparent,
-      indicator: CustomTabIndicator(
-        color: colorScheme.onBackground,
-        height: 35,
-        width: 105,
-      ),
-      overlayColor: const WidgetStatePropertyAll(Colors.transparent),
-      tabs: [
-        AnimatedTab(tabController: tabController, label: "All notes", index: 0),
-        AnimatedTab(tabController: tabController, label: "Pinned", index: 1),
-        AnimatedTab(tabController: tabController, label: "Folders", index: 2),
-      ],
-    );
-  }
-}
-
-class AnimatedTab extends StatelessWidget {
-  const AnimatedTab({
-    super.key,
-    required this.tabController,
-    required this.label,
-    required this.index,
-  });
-
-  final TabController tabController;
-  final String label;
-  final int index;
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = AppColorScheme.of(context);
-    final textScheme = AppTextScheme.of(context);
-
-    return AnimatedBuilder(
-      animation: tabController.animation!,
-      builder: (context, child) {
-        final animationValue = tabController.animation!.value;
-        final isSelected = index == tabController.index;
-
-        final color = isSelected
-            ? Color.lerp(colorScheme.background, colorScheme.onBackground,
-                (animationValue - index).abs().clamp(0.0, 1.0))
-            : Color.lerp(colorScheme.background, colorScheme.onBackground,
-                (animationValue - index).abs().clamp(0.0, 1.0));
-
-        return SizedBox(
-          child: Text(
-            label,
-            style: textScheme.label.copyWith(
-              fontSize: 18,
-              color: color,
-            ),
-          ),
-        );
+  Future<void> _openSettings(BuildContext context) async {
+    showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      builder: (context) {
+        return const SettingsBottomSheet();
       },
     );
-  }
-}
-
-class CustomTabIndicator extends Decoration {
-  const CustomTabIndicator({
-    required this.color,
-    this.width = 10.0,
-    this.height = 4.0,
-  });
-
-  final Color color;
-  final double width;
-  final double height;
-
-  @override
-  BoxPainter createBoxPainter([VoidCallback? onChanged]) {
-    return _CustomTabIndicatorPainter(this, onChanged, color, width, height);
-  }
-}
-
-class _CustomTabIndicatorPainter extends BoxPainter {
-  _CustomTabIndicatorPainter(
-    this.decoration,
-    VoidCallback? onChanged,
-    this.color,
-    this.width,
-    this.height,
-  ) : super(onChanged);
-
-  final CustomTabIndicator decoration;
-  final Color color;
-  final double width;
-  final double height;
-
-  @override
-  void paint(Canvas canvas, Offset offset, ImageConfiguration configuration) {
-    final Rect rect = Offset(
-          offset.dx + (configuration.size!.width - width) / 2,
-          (configuration.size!.height - height) / 2,
-        ) &
-        Size(width, height);
-
-    final Paint paint = Paint()
-      ..color = color
-      ..style = PaintingStyle.fill;
-
-    canvas.drawRRect(
-        RRect.fromRectAndRadius(rect, Radius.circular(height / 2)), paint);
   }
 }

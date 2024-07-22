@@ -28,8 +28,10 @@ class ThemeCubit extends Cubit<ThemeState> {
 
   Future<void> setTheme(ThemeMode themeMode) async {
     try {
-      await _settingsRepository.setTheme(themeMode);
-      emit(ThemeState(themeMode: themeMode));
+      final bool success = await _settingsRepository.setTheme(themeMode);
+      if (success) {
+        emit(ThemeState(themeMode: themeMode));
+      }
     } catch (err, stackTrace) {
       return;
     }

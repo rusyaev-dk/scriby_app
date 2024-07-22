@@ -75,7 +75,7 @@ class AppColorScheme extends ThemeExtension<AppColorScheme> {
         activatedFilterButtonColor = const Color(0xFFb2b2b2),
         inActivatedFilterButtonColor = const Color(0xFFe0e0e2),
         activatedThemeButtonColor = ColorPalette.white,
-        inActivatedThemeButtonColor = const Color(0xFFf5f6f6);
+        inActivatedThemeButtonColor = const Color(0xFFDADADA);
 
   const AppColorScheme.dark()
       : primary = ColorPalette.white,
