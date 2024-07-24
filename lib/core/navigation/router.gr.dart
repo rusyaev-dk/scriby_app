@@ -65,7 +65,7 @@ class NewNoteRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [SettingsScreen]
+/// [SettingsRoute]
 class SettingsRoute extends PageRouteInfo<void> {
   const SettingsRoute({List<PageRouteInfo>? children})
       : super(

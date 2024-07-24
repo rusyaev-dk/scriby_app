@@ -1,2 +1,2 @@
-export 'bottom_sheet.dart';
+export 'general_settings.dart';
 export 'settings_rows.dart';

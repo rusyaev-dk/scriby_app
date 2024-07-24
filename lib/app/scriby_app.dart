@@ -33,7 +33,11 @@ class _ScribyAppState extends State<ScribyApp> {
             themeMode: state.themeMode,
             title: "Scriby",
             debugShowCheckedModeBanner: false,
-            routerConfig: router.config(),
+            routerConfig: router.config(
+              navigatorObservers: () => [
+                CustomNavigationObserver(),
+              ],
+            ),
           );
         },
       ),
