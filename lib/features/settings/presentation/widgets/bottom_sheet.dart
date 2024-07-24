@@ -8,6 +8,7 @@ class SettingsBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = AppColorScheme.of(context);
+    final textScheme = AppTextScheme.of(context);
 
     return Container(
       decoration: BoxDecoration(
@@ -20,13 +21,21 @@ class SettingsBottomSheet extends StatelessWidget {
       height: MediaQuery.of(context).size.height - 118,
       width: double.infinity,
       child: Padding(
-        padding: const EdgeInsets.only(right: 15, left: 15, bottom: 15),
+        padding: const EdgeInsets.only(right: 15, left: 15, bottom: 30),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            BottomSheetCloseSlider(),
-            SizedBox(height: 15),
-            GeneralSettings(),
+            const BottomSheetCloseSlider(),
+            const SizedBox(height: 15),
+            const GeneralSettings(),
+            const Spacer(),
+            Text(
+              "App version: 1.0.0",
+              style: textScheme.headline.copyWith(
+                fontSize: 18,
+                color: colorScheme.surfaceVariant,
+              ),
+            ),
           ],
         ),
       ),
@@ -64,14 +73,8 @@ class GeneralSettings extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = AppColorScheme.of(context);
 
-    return Container(
-      decoration: BoxDecoration(
-        color: colorScheme.surface,
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(30),
-          topRight: Radius.circular(30),
-        ),
-      ),
+    return SizedBox(
+      width: double.infinity,
       child: Column(
         children: [
           SettingsSwitcherRow(
@@ -80,17 +83,68 @@ class GeneralSettings extends StatelessWidget {
             isActive: false,
             onSwitcherChanged: (bool isActive) {},
           ),
+          const SizedBox(height: 5),
           Divider(
             color: colorScheme.onBackground,
+            endIndent: 10,
+            indent: 10,
           ),
           SettingsSwitcherRow(
-            text: "Notifications",
-            icon: Icons.notifications,
+            text: "Vibration",
+            icon: Icons.vibration,
             isActive: false,
             onSwitcherChanged: (bool isActive) {},
           ),
+          const SizedBox(height: 5),
+          Divider(
+            color: colorScheme.onBackground,
+            endIndent: 10,
+            indent: 10,
+          ),
+          const SizedBox(height: 5),
+          SettingsSwitcherRow(
+            text: "Cloud sync",
+            icon: Icons.sync,
+            isActive: false,
+            onSwitcherChanged: (bool isActive) {},
+          ),
+          const SizedBox(height: 5),
+          Divider(
+            color: colorScheme.onBackground,
+            endIndent: 10,
+            indent: 10,
+          ),
+          const SizedBox(height: 5),
+          SettingsPageTransitionRow(
+            icon: Icons.security,
+            text: "Privacy",
+            onPressed: () {},
+          ),
+          Divider(
+            color: colorScheme.onBackground,
+            endIndent: 10,
+            indent: 10,
+          ),
+          const SizedBox(height: 5),
+          SettingsPageTransitionRow(
+            icon: Icons.app_registration,
+            text: "Appearance",
+            onPressed: () {},
+          ),
         ],
       ),
+    );
+  }
+}
+
+class ThemeSettings extends StatelessWidget {
+  const ThemeSettings({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const SizedBox(
+      width: double.infinity,
+      child: ThemeSwitcherRow(),
     );
   }
 }

@@ -34,7 +34,7 @@ class AppColorScheme extends ThemeExtension<AppColorScheme> {
   final Color surfaceBright;
   final Color surfaceDim;
   final Color shimmer;
-  
+
   final Color activatedFilterButtonColor;
   final Color inActivatedFilterButtonColor;
   final Color activatedThemeButtonColor;
@@ -61,8 +61,8 @@ class AppColorScheme extends ThemeExtension<AppColorScheme> {
         onBackground = ColorPalette.black,
         surface = const Color.fromARGB(255, 242, 242, 242),
         onSurface = const Color(0xFF323233),
-        surfaceVariant = const Color(0xFFe0dee6),
-        onSurfaceVariant = const Color(0xFF5e5b66),
+        surfaceVariant = const Color(0xFFBABABA),
+        onSurfaceVariant = const Color(0xFFDCDCDC),
         outline = const Color(0xFF8c8999),
         surfaceContainer = const Color(0xFFE6E1F2),
         surfaceContainerHighest = const Color(0xFFD1CAE1),
