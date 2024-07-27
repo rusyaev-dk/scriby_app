@@ -2,9 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:scriby_app/core/domain/entity/note.dart';
-import 'package:scriby_app/core/domain/repositories/notes/notes_repository_interface.dart';
-import 'package:scriby_app/persistence/storage/realm/models/models.dart';
+import 'package:scriby_app/core/domain/domain.dart';
 
 part 'all_notes_event.dart';
 part 'all_notes_state.dart';
@@ -31,17 +29,11 @@ class AllNotesBloc extends Bloc<AllNotesEvent, AllNotesState> {
         emit(AllNotesLoadingState());
       }
 
-      final localNotes = await _notesRepository.getAllNotes();
-
-      ///
+      //
       await Future.delayed(const Duration(milliseconds: 300));
+      //
+      final notes = await _notesRepository.getAllNotes();
 
-      ///
-
-      List<Note> notes = [];
-      for (var localNote in localNotes) {
-        notes.add(Note.fromLocal(localNote));
-      }
       emit(AllNotesLoadedState(notes: notes));
     } catch (err, stackTrace) {
       emit(AllNotesFailureState(exception: err));
@@ -53,18 +45,16 @@ class AllNotesBloc extends Bloc<AllNotesEvent, AllNotesState> {
     Emitter<AllNotesState> emit,
   ) async {
     try {
-      if (state is! AllNotesLoadingState) {
-        emit(AllNotesLoadingState());
-      }
-
-      LocalNote noteToDelete = event.note.toLocal();
-      await _notesRepository.deleteNote(noteToDelete);
-
-      ///
+      //
       await Future.delayed(const Duration(milliseconds: 300));
+      //
+      await _notesRepository.deleteNote(event.note);
+      final remainingNotes = await _notesRepository.getAllNotes();
 
-      ///
-      add(LoadAllNotesEvent());
+      final prevState = state;
+      if (prevState is AllNotesLoadedState) {
+        emit(prevState.copyWith(notes: remainingNotes));
+      }
     } catch (err, stackTrace) {
       emit(AllNotesFailureState(exception: err));
     }
@@ -81,12 +71,11 @@ class AllNotesBloc extends Bloc<AllNotesEvent, AllNotesState> {
         emit(AllNotesLoadingState());
       }
 
-      await _notesRepository.deleteAllNotes();
-
-      ///
+      //
       await Future.delayed(const Duration(milliseconds: 300));
+      //
 
-      ///
+      await _notesRepository.deleteAllNotes();
       add(LoadAllNotesEvent());
     } catch (err, stackTrace) {
       emit(AllNotesFailureState(exception: err));

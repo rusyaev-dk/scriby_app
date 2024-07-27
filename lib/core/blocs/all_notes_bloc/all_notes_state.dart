@@ -8,9 +8,15 @@ final class AllNotesLoadingState extends AllNotesState {
 }
 
 final class AllNotesLoadedState extends AllNotesState {
+  AllNotesLoadedState({required this.notes});
+
   final List<Note> notes;
 
-  AllNotesLoadedState({required this.notes});
+  AllNotesLoadedState copyWith({
+    List<Note>? notes,
+  }) {
+    return AllNotesLoadedState(notes: notes ?? this.notes);
+  }
 
   @override
   List<Object?> get props => [notes];

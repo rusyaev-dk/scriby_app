@@ -1,8 +1,8 @@
-import 'package:scriby_app/persistence/storage/realm/models/models.dart';
+import 'package:scriby_app/core/domain/entity/entity.dart';
 
 abstract interface class NotesRepositoryI {
-  Future<List<LocalNote>> getAllNotes();
-  Future<void> addNote(LocalNote newNote);
-  Future<void> deleteNote(LocalNote noteToDelete);
+  Future<List<Note>> getAllNotes();
+  Future<void> addNote(Note newNote);
+  Future<void> deleteNote(Note noteToDelete);
   Future<void> deleteAllNotes();
 }
