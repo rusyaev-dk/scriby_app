@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:scriby_app/features/home/presentation/presentation.dart';
 import 'package:scriby_app/features/new_note/presentation/screens/screens.dart';
-import 'package:scriby_app/features/settings/presentation/screens/settings_screen.dart';
+import 'package:scriby_app/features/settings/presentation/screens/screens.dart';
 
 part 'router.gr.dart';
 
@@ -17,6 +17,14 @@ class AppRouter extends _$AppRouter {
         AutoRoute(
           page: SettingsRoute.page,
           path: '/settings',
+        ),
+        AutoRoute(
+          page: PrivacyRoute.page,
+          path: '/settings/privacy',
+        ),
+        AutoRoute(
+          page: AppearanceRoute.page,
+          path: '/settings/appearance',
         ),
         CustomRoute(
           page: NewNoteRoute.page,

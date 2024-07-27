@@ -78,24 +78,27 @@ class SettingsButtonRow extends StatelessWidget {
     final colorScheme = AppColorScheme.of(context);
     final textScheme = AppTextScheme.of(context);
 
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-      child: Row(
-        children: [
-          Icon(
-            icon,
-            size: 30,
-          ),
-          const SizedBox(width: 8),
-          Text(
-            text,
-            style: textScheme.headline.copyWith(
-              fontSize: 19,
-              color: colorScheme.onBackground,
+    return GestureDetector(
+      onTap: onPressed,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        child: Row(
+          children: [
+            Icon(
+              icon,
+              size: 30,
             ),
-          ),
-          const Spacer(),
-        ],
+            const SizedBox(width: 8),
+            Text(
+              text,
+              style: textScheme.headline.copyWith(
+                fontSize: 19,
+                color: colorScheme.onBackground,
+              ),
+            ),
+            const Spacer(),
+          ],
+        ),
       ),
     );
   }
@@ -118,32 +121,35 @@ class SettingsPageTransitionRow extends StatelessWidget {
     final colorScheme = AppColorScheme.of(context);
     final textScheme = AppTextScheme.of(context);
 
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-      child: Row(
-        children: [
-          Icon(
-            icon,
-            size: 30,
-          ),
-          const SizedBox(width: 8),
-          Text(
-            text,
-            style: textScheme.headline.copyWith(
-              fontSize: 19,
-              color: colorScheme.onBackground,
+    return GestureDetector(
+      onTap: onPressed,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        child: Row(
+          children: [
+            Icon(
+              icon,
+              size: 30,
             ),
-          ),
-          const Spacer(),
-          Padding(
-            padding: const EdgeInsets.only(right: 10),
-            child: Icon(
-              Icons.arrow_forward_ios,
-              size: 25,
-              color: colorScheme.surfaceVariant,
+            const SizedBox(width: 8),
+            Text(
+              text,
+              style: textScheme.headline.copyWith(
+                fontSize: 19,
+                color: colorScheme.onBackground,
+              ),
             ),
-          )
-        ],
+            const Spacer(),
+            Padding(
+              padding: const EdgeInsets.only(right: 10),
+              child: Icon(
+                Icons.arrow_forward_ios,
+                size: 25,
+                color: colorScheme.surfaceVariant,
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

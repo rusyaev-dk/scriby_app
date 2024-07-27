@@ -29,8 +29,7 @@ class SettingsScreen extends StatelessWidget {
         centerTitle: true,
       ),
       body: Padding(
-        padding:
-            const EdgeInsets.only(right: 10, left: 10, bottom: 30, top: 15),
+        padding: const EdgeInsets.only(right: 6, left: 6, bottom: 30, top: 15),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [

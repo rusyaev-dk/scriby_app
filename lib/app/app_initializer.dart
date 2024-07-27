@@ -6,6 +6,8 @@ import 'package:scriby_app/core/domain/repositories/notes/notes.dart';
 import 'package:scriby_app/core/domain/repositories/settings/settings.dart';
 import 'package:scriby_app/features/home/presentation/presentation.dart';
 import 'package:scriby_app/features/new_note/presentation/presentation.dart';
+import 'package:scriby_app/features/settings/domain/repositories/repositories.dart';
+import 'package:scriby_app/features/settings/presentation/blocs/blocs.dart';
 import 'package:scriby_app/persistence/storage/key_value_storage/key_value_storage.dart';
 
 class AppInitializer extends StatelessWidget {
@@ -32,6 +34,11 @@ class AppInitializer extends StatelessWidget {
         RepositoryProvider<NotesRepositoryI>(
           create: (context) => NotesRepository(realm: appConfig.realm),
         ),
+        RepositoryProvider<GeneralSettingsRepositoryI>(
+          create: (context) => GeneralSettingsRepository(
+            keyValueStorage: sharedPrefsStorage,
+          ),
+        ),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -48,6 +55,12 @@ class AppInitializer extends StatelessWidget {
           BlocProvider(
             create: (context) => NewNoteBloc(
               notesRepository: context.read<NotesRepositoryI>(),
+            ),
+          ),
+          BlocProvider(
+            create: (context) => GeneralSettingsBloc(
+              generalSettingsRepository:
+                  context.read<GeneralSettingsRepositoryI>(),
             ),
           ),
         ],

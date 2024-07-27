@@ -21,28 +21,28 @@ class SaveNoteButton extends StatelessWidget {
     return SizedBox(
       width: MediaQuery.of(context).size.width / 3.5,
       height: height,
-      child: ElevatedButton(
-        onPressed: isSaving ? () {} : onPressed,
-        style: ButtonStyle(
-          backgroundColor: WidgetStateProperty.all<Color>(
-            colorScheme.surface,
-          ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(height / 2),
+        child: FloatingActionButton(
+          onPressed: isSaving ? () {} : onPressed,
+          backgroundColor: colorScheme.surface,
+          elevation: 0,
+          child: isSaving
+              ? SizedBox(
+                  height: 24,
+                  width: 24,
+                  child: CircularProgressIndicator(
+                    color: colorScheme.onBackground,
+                  ),
+                )
+              : Text(
+                  'Save',
+                  style: textScheme.label.copyWith(
+                    fontSize: 19,
+                    color: colorScheme.onBackground,
+                  ),
+                ),
         ),
-        child: isSaving
-            ? SizedBox(
-                height: 24,
-                width: 24,
-                child: CircularProgressIndicator(
-                  color: colorScheme.onBackground,
-                ),
-              )
-            : Text(
-                'Save',
-                style: textScheme.label.copyWith(
-                  fontSize: 19,
-                  color: colorScheme.onBackground,
-                ),
-              ),
       ),
     );
   }
