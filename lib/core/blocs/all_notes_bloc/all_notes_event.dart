@@ -19,3 +19,8 @@ final class DeleteNoteEvent extends AllNotesEvent {
   @override
   List<Object?> get props => [note, completer];
 }
+
+final class DeleteAllNotesEvent extends AllNotesEvent {
+  @override
+  List<Object?> get props => [];
+}

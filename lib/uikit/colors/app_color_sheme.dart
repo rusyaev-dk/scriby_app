@@ -53,7 +53,7 @@ class AppColorScheme extends ThemeExtension<AppColorScheme> {
         onTertiary = const Color(0xFFFFFFFF),
         tertiaryContainer = const Color(0xFFE6CDD5),
         onTertiaryContainer = const Color(0xFF332227),
-        error = const Color(0xFF99201A),
+        error = const Color.fromARGB(255, 212, 45, 37),
         onError = const Color(0xFFFFFFFF),
         errorContainer = const Color(0xFFE6ACA9),
         onErrorContainer = const Color(0xFF330B09),

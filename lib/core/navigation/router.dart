@@ -22,10 +22,6 @@ class AppRouter extends _$AppRouter {
           page: PrivacyRoute.page,
           path: '/settings/privacy',
         ),
-        AutoRoute(
-          page: AppearanceRoute.page,
-          path: '/settings/appearance',
-        ),
         CustomRoute(
           page: NewNoteRoute.page,
           path: '/new_note',

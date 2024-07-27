@@ -15,14 +15,6 @@ class GeneralSettings extends StatelessWidget {
 
     return BlocBuilder<GeneralSettingsBloc, GeneralSettingsState>(
       builder: (context, state) {
-        if (state is GeneralSettingsLoadingState) {
-          return Center(
-            child: CircularProgressIndicator(
-              color: colorScheme.onBackground,
-            ),
-          );
-        }
-
         if (state is GeneralSettingsLoadedState) {
           return SizedBox(
             width: double.infinity,
@@ -83,6 +75,7 @@ class GeneralSettings extends StatelessWidget {
                   text: "Privacy",
                   onPressed: () => _openPrivacySettings(context),
                 ),
+                const SizedBox(height: 5),
                 Divider(
                   color: colorScheme.onBackground,
                   endIndent: 10,
@@ -90,25 +83,25 @@ class GeneralSettings extends StatelessWidget {
                 ),
                 const SizedBox(height: 5),
                 SettingsPageTransitionRow(
-                  icon: Icons.app_registration,
-                  text: "Appearance",
-                  onPressed: () => _openAppearanceSettings(context),
+                  icon: Icons.logout,
+                  text: "Logout",
+                  onPressed: () {},
                 ),
               ],
             ),
           );
         }
 
-        return const Placeholder();
+        return Center(
+          child: CircularProgressIndicator(
+            color: colorScheme.onBackground,
+          ),
+        );
       },
     );
   }
 
   Future<void> _openPrivacySettings(BuildContext context) async {
     await AutoRouter.of(context).push(const PrivacyRoute());
-  }
-
-  Future<void> _openAppearanceSettings(BuildContext context) async {
-    await AutoRouter.of(context).push(const AppearanceRoute());
   }
 }

@@ -16,6 +16,7 @@ class AllNotesBloc extends Bloc<AllNotesEvent, AllNotesState> {
         super(AllNotesLoadingState()) {
     on<LoadAllNotesEvent>(_onLoadNotes);
     on<DeleteNoteEvent>(_onDeleteNote);
+    on<DeleteAllNotesEvent>(_onDeleteAllNotes);
     add(LoadAllNotesEvent());
   }
 
@@ -69,5 +70,26 @@ class AllNotesBloc extends Bloc<AllNotesEvent, AllNotesState> {
     }
 
     event.completer.complete();
+  }
+
+  Future<void> _onDeleteAllNotes(
+    DeleteAllNotesEvent event,
+    Emitter<AllNotesState> emit,
+  ) async {
+    try {
+      if (state is! AllNotesLoadingState) {
+        emit(AllNotesLoadingState());
+      }
+
+      await _notesRepository.deleteAllNotes();
+
+      ///
+      await Future.delayed(const Duration(milliseconds: 300));
+
+      ///
+      add(LoadAllNotesEvent());
+    } catch (err, stackTrace) {
+      emit(AllNotesFailureState(exception: err));
+    }
   }
 }
