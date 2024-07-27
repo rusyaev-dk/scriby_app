@@ -35,7 +35,8 @@ class SettingsScreen extends StatelessWidget {
           padding:
               const EdgeInsets.only(right: 10, left: 10, bottom: 30, top: 15),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               const GeneralSettings(),
               const SizedBox(height: 80),
@@ -63,7 +64,34 @@ class SettingsScreen extends StatelessWidget {
   }
 
   Future<void> _deleteAllNotes(BuildContext context) async {
-    // await AlertDialog();
-    context.read<AllNotesBloc>().add(DeleteAllNotesEvent());
+    final bool deleteConfirmation =
+        await _showDeleteAllNotesDialog(context) ?? false;
+
+    if (context.mounted && deleteConfirmation) {
+      BlocProvider.of<AllNotesBloc>(context).add(DeleteAllNotesEvent());
+    }
+  }
+
+  Future<bool?> _showDeleteAllNotesDialog(BuildContext context) async {
+    return await showDialog<bool>(
+      context: context,
+      builder: (context) {
+        return AppAlertDialog(
+          actions: [
+            AppAlertDialogAction(
+              isDestructiveAction: true,
+              onPressed: () => AutoRouter.of(context).maybePop(true),
+              child: const Text("Yes"),
+            ),
+            AppAlertDialogAction(
+              onPressed: () => AutoRouter.of(context).maybePop(false),
+              child: const Text("Cancel"),
+            ),
+          ],
+          title: const Text("Delete all notes?"),
+          content: const Text("This action cannot be undone"),
+        );
+      },
+    );
   }
 }

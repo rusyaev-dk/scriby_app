@@ -66,7 +66,7 @@ class NewNoteAppBar extends StatelessWidget {
     bool? shouldSave = true;
 
     if (noteTextController.text.trim().isEmpty) {
-      shouldSave = await _showSavingEmptyNoteDialog(context);
+      shouldSave = await _showSaveEmptyNoteDialog(context);
       if (!shouldSave!) {
         return;
       }
@@ -97,22 +97,22 @@ class NewNoteAppBar extends StatelessWidget {
     AutoRouter.of(context).back();
   }
 
-  Future<bool?> _showSavingEmptyNoteDialog(BuildContext context) {
+  Future<bool?> _showSaveEmptyNoteDialog(BuildContext context) {
     return showDialog<bool>(
       context: context,
       builder: (context) {
-        return AlertDialog(
+        return AppAlertDialog(
           actions: [
-            TextButton(
-              onPressed: () => AutoRouter.of(context).maybePop(true),
+            AppAlertDialogAction(
               child: const Text("Yes"),
+              onPressed: () => AutoRouter.of(context).maybePop(true),
             ),
-            TextButton(
-              onPressed: () => AutoRouter.of(context).maybePop(false),
+            AppAlertDialogAction(
               child: const Text("Cancel"),
+              onPressed: () => AutoRouter.of(context).maybePop(false),
             ),
           ],
-          content: const Text("Save empty note?"),
+          title: const Text("Save empty note?"),
         );
       },
     );
