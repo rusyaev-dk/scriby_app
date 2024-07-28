@@ -1,39 +1,12 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:scriby_app/uikit/uikit.dart';
 
 class ColorFormatter {
-  static const _defaultHexColor = 0xFFABCD;
-
-  static const List<int> _noteHexColors = [
-    0xFFE4717A,
-    0xFFFFB28B,
-    0xFFFCE883,
-    0xFFBADBAD,
-    0xFFAFDAFC,
-    0xFFEDCC8B,
-    0xFF9194E2,
-    0xFFFFC1CC,
-    0xFF7FC7FF,
-    0xFFDCD0FF,
-  ];
-
-  static const List<Color> _noteColors = [
-    Color(0xFFE4717A),
-    Color(0xFFFFB28B),
-    Color(0xFFFFC1CC),
-    Color(0xFFEDCC8B),
-    Color(0xFFFCE883),
-    Color(0xFFBADBAD),
-    Color(0xFF9194E2),
-    Color(0xFFDCD0FF),
-    Color(0xFF7FC7FF),
-    Color(0xFFAFDAFC),
-  ];
-
   static Color getContrastTextColor(String backgroundHexColor) {
     final Color backgroundColor =
-        Color(int.tryParse(backgroundHexColor) ?? _defaultHexColor);
+        Color(int.tryParse(backgroundHexColor) ?? NoteColors.defaultHexColor);
 
     // Расчет яркости цвета по формуле WCAG
     double brightness = ((backgroundColor.red * 299) +
@@ -45,7 +18,8 @@ class ColorFormatter {
   }
 
   static LinearGradient generateGradientFromHexColor(String hexColor) {
-    final Color color = Color(int.tryParse(hexColor) ?? _defaultHexColor);
+    final Color color =
+        Color(int.tryParse(hexColor) ?? NoteColors.defaultHexColor);
 
     return LinearGradient(
       colors: [
@@ -76,15 +50,15 @@ class ColorFormatter {
   static String getRandomHexColor() {
     final Random random = Random();
 
-    final index = random.nextInt(_noteHexColors.length);
-    return _noteHexColors[index].toString();
+    final index = random.nextInt(NoteColors.noteHexColors.length);
+    return NoteColors.noteHexColors[index].toString();
   }
 
   static Color _getRandomColor() {
     final Random random = Random();
 
-    final index = random.nextInt(_noteHexColors.length);
-    return _noteColors[index];
+    final index = random.nextInt(NoteColors.noteHexColors.length);
+    return NoteColors.noteHexColors[index];
   }
 
   static Color _adjustBrightness(Color color, double factor) {

@@ -1,2 +1,2 @@
 export 'general_settings_repo_impl.dart';
-export 'general_settings_repo_interface.dart';
+export 'i_general_settings_repo.dart';

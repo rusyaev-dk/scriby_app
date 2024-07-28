@@ -1,2 +1,2 @@
-export 'notes_repository_interface.dart';
+export 'i_notes_repository.dart';
 export 'notes_repository.dart';

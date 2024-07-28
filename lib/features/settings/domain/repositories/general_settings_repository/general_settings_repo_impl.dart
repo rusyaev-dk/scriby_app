@@ -1,76 +1,62 @@
 import 'package:scriby_app/features/settings/domain/repositories/repositories.dart';
-import 'package:scriby_app/persistence/storage/key_value_storage/key_value_storage.dart';
+import 'package:scriby_app/persistence/storage/settings_storage/settings_storage.dart';
 
-sealed class GeneralSettingsKeys {
-  static const String notificationsKey = "notifications";
-  static const String vibrationKey = "vibration";
-  static const String cloudSyncKey = "cloud_sync";
+class GeneralSettingsRepository implements IGeneralSettingsRepository {
+  GeneralSettingsRepository({
+    required ISettingsStorage settingsStorage,
+  }) : _settingsStorage = settingsStorage;
+
+  final ISettingsStorage _settingsStorage;
+
+  @override
+  Future<bool> toggleNotifications(bool value) async {
+    return await _settingsStorage.toggleSetting(
+      GeneralSettingsKeys.notifications.keyName,
+      value,
+    );
+  }
+
+  @override
+  Future<bool> toggleVibration(bool value) async {
+    return await _settingsStorage.toggleSetting(
+      GeneralSettingsKeys.vibration.keyName,
+      value,
+    );
+  }
+
+  @override
+  Future<bool> toggleCloudSync(bool value) async {
+    return await _settingsStorage.toggleSetting(
+      GeneralSettingsKeys.cloudSync.keyName,
+      value,
+    );
+  }
+
+  @override
+  Future<bool> getNotificationsStatus() async {
+    return await _settingsStorage
+        .getSetting(GeneralSettingsKeys.notifications.keyName);
+  }
+
+  @override
+  Future<bool> getVibrationStatus() async {
+    return await _settingsStorage
+        .getSetting(GeneralSettingsKeys.vibration.keyName);
+  }
+
+  @override
+  Future<bool> getCloudSyncStatus() async {
+    return await _settingsStorage
+        .getSetting(GeneralSettingsKeys.cloudSync.keyName);
+  }
 }
 
-class GeneralSettingsRepository implements GeneralSettingsRepositoryI {
-  GeneralSettingsRepository({
-    required KeyValueStorageI keyValueStorage,
-  }) : _keyValueStorage = keyValueStorage;
+enum GeneralSettingsKeys {
+  notifications("notifications"),
+  vibration("vibration"),
+  cloudSync("cloud_sync");
 
-  final KeyValueStorageI _keyValueStorage;
+  const GeneralSettingsKeys(this.keyName);
 
-  @override
-  Future<void> toggleCloudSyncOff() async {
-    await _keyValueStorage.set<bool>(
-        key: GeneralSettingsKeys.cloudSyncKey, value: false);
-  }
-
-  @override
-  Future<void> toggleCloudSyncOn() async {
-    await _keyValueStorage.set<bool>(
-        key: GeneralSettingsKeys.cloudSyncKey, value: true);
-  }
-
-  @override
-  Future<void> toggleNotificationsOff() async {
-    await _keyValueStorage.set<bool>(
-        key: GeneralSettingsKeys.notificationsKey, value: false);
-  }
-
-  @override
-  Future<void> toggleNotificationsOn() async {
-    await _keyValueStorage.set<bool>(
-        key: GeneralSettingsKeys.notificationsKey, value: true);
-  }
-
-  @override
-  Future<void> toggleVibrationOff() async {
-    await _keyValueStorage.set<bool>(
-        key: GeneralSettingsKeys.vibrationKey, value: false);
-  }
-
-  @override
-  Future<void> toggleVibrationOn() async {
-    await _keyValueStorage.set<bool>(
-        key: GeneralSettingsKeys.vibrationKey, value: true);
-  }
-
-  @override
-  Future<bool> getCurrentCloudSyncStatus() async {
-    final bool? status = await _keyValueStorage.get<bool?>(
-      key: GeneralSettingsKeys.cloudSyncKey,
-    );
-    return status ?? false;
-  }
-
-  @override
-  Future<bool> getCurrentNotificationsStatus() async {
-    final bool? status = await _keyValueStorage.get<bool?>(
-      key: GeneralSettingsKeys.notificationsKey,
-    );
-    return status ?? false;
-  }
-
-  @override
-  Future<bool> getCurrentVibrationStatus() async {
-    final bool? status = await _keyValueStorage.get<bool?>(
-      key: GeneralSettingsKeys.vibrationKey,
-    );
-    return status ?? false;
-  }
+  final String keyName;
 }

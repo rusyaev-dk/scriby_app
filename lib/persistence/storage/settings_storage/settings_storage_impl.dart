@@ -1,33 +1,26 @@
 import 'package:scriby_app/core/utils/utils.dart';
-import 'package:scriby_app/persistence/storage/key_value_storage/key_value_storage.dart';
+import 'package:scriby_app/persistence/storage/storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class SharedPrefsStorage implements KeyValueStorageI {
-  SharedPrefsStorage({
-    required SharedPreferences prefs,
-  }) : _prefs = prefs;
+class SettingsStorage implements ISettingsStorage {
+  SettingsStorage({required SharedPreferences prefs}) : _prefs = prefs;
 
   final SharedPreferences _prefs;
 
   @override
-  Future<void> init() async {
-    // await _prefs.clear();
-  }
-
-  @override
-  Future<T?> get<T>({required String key}) async {
+  Future<T?> getSetting<T>(String key) async {
     Object? value;
     if (sameTypes<T, List<String>>()) {
       value = _prefs.getStringList(key);
     } else {
       value = _prefs.get(key);
     }
-  
+
     return value as T;
   }
 
   @override
-  Future<bool> set<T>({required String key, required T value}) async {
+  Future<bool> toggleSetting<T>(String key, T value) async {
     if (sameTypes<T, bool>()) {
       return await _prefs.setBool(key, value as bool);
     }
@@ -54,13 +47,4 @@ class SharedPrefsStorage implements KeyValueStorageI {
 
     return false;
   }
-
-  @override
-  Future<bool> delete<T>({required String key}) async {
-    return await _prefs.remove(key);
-  }
-}
-
-Future<SharedPreferences> configSharedPreferences() async {
-  return await SharedPreferences.getInstance();
 }

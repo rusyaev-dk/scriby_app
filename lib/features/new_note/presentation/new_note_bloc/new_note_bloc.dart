@@ -10,13 +10,13 @@ part 'new_note_state.dart';
 
 class NewNoteBloc extends Bloc<NewNoteEvent, NewNoteState> {
   NewNoteBloc({
-    required NotesRepositoryI notesRepository,
+    required INotesRepository notesRepository,
   })  : _notesRepository = notesRepository,
         super(NewNoteInitialState()) {
     on<SaveNewNoteEvent>(_onSaveNewNote);
   }
 
-  final NotesRepositoryI _notesRepository;
+  final INotesRepository _notesRepository;
 
   Future<void> _onSaveNewNote(
     SaveNewNoteEvent event,

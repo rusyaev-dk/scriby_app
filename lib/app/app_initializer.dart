@@ -3,12 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scriby_app/app/app_config.dart';
 import 'package:scriby_app/core/blocs/theme_cubit/theme_cubit.dart';
 import 'package:scriby_app/core/domain/repositories/notes/notes.dart';
-import 'package:scriby_app/core/domain/repositories/settings/settings.dart';
+import 'package:scriby_app/core/domain/repositories/theme_mode/theme_mode.dart';
 import 'package:scriby_app/features/home/presentation/presentation.dart';
 import 'package:scriby_app/features/new_note/presentation/presentation.dart';
 import 'package:scriby_app/features/settings/domain/repositories/repositories.dart';
 import 'package:scriby_app/features/settings/presentation/blocs/blocs.dart';
-import 'package:scriby_app/persistence/storage/key_value_storage/key_value_storage.dart';
+import 'package:scriby_app/persistence/storage/storage.dart';
 
 class AppInitializer extends StatelessWidget {
   const AppInitializer({
@@ -22,21 +22,23 @@ class AppInitializer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final sharedPrefsStorage =
-        SharedPrefsStorage(prefs: appConfig.sharedPreferences);
+    final themeModeStorage =
+        ThemeModeStorage(prefs: appConfig.sharedPreferences);
+
+    final settingsStorage = SettingsStorage(prefs: appConfig.sharedPreferences);
 
     return MultiRepositoryProvider(
       providers: [
-        RepositoryProvider<SettingsRepositoryI>(
+        RepositoryProvider<IThemeModeRepository>(
           create: (context) =>
-              SettingsRepository(keyValueStorage: sharedPrefsStorage),
+              ThemeModeRepository(themeModeStorage: themeModeStorage),
         ),
-        RepositoryProvider<NotesRepositoryI>(
+        RepositoryProvider<INotesRepository>(
           create: (context) => NotesRepository(realm: appConfig.realm),
         ),
-        RepositoryProvider<GeneralSettingsRepositoryI>(
+        RepositoryProvider<IGeneralSettingsRepository>(
           create: (context) => GeneralSettingsRepository(
-            keyValueStorage: sharedPrefsStorage,
+            settingsStorage: settingsStorage,
           ),
         ),
       ],
@@ -44,23 +46,23 @@ class AppInitializer extends StatelessWidget {
         providers: [
           BlocProvider(
             create: (context) => ThemeCubit(
-              settingsRepository: context.read<SettingsRepositoryI>(),
+              themeModeRepository: context.read<IThemeModeRepository>(),
             ),
           ),
           BlocProvider(
             create: (context) => AllNotesBloc(
-              notesRepository: context.read<NotesRepositoryI>(),
+              notesRepository: context.read<INotesRepository>(),
             ),
           ),
           BlocProvider(
             create: (context) => NewNoteBloc(
-              notesRepository: context.read<NotesRepositoryI>(),
+              notesRepository: context.read<INotesRepository>(),
             ),
           ),
           BlocProvider(
             create: (context) => GeneralSettingsBloc(
               generalSettingsRepository:
-                  context.read<GeneralSettingsRepositoryI>(),
+                  context.read<IGeneralSettingsRepository>(),
             ),
           ),
         ],

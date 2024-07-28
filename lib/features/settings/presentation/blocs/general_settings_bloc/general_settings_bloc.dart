@@ -8,7 +8,7 @@ part 'general_settings_state.dart';
 class GeneralSettingsBloc
     extends Bloc<GeneralSettingsEvent, GeneralSettingsState> {
   GeneralSettingsBloc({
-    required GeneralSettingsRepositoryI generalSettingsRepository,
+    required IGeneralSettingsRepository generalSettingsRepository,
   })  : _generalSettingsRepository = generalSettingsRepository,
         super(GeneralSettingsLoadingState()) {
     on<LoadSettingsEvent>(_onLoadSettings);
@@ -18,7 +18,7 @@ class GeneralSettingsBloc
     on<ToggleCloudSyncEvent>(_onToggleCloudSync);
   }
 
-  final GeneralSettingsRepositoryI _generalSettingsRepository;
+  final IGeneralSettingsRepository _generalSettingsRepository;
 
   Future<void> _onLoadSettings(
     LoadSettingsEvent event,
@@ -26,11 +26,11 @@ class GeneralSettingsBloc
   ) async {
     try {
       final bool notifications =
-          await _generalSettingsRepository.getCurrentNotificationsStatus();
+          await _generalSettingsRepository.getNotificationsStatus();
       final bool vibration =
-          await _generalSettingsRepository.getCurrentVibrationStatus();
+          await _generalSettingsRepository.getVibrationStatus();
       final bool cloudSync =
-          await _generalSettingsRepository.getCurrentCloudSyncStatus();
+          await _generalSettingsRepository.getCloudSyncStatus();
 
       emit(GeneralSettingsLoadedState(
         notifications: notifications,
@@ -50,13 +50,9 @@ class GeneralSettingsBloc
   ) async {
     try {
       final bool curNotifications =
-          await _generalSettingsRepository.getCurrentNotificationsStatus();
+          await _generalSettingsRepository.getNotificationsStatus();
 
-      if (curNotifications) {
-        await _generalSettingsRepository.toggleNotificationsOff();
-      } else {
-        await _generalSettingsRepository.toggleNotificationsOn();
-      }
+      await _generalSettingsRepository.toggleNotifications(!curNotifications);
 
       final prevState = state;
       if (prevState is GeneralSettingsLoadedState) {
@@ -74,13 +70,9 @@ class GeneralSettingsBloc
   ) async {
     try {
       final bool curVibration =
-          await _generalSettingsRepository.getCurrentVibrationStatus();
+          await _generalSettingsRepository.getVibrationStatus();
 
-      if (curVibration) {
-        await _generalSettingsRepository.toggleVibrationOff();
-      } else {
-        await _generalSettingsRepository.toggleVibrationOn();
-      }
+      await _generalSettingsRepository.toggleVibration(!curVibration);
 
       final prevState = state;
       if (prevState is GeneralSettingsLoadedState) {
@@ -98,14 +90,9 @@ class GeneralSettingsBloc
   ) async {
     try {
       final bool curCloudSync =
-          await _generalSettingsRepository.getCurrentCloudSyncStatus();
+          await _generalSettingsRepository.getCloudSyncStatus();
 
-      if (curCloudSync) {
-        await _generalSettingsRepository.toggleCloudSyncOff();
-      } else {
-        await _generalSettingsRepository.toggleCloudSyncOn();
-      }
-
+      await _generalSettingsRepository.toggleCloudSync(!curCloudSync);
       final prevState = state;
       if (prevState is GeneralSettingsLoadedState) {
         emit(prevState.copyWith(cloudSync: !curCloudSync));

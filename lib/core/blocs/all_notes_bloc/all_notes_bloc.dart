@@ -9,7 +9,7 @@ part 'all_notes_state.dart';
 
 class AllNotesBloc extends Bloc<AllNotesEvent, AllNotesState> {
   AllNotesBloc({
-    required NotesRepositoryI notesRepository,
+    required INotesRepository notesRepository,
   })  : _notesRepository = notesRepository,
         super(AllNotesLoadingState()) {
     on<LoadAllNotesEvent>(_onLoadNotes);
@@ -18,7 +18,7 @@ class AllNotesBloc extends Bloc<AllNotesEvent, AllNotesState> {
     add(LoadAllNotesEvent());
   }
 
-  final NotesRepositoryI _notesRepository;
+  final INotesRepository _notesRepository;
 
   Future<void> _onLoadNotes(
     LoadAllNotesEvent event,
