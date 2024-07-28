@@ -1,4 +1,4 @@
-import 'package:scriby_app/core/utils/utils.dart';
+import 'package:scriby_app/common/utils/service_funtions.dart';
 import 'package:scriby_app/persistence/storage/storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

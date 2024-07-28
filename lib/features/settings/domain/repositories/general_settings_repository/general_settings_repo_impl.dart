@@ -35,19 +35,19 @@ class GeneralSettingsRepository implements IGeneralSettingsRepository {
   @override
   Future<bool> getNotificationsStatus() async {
     return await _settingsStorage
-        .getSetting(GeneralSettingsKeys.notifications.keyName);
+        .getSetting(GeneralSettingsKeys.notifications.keyName) ?? false;
   }
 
   @override
   Future<bool> getVibrationStatus() async {
     return await _settingsStorage
-        .getSetting(GeneralSettingsKeys.vibration.keyName);
+        .getSetting(GeneralSettingsKeys.vibration.keyName) ?? false;
   }
 
   @override
   Future<bool> getCloudSyncStatus() async {
     return await _settingsStorage
-        .getSetting(GeneralSettingsKeys.cloudSync.keyName);
+        .getSetting(GeneralSettingsKeys.cloudSync.keyName) ?? false;
   }
 }
 
