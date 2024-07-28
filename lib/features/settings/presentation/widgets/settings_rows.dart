@@ -25,6 +25,28 @@ class SettingsSwitcherRow extends StatelessWidget {
     final colorScheme = AppColorScheme.of(context);
     final textScheme = AppTextScheme.of(context);
 
+    Widget switcher;
+
+    if (Platform.isIOS) {
+      switcher = CupertinoSwitch(
+        trackColor: colorScheme.surfaceVariant,
+        value: isActive,
+        onChanged: onSwitcherChanged,
+      );
+    } else {
+      switcher = Switch(
+        thumbColor: WidgetStatePropertyAll<Color>(
+          isActive ? colorScheme.background : colorScheme.onBackground,
+        ),
+        inactiveTrackColor: colorScheme.surface,
+        trackOutlineColor: WidgetStatePropertyAll<Color>(
+          colorScheme.background,
+        ),
+        value: isActive,
+        onChanged: onSwitcherChanged,
+      );
+    }
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       child: Row(
@@ -44,18 +66,7 @@ class SettingsSwitcherRow extends StatelessWidget {
           const Spacer(),
           SizedBox(
             height: 30,
-            child: Platform.isAndroid
-                ? Switch(
-                    trackColor: WidgetStatePropertyAll<Color>(
-                        colorScheme.surfaceVariant),
-                    value: isActive,
-                    onChanged: onSwitcherChanged,
-                  )
-                : CupertinoSwitch(
-                    trackColor: colorScheme.surfaceVariant,
-                    value: isActive,
-                    onChanged: onSwitcherChanged,
-                  ),
+            child: switcher,
           ),
         ],
       ),
@@ -152,8 +163,8 @@ class SettingsPageTransitionRow extends StatelessWidget {
               padding: const EdgeInsets.only(right: 10),
               child: Icon(
                 Icons.arrow_forward_ios,
-                size: 25,
-                color: colorScheme.surfaceVariant,
+                size: 23,
+                color: colorScheme.onBackground,
               ),
             )
           ],
@@ -230,6 +241,6 @@ class ThemeSwitcherRow extends StatelessWidget {
     BuildContext context,
     ThemeMode themeMode,
   ) async {
-    await context.read<ThemeCubit>().setTheme(themeMode);
+    await BlocProvider.of<ThemeCubit>(context).setTheme(themeMode);
   }
 }
