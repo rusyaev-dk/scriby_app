@@ -27,12 +27,13 @@ class AppInitializer extends StatelessWidget {
     final themeModeStorage =
         ThemeModeStorage(prefs: appConfig.sharedPreferences);
 
-    final logger = AppLogger(talker: appConfig.talker);
     final settingsStorage = SettingsStorage(prefs: appConfig.sharedPreferences);
 
     return MultiRepositoryProvider(
       providers: [
-        RepositoryProvider<ILogger>(create: (context) => logger),
+        RepositoryProvider<ILogger>(
+          create: (context) => AppLogger(talker: appConfig.talker),
+        ),
         RepositoryProvider<IThemeModeRepository>(
           create: (context) =>
               ThemeModeRepository(themeModeStorage: themeModeStorage),
@@ -51,26 +52,26 @@ class AppInitializer extends StatelessWidget {
           BlocProvider(
             create: (context) => ThemeCubit(
               themeModeRepository: context.read<IThemeModeRepository>(),
-              logger: logger,
+              logger: context.read<ILogger>(),
             ),
           ),
           BlocProvider(
             create: (context) => AllNotesBloc(
               notesRepository: context.read<INotesRepository>(),
-              logger: logger,
+              logger: context.read<ILogger>(),
             ),
           ),
           BlocProvider(
             create: (context) => NewNoteBloc(
               notesRepository: context.read<INotesRepository>(),
-              logger: logger,
+              logger: context.read<ILogger>(),
             ),
           ),
           BlocProvider(
             create: (context) => GeneralSettingsBloc(
               generalSettingsRepository:
                   context.read<IGeneralSettingsRepository>(),
-              logger: logger,
+              logger: context.read<ILogger>(),
             ),
           ),
         ],
