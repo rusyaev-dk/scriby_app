@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:scriby_app/common/utils/utils.dart';
 import 'package:scriby_app/core/domain/domain.dart';
 
 part 'all_notes_event.dart';
@@ -10,7 +11,9 @@ part 'all_notes_state.dart';
 class AllNotesBloc extends Bloc<AllNotesEvent, AllNotesState> {
   AllNotesBloc({
     required INotesRepository notesRepository,
+    required ILogger logger,
   })  : _notesRepository = notesRepository,
+        _logger = logger,
         super(AllNotesLoadingState()) {
     on<LoadAllNotesEvent>(_onLoadNotes);
     on<DeleteNoteEvent>(_onDeleteNote);
@@ -19,6 +22,7 @@ class AllNotesBloc extends Bloc<AllNotesEvent, AllNotesState> {
   }
 
   final INotesRepository _notesRepository;
+  final ILogger _logger;
 
   Future<void> _onLoadNotes(
     LoadAllNotesEvent event,
@@ -32,11 +36,13 @@ class AllNotesBloc extends Bloc<AllNotesEvent, AllNotesState> {
       //
       await Future.delayed(const Duration(milliseconds: 300));
       //
+      
       final notes = await _notesRepository.getAllNotes();
 
       emit(AllNotesLoadedState(notes: notes));
-    } catch (err, stackTrace) {
-      emit(AllNotesFailureState(exception: err));
+    } catch (exception, stackTrace) {
+      _logger.exception(exception, stackTrace);
+      emit(AllNotesFailureState(exception: exception));
     }
   }
 
@@ -45,9 +51,11 @@ class AllNotesBloc extends Bloc<AllNotesEvent, AllNotesState> {
     Emitter<AllNotesState> emit,
   ) async {
     try {
+
       //
       await Future.delayed(const Duration(milliseconds: 300));
       //
+
       await _notesRepository.deleteNote(event.note);
       final remainingNotes = await _notesRepository.getAllNotes();
 
@@ -55,8 +63,9 @@ class AllNotesBloc extends Bloc<AllNotesEvent, AllNotesState> {
       if (prevState is AllNotesLoadedState) {
         emit(prevState.copyWith(notes: remainingNotes));
       }
-    } catch (err, stackTrace) {
-      emit(AllNotesFailureState(exception: err));
+    } catch (exception, stackTrace) {
+      _logger.exception(exception, stackTrace);
+      emit(AllNotesFailureState(exception: exception));
     }
 
     event.completer.complete();
@@ -77,8 +86,9 @@ class AllNotesBloc extends Bloc<AllNotesEvent, AllNotesState> {
 
       await _notesRepository.deleteAllNotes();
       add(LoadAllNotesEvent());
-    } catch (err, stackTrace) {
-      emit(AllNotesFailureState(exception: err));
+    } catch (exception, stackTrace) {
+      _logger.exception(exception, stackTrace);
+      emit(AllNotesFailureState(exception: exception));
     }
   }
 }

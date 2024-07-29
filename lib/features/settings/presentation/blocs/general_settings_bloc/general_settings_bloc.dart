@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:scriby_app/common/utils/utils.dart';
 import 'package:scriby_app/features/settings/domain/repositories/repositories.dart';
 
 part 'general_settings_event.dart';
@@ -9,7 +10,9 @@ class GeneralSettingsBloc
     extends Bloc<GeneralSettingsEvent, GeneralSettingsState> {
   GeneralSettingsBloc({
     required IGeneralSettingsRepository generalSettingsRepository,
+    required ILogger logger,
   })  : _generalSettingsRepository = generalSettingsRepository,
+        _logger = logger,
         super(GeneralSettingsLoadingState()) {
     on<LoadSettingsEvent>(_onLoadSettings);
     add(LoadSettingsEvent());
@@ -19,6 +22,7 @@ class GeneralSettingsBloc
   }
 
   final IGeneralSettingsRepository _generalSettingsRepository;
+  final ILogger _logger;
 
   Future<void> _onLoadSettings(
     LoadSettingsEvent event,
@@ -38,9 +42,8 @@ class GeneralSettingsBloc
         cloudSync: cloudSync,
       ));
     } catch (exception, stackTrace) {
+      _logger.exception(exception, stackTrace);
       emit(GeneralSettingsFailureState(exception: exception));
-
-      print(exception);
     }
   }
 
@@ -59,8 +62,8 @@ class GeneralSettingsBloc
         emit(prevState.copyWith(notifications: !curNotifications));
       }
     } catch (exception, stackTrace) {
+      _logger.exception(exception, stackTrace);
       emit(GeneralSettingsFailureState(exception: exception));
-      print(exception);
     }
   }
 
@@ -79,8 +82,8 @@ class GeneralSettingsBloc
         emit(prevState.copyWith(vibration: !curVibration));
       }
     } catch (exception, stackTrace) {
+      _logger.exception(exception, stackTrace);
       emit(GeneralSettingsFailureState(exception: exception));
-      print(exception);
     }
   }
 
@@ -98,8 +101,8 @@ class GeneralSettingsBloc
         emit(prevState.copyWith(cloudSync: !curCloudSync));
       }
     } catch (exception, stackTrace) {
+      _logger.exception(exception, stackTrace);
       emit(GeneralSettingsFailureState(exception: exception));
-      print(exception);
     }
   }
 }

@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:scriby_app/common/utils/formatters/formatters.dart';
+import 'package:scriby_app/common/utils/utils.dart';
 import 'package:scriby_app/core/domain/domain.dart';
 
 part 'new_note_event.dart';
@@ -11,12 +11,15 @@ part 'new_note_state.dart';
 class NewNoteBloc extends Bloc<NewNoteEvent, NewNoteState> {
   NewNoteBloc({
     required INotesRepository notesRepository,
+    required ILogger logger,
   })  : _notesRepository = notesRepository,
+        _logger = logger,
         super(NewNoteInitialState()) {
     on<SaveNewNoteEvent>(_onSaveNewNote);
   }
 
   final INotesRepository _notesRepository;
+  final ILogger _logger;
 
   Future<void> _onSaveNewNote(
     SaveNewNoteEvent event,
@@ -26,6 +29,7 @@ class NewNoteBloc extends Bloc<NewNoteEvent, NewNoteState> {
       if (state is! NewNoteSavingState) {
         emit(NewNoteSavingState());
       }
+
       //
       await Future.delayed(const Duration(milliseconds: 1000));
       //
@@ -34,8 +38,9 @@ class NewNoteBloc extends Bloc<NewNoteEvent, NewNoteState> {
 
       await _notesRepository.addNote(formattedNote);
       emit(NewNoteInitialState());
-    } catch (err, stackTrace) {
-      emit(NewNoteFailureState(exception: err));
+    } catch (exception, stackTrace) {
+      _logger.exception(exception, stackTrace);
+      emit(NewNoteFailureState(exception: exception));
     }
 
     event.completer.complete();

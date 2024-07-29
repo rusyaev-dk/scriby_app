@@ -16,7 +16,7 @@ dependencies:
   flutter_bloc: ^8.1.6
   bloc_concurrency: ^0.2.5
   shared_preferences: ^2.2.3
-  talker_flutter: ^4.3.2
+  talker_flutter: ^4.3.4
   auto_route: ^8.2.0
   realm: ^3.3.0
   equatable: ^2.0.5

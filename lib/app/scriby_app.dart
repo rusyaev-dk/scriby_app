@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scriby_app/app/app_config.dart';
 import 'package:scriby_app/app/app_initializer.dart';
+import 'package:scriby_app/common/utils/utils.dart';
 import 'package:scriby_app/core/blocs/theme_cubit/theme_cubit.dart';
 import 'package:scriby_app/core/navigation/router.dart';
 import 'package:scriby_app/uikit/themes/themes.dart';
@@ -35,7 +36,9 @@ class _ScribyAppState extends State<ScribyApp> {
             debugShowCheckedModeBanner: false,
             routerConfig: router.config(
               navigatorObservers: () => [
-                CustomNavigationObserver(),
+                CustomNavigationObserver(
+                  logger: context.read<ILogger>(),
+                ),
               ],
             ),
           );
