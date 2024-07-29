@@ -46,33 +46,55 @@ class HomeAppBar extends StatelessWidget {
         ),
         const SizedBox(width: 10),
       ],
-      bottom: PreferredSize(
-        preferredSize: const Size(double.infinity, 50),
-        child: Container(
-          height: 50,
-          padding: const EdgeInsets.symmetric(vertical: 8),
-          decoration: BoxDecoration(
-            color: colorScheme.surface,
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(30),
-              topRight: Radius.circular(30),
-            ),
-          ),
-          child: CustomTabBar(
-            indicator: CustomTabBarIndicator.rounded(
-              color: colorScheme.onBackground,
-              height: 35,
-              width: 105,
-            ),
-            tabController: tabController,
-            labels: const ["All notes", "Pinned", "Folders"],
-          ),
-        ),
-      ),
+      bottom: AppBarBottom(tabController: tabController),
     );
   }
 
   Future<void> _openSettings(BuildContext context) async {
     AutoRouter.of(context).push(const SettingsRoute());
   }
+}
+
+class AppBarBottom extends StatelessWidget implements PreferredSizeWidget {
+  const AppBarBottom({
+    super.key,
+    required this.tabController,
+  });
+
+  final TabController tabController;
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = AppColorScheme.of(context);
+    final textScheme = AppTextScheme.of(context);
+
+    return Container(
+      height: 50,
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      decoration: BoxDecoration(
+        color: colorScheme.surface,
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(30),
+          topRight: Radius.circular(30),
+        ),
+      ),
+      child: CustomTabBar(
+        indicator: CustomTabBarIndicator.rounded(
+          color: colorScheme.onBackground,
+          height: 35,
+          width: 105,
+        ),
+        tabController: tabController,
+        labels: const ["All notes", "Pinned", "Folders"],
+        selectedLabelColor: colorScheme.onBackground,
+        unSelectedLabelColor: colorScheme.background,
+        labelStyle: textScheme.label.copyWith(
+          fontSize: 18,
+        ),
+      ),
+    );
+  }
+
+  @override
+  Size get preferredSize => const Size(double.infinity, 50);
 }

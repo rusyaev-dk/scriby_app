@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:scriby_app/uikit/uikit.dart';
 
 class CustomTabBar extends StatelessWidget {
   const CustomTabBar({
@@ -10,14 +9,20 @@ class CustomTabBar extends StatelessWidget {
     this.dividerColor = Colors.transparent,
     this.overlayColor = Colors.transparent,
     this.onTap,
+    this.selectedLabelColor,
+    this.unSelectedLabelColor,
+    this.labelStyle,
   });
 
   final TabController tabController;
   final List<String> labels;
-  final Color dividerColor;
-  final Color overlayColor;
+  final Color? dividerColor;
+  final Color? overlayColor;
   final CustomTabBarIndicator indicator;
   final void Function(int)? onTap;
+  final Color? selectedLabelColor;
+  final Color? unSelectedLabelColor;
+  final TextStyle? labelStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +39,9 @@ class CustomTabBar extends StatelessWidget {
             tabController: tabController,
             label: labels[index],
             index: index,
+            selectedLabelColor: selectedLabelColor,
+            unSelectedLabelColor: unSelectedLabelColor,
+            labelStyle: labelStyle,
           );
         },
       ),
@@ -47,17 +55,20 @@ class AnimatedTab extends StatelessWidget {
     required this.tabController,
     required this.label,
     required this.index,
+    this.selectedLabelColor = Colors.black,
+    this.unSelectedLabelColor = Colors.white,
+    this.labelStyle,
   });
 
   final TabController tabController;
   final String label;
   final int index;
+  final Color? selectedLabelColor;
+  final Color? unSelectedLabelColor;
+  final TextStyle? labelStyle;
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = AppColorScheme.of(context);
-    final textScheme = AppTextScheme.of(context);
-
     return AnimatedBuilder(
       animation: tabController.animation!,
       builder: (context, child) {
@@ -65,17 +76,18 @@ class AnimatedTab extends StatelessWidget {
         final isSelected = index == tabController.index;
 
         final color = isSelected
-            ? Color.lerp(colorScheme.background, colorScheme.onBackground,
+            ? Color.lerp(unSelectedLabelColor, selectedLabelColor,
                 (animationValue - index).abs().clamp(0.0, 1.0))
-            : Color.lerp(colorScheme.background, colorScheme.onBackground,
+            : Color.lerp(unSelectedLabelColor, selectedLabelColor,
                 (animationValue - index).abs().clamp(0.0, 1.0));
 
         return Text(
           label,
-          style: textScheme.label.copyWith(
-            fontSize: 18,
-            color: color,
-          ),
+          style: labelStyle?.copyWith(color: color) ??
+              TextStyle(
+                fontSize: 18,
+                color: color,
+              ).copyWith(color: color),
         );
       },
     );
