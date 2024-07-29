@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:scriby_app/core/navigation/navigation.dart';
 import 'package:scriby_app/features/home/presentation/presentation.dart';
 import 'package:scriby_app/features/new_note/presentation/screens/screens.dart';
 import 'package:scriby_app/features/settings/presentation/screens/screens.dart';
@@ -14,13 +17,39 @@ class AppRouter extends _$AppRouter {
           page: HomeRoute.page,
           path: '/',
         ),
-        AutoRoute(
+        CustomRoute(
           page: SettingsRoute.page,
           path: '/settings',
+          customRouteBuilder:
+              (BuildContext context, Widget child, AutoRoutePage page) {
+            return PageRouteBuilder(
+              transitionDuration:
+                  Duration(milliseconds: Platform.isIOS ? 300 : 250),
+              fullscreenDialog: page.fullscreenDialog,
+              transitionsBuilder: Platform.isIOS
+                  ? CustomPageTransitionsBuilder.slideWithFadeTransitionsBuilder
+                  : CustomPageTransitionsBuilder.fadeTransitionsBuilder,
+              settings: page,
+              pageBuilder: (context, animation, _) => child,
+            );
+          },
         ),
-        AutoRoute(
+        CustomRoute(
           page: PrivacyRoute.page,
           path: '/settings/privacy',
+          customRouteBuilder:
+              (BuildContext context, Widget child, AutoRoutePage page) {
+            return PageRouteBuilder(
+              transitionDuration:
+                  Duration(milliseconds: Platform.isIOS ? 300 : 250),
+              fullscreenDialog: page.fullscreenDialog,
+              transitionsBuilder: Platform.isIOS
+                  ? CustomPageTransitionsBuilder.slideWithFadeTransitionsBuilder
+                  : CustomPageTransitionsBuilder.fadeTransitionsBuilder,
+              settings: page,
+              pageBuilder: (context, animation, _) => child,
+            );
+          },
         ),
         CustomRoute(
           page: NewNoteRoute.page,
@@ -31,33 +60,14 @@ class AppRouter extends _$AppRouter {
             return PageRouteBuilder(
               transitionDuration: const Duration(milliseconds: 450),
               fullscreenDialog: page.fullscreenDialog,
-              transitionsBuilder: _transitionsBuilder,
+              transitionsBuilder:
+                  CustomPageTransitionsBuilder.scaleTransitionsBuilder,
               settings: page,
               pageBuilder: (context, animation, _) => child,
             );
           },
         ),
       ];
-
-  static Widget _transitionsBuilder(
-    BuildContext context,
-    Animation<double> animation,
-    Animation<double> secondaryAnimation,
-    Widget child,
-  ) {
-    const curve = Curves.ease;
-
-    final curvedAnimation = CurvedAnimation(
-      parent: animation,
-      curve: curve,
-    );
-
-    return ScaleTransition(
-      alignment: const FractionalOffset(0.91, 0.91),
-      scale: curvedAnimation,
-      child: child,
-    );
-  }
 }
 
 class CustomNavigationObserver extends AutoRouterObserver {
