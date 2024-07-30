@@ -188,15 +188,15 @@ class ThemeSwitcherRow extends StatelessWidget {
           children: [
             Expanded(
               flex: 2,
-              child: ThemeSwitchButton(
+              child: ThemeSwitchButton.withSubtitle(
                 height: 95,
-                color: state.themeMode == ThemeMode.system
+                backgroundColor: state.themeMode == ThemeMode.system
                     ? colorScheme.activatedThemeButtonColor
                     : colorScheme.surface,
                 borderColor: state.themeMode == ThemeMode.system
                     ? colorScheme.primary
                     : null,
-                text: "System",
+                title: "System",
                 subtitle: "Same as on the device",
                 onPressed: () => _switchTheme(context, ThemeMode.system),
               ),
@@ -206,13 +206,13 @@ class ThemeSwitcherRow extends StatelessWidget {
               child: ThemeSwitchButton(
                 height: 95,
                 icon: Icons.sunny,
-                color: state.themeMode == ThemeMode.light
+                backgroundColor: state.themeMode == ThemeMode.light
                     ? colorScheme.activatedThemeButtonColor
                     : colorScheme.surface,
                 borderColor: state.themeMode == ThemeMode.light
                     ? colorScheme.primary
                     : null,
-                text: "Light",
+                title: "Light",
                 onPressed: () => _switchTheme(context, ThemeMode.light),
               ),
             ),
@@ -221,13 +221,13 @@ class ThemeSwitcherRow extends StatelessWidget {
               child: ThemeSwitchButton(
                 height: 95,
                 icon: Icons.nightlight_round_outlined,
-                color: state.themeMode == ThemeMode.dark
+                backgroundColor: state.themeMode == ThemeMode.dark
                     ? colorScheme.activatedThemeButtonColor
                     : colorScheme.surface,
                 borderColor: state.themeMode == ThemeMode.dark
                     ? colorScheme.primary
                     : null,
-                text: "Dark",
+                title: "Dark",
                 onPressed: () => _switchTheme(context, ThemeMode.dark),
               ),
             ),

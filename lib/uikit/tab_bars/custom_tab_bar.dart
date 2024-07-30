@@ -35,7 +35,7 @@ class CustomTabBar extends StatelessWidget {
       tabs: List.generate(
         labels.length,
         (index) {
-          return AnimatedTab(
+          return _AnimatedTab(
             tabController: tabController,
             label: labels[index],
             index: index,
@@ -49,9 +49,8 @@ class CustomTabBar extends StatelessWidget {
   }
 }
 
-class AnimatedTab extends StatelessWidget {
-  const AnimatedTab({
-    super.key,
+class _AnimatedTab extends StatelessWidget {
+  const _AnimatedTab({
     required this.tabController,
     required this.label,
     required this.index,
@@ -73,13 +72,9 @@ class AnimatedTab extends StatelessWidget {
       animation: tabController.animation!,
       builder: (context, child) {
         final animationValue = tabController.animation!.value;
-        final isSelected = index == tabController.index;
 
-        final color = isSelected
-            ? Color.lerp(unSelectedLabelColor, selectedLabelColor,
-                (animationValue - index).abs().clamp(0.0, 1.0))
-            : Color.lerp(unSelectedLabelColor, selectedLabelColor,
-                (animationValue - index).abs().clamp(0.0, 1.0));
+        final color = Color.lerp(unSelectedLabelColor, selectedLabelColor,
+            (animationValue - index).abs().clamp(0.0, 1.0));
 
         return Text(
           label,

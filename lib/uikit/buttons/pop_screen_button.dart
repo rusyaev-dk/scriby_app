@@ -7,11 +7,11 @@ import 'package:scriby_app/uikit/uikit.dart';
 class PopScreenButton extends StatelessWidget {
   const PopScreenButton({
     super.key,
-    this.afterPopAction,
+    this.callback,
     this.iconColor,
   });
 
-  final void Function()? afterPopAction;
+  final void Function()? callback;
   final Color? iconColor;
 
   @override
@@ -21,8 +21,8 @@ class PopScreenButton extends StatelessWidget {
     return IconButton(
       onPressed: () async {
         await AutoRouter.of(context).maybePop();
-        if (afterPopAction != null) {
-          afterPopAction!();
+        if (callback != null) {
+          callback!();
         }
       },
       icon: Icon(
