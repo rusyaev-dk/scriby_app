@@ -83,7 +83,6 @@ class CustomNavigationObserver extends AutoRouterObserver {
 
   @override
   void didPop(Route route, Route? previousRoute) {
-    super.didPop(route, previousRoute); // ????
     _logger.log("Route popped: ${route.settings.name}");
   }
 
