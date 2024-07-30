@@ -14,6 +14,7 @@ class HomeAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = AppColorScheme.of(context);
+    final textScheme = AppTextScheme.of(context);
 
     return SliverAppBar(
       snap: true,
@@ -23,7 +24,13 @@ class HomeAppBar extends StatelessWidget {
       surfaceTintColor: Colors.transparent,
       floating: true,
       pinned: true,
-      title: const Text('Scriby'),
+      title: Text(
+        'Scriby',
+        style: textScheme.headline.copyWith(
+          color: colorScheme.onBackground,
+          fontSize: 25,
+        ),
+      ),
       toolbarHeight: 60,
       expandedHeight: 110,
       actions: [
