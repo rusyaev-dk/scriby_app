@@ -1,5 +1,5 @@
 import 'package:scriby_app/features/settings/domain/repositories/repositories.dart';
-import 'package:scriby_app/persistence/storage/settings_storage/settings_storage.dart';
+import 'package:scriby_app/persistence/storage/storage.dart';
 
 class GeneralSettingsRepository implements IGeneralSettingsRepository {
   GeneralSettingsRepository({
@@ -11,7 +11,7 @@ class GeneralSettingsRepository implements IGeneralSettingsRepository {
   @override
   Future<bool> toggleNotifications(bool value) async {
     return await _settingsStorage.toggleSetting(
-      GeneralSettingsKeys.notifications.keyName,
+      LocalStorageKeys.notificationsKey,
       value,
     );
   }
@@ -19,7 +19,7 @@ class GeneralSettingsRepository implements IGeneralSettingsRepository {
   @override
   Future<bool> toggleVibration(bool value) async {
     return await _settingsStorage.toggleSetting(
-      GeneralSettingsKeys.vibration.keyName,
+      LocalStorageKeys.vibrationKey,
       value,
     );
   }
@@ -27,7 +27,7 @@ class GeneralSettingsRepository implements IGeneralSettingsRepository {
   @override
   Future<bool> toggleCloudSync(bool value) async {
     return await _settingsStorage.toggleSetting(
-      GeneralSettingsKeys.cloudSync.keyName,
+      LocalStorageKeys.cloudSyncKey,
       value,
     );
   }
@@ -35,28 +35,19 @@ class GeneralSettingsRepository implements IGeneralSettingsRepository {
   @override
   Future<bool> getNotificationsStatus() async {
     return await _settingsStorage
-        .getSetting(GeneralSettingsKeys.notifications.keyName) ?? false;
+            .getSetting(LocalStorageKeys.notificationsKey) ??
+        false;
   }
 
   @override
   Future<bool> getVibrationStatus() async {
-    return await _settingsStorage
-        .getSetting(GeneralSettingsKeys.vibration.keyName) ?? false;
+    return await _settingsStorage.getSetting(LocalStorageKeys.vibrationKey) ??
+        false;
   }
 
   @override
   Future<bool> getCloudSyncStatus() async {
-    return await _settingsStorage
-        .getSetting(GeneralSettingsKeys.cloudSync.keyName) ?? false;
+    return await _settingsStorage.getSetting(LocalStorageKeys.cloudSyncKey) ??
+        false;
   }
-}
-
-enum GeneralSettingsKeys {
-  notifications("notifications"),
-  vibration("vibration"),
-  cloudSync("cloud_sync");
-
-  const GeneralSettingsKeys(this.keyName);
-
-  final String keyName;
 }

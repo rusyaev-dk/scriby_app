@@ -10,7 +10,7 @@ class ThemeModeStorage implements IThemeModeStorage {
   @override
   Future<ThemeMode?> getThemeMode() async {
     final String? themeModeStr =
-        _prefs.getString(ThemeModeStorageKeys.mode.keyName);
+        _prefs.getString(LocalStorageKeys.themeModeKey);
     if (themeModeStr?.isEmpty ?? true) return null;
 
     return ThemeMode.values.firstWhere((e) => e.name == themeModeStr);
@@ -19,18 +19,10 @@ class ThemeModeStorage implements IThemeModeStorage {
   @override
   Future<bool> setThemeMode(ThemeMode themeMode) async {
     final reuslt = await _prefs.setString(
-      ThemeModeStorageKeys.mode.keyName,
+      LocalStorageKeys.themeModeKey,
       themeMode.name,
     );
 
     return reuslt;
   }
-}
-
-enum ThemeModeStorageKeys {
-  mode("theme_mode");
-
-  const ThemeModeStorageKeys(this.keyName);
-
-  final String keyName;
 }
