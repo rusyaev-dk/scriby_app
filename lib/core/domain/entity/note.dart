@@ -10,6 +10,7 @@ class Note extends Equatable {
     required this.hexColor,
     required this.tags,
     required this.text,
+    required this.pinned,
   });
 
   final String id;
@@ -18,6 +19,7 @@ class Note extends Equatable {
   final String hexColor;
   final List<String> tags;
   final String text;
+  final bool pinned;
 
   factory Note.create({
     required String title,
@@ -25,6 +27,7 @@ class Note extends Equatable {
     required String hexColor,
     required List<String> tags,
     required String text,
+    required bool pinned,
   }) {
     final id = Uuid.v4().toString();
     return Note(
@@ -34,6 +37,7 @@ class Note extends Equatable {
       hexColor: hexColor,
       tags: tags,
       text: text,
+      pinned: pinned,
     );
   }
 
@@ -43,6 +47,7 @@ class Note extends Equatable {
         date,
         hexColor,
         text,
+        pinned,
         tags: tags,
       );
 
@@ -54,9 +59,10 @@ class Note extends Equatable {
       hexColor: localNote.hexColor,
       tags: localNote.tags,
       text: localNote.text,
+      pinned: localNote.pinned,
     );
   }
 
   @override
-  List<Object?> get props => [title, date, hexColor, tags, text];
+  List<Object?> get props => [title, date, hexColor, tags, text, pinned];
 }

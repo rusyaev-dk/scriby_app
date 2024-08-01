@@ -11,4 +11,5 @@ class _LocalNote {
   late String hexColor;
   late List<String> tags;
   late String text;
+  late bool pinned;
 }

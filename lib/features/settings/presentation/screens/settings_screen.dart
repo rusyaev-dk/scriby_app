@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scriby_app/common/widgets/widgets.dart';
-import 'package:scriby_app/features/home/presentation/presentation.dart';
+import 'package:scriby_app/core/blocs/blocs.dart';
 import 'package:scriby_app/features/settings/presentation/presentation.dart';
 import 'package:scriby_app/uikit/uikit.dart';
 
@@ -71,7 +71,7 @@ class SettingsScreen extends StatelessWidget {
         await _showDeleteAllNotesDialog(context) ?? false;
 
     if (context.mounted && deleteConfirmation) {
-      BlocProvider.of<AllNotesBloc>(context).add(DeleteAllNotesEvent());
+      BlocProvider.of<NotesManagerBloc>(context).add(DeleteAllNotesEvent());
     }
   }
 

@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:scriby_app/common/utils/utils.dart';
 import 'package:scriby_app/core/navigation/navigation.dart';
 import 'package:scriby_app/features/home/presentation/presentation.dart';
-import 'package:scriby_app/features/home/presentation/widgets/folders_tab.dart';
-import 'package:scriby_app/features/home/presentation/widgets/pinned_tab.dart';
+import 'package:scriby_app/features/folders/presentation/screens/folders_tab.dart';
+import 'package:scriby_app/features/pinned_notes/presentation/screens/pinned_notes_tab.dart';
 import 'package:scriby_app/features/new_note/presentation/screens/screens.dart';
 import 'package:scriby_app/features/settings/presentation/screens/screens.dart';
 

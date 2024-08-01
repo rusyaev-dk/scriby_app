@@ -125,7 +125,7 @@ class PinnedNotesTabRoute extends PageRouteInfo<void> {
           initialChildren: children,
         );
 
-  static const String name = 'PinnedTab';
+  static const String name = 'PinnedNotesTab';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

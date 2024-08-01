@@ -37,6 +37,7 @@ class NewNoteBloc extends Bloc<NewNoteEvent, NewNoteState> {
       final Note formattedNote = _formatNote(event.note);
 
       await _notesRepository.addNote(formattedNote);
+      
       emit(NewNoteInitialState());
     } catch (exception, stackTrace) {
       _logger.exception(exception, stackTrace);
@@ -60,6 +61,7 @@ class NewNoteBloc extends Bloc<NewNoteEvent, NewNoteState> {
       hexColor: note.hexColor,
       tags: note.tags,
       text: note.text,
+      pinned: note.pinned,
     );
   }
 }

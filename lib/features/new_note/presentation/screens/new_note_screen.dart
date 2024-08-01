@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:scriby_app/features/home/presentation/presentation.dart';
+import 'package:scriby_app/core/blocs/blocs.dart';
 import 'package:scriby_app/features/new_note/presentation/presentation.dart';
 import 'package:scriby_app/uikit/uikit.dart';
 
@@ -79,7 +79,7 @@ class _NewNoteScreenState extends State<NewNoteScreen> {
 
   void _handleNewNoteSaving(context, state) {
     if (state is NewNoteInitialState) {
-      BlocProvider.of<AllNotesBloc>(context).add(LoadAllNotesEvent());
+      // BlocProvider.of<NotesManagerBloc>(context).add(RefreshNotesEvent());
     }
   }
 

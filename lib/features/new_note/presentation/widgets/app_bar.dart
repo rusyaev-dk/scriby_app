@@ -78,6 +78,7 @@ class NewNoteAppBar extends StatelessWidget {
       hexColor: ColorFormatter.getRandomHexColor(),
       tags: const ["test_tag", "one_more_test_tag"],
       text: noteTextController.text,
+      pinned: true,
     );
 
     if (!context.mounted) return;

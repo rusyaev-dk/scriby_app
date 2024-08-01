@@ -5,11 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:scriby_app/core/blocs/blocs.dart';
 import 'package:scriby_app/core/domain/entity/note.dart';
 import 'package:scriby_app/features/home/presentation/presentation.dart';
 import 'package:scriby_app/uikit/uikit.dart';
 
-@RoutePage()
+@RoutePage(name: "AllNotesTabRoute")
 class AllNotesTab extends StatelessWidget {
   const AllNotesTab({
     super.key,
@@ -17,9 +18,9 @@ class AllNotesTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return BlocBuilder<AllNotesBloc, AllNotesState>(
       builder: (context, state) {
+        print("AllNotesBloc: ________ ${state.toString().substring(0, 20)} BUILDING");
         return CustomScrollView(
           slivers: [
             if (state is AllNotesLoadedState)
@@ -72,8 +73,9 @@ class AllNotesSliverGrid extends StatelessWidget {
             position: i,
             columnCount: 2,
             child: FadeInAnimation(
+              key: ValueKey(note),
               curve: Curves.linear,
-              duration: const Duration(milliseconds: 450),
+              duration: const Duration(milliseconds: 4000), // 450
               child: GestureDetector(
                 onDoubleTap: () => _onDeleteNote(context, note),
                 child: NoteCard(
@@ -94,7 +96,7 @@ class AllNotesSliverGrid extends StatelessWidget {
     Note note,
   ) async {
     final Completer completer = Completer();
-    BlocProvider.of<AllNotesBloc>(context).add(
+    BlocProvider.of<NotesManagerBloc>(context).add(
       DeleteNoteEvent(
         note: note,
         completer: completer,

@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
-@RoutePage()
+@RoutePage(name: "FoldersTabRoute")
 class FoldersTab extends StatelessWidget {
   const FoldersTab({super.key});
 

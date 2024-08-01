@@ -14,7 +14,8 @@ class LocalNote extends _LocalNote
     String title,
     DateTime date,
     String hexColor,
-    String text, {
+    String text,
+    bool pinned, {
     Iterable<String> tags = const [],
   }) {
     RealmObjectBase.set(this, 'id', id);
@@ -24,6 +25,7 @@ class LocalNote extends _LocalNote
     RealmObjectBase.set<RealmList<String>>(
         this, 'tags', RealmList<String>(tags));
     RealmObjectBase.set(this, 'text', text);
+    RealmObjectBase.set(this, 'pinned', pinned);
   }
 
   LocalNote._();
@@ -62,6 +64,11 @@ class LocalNote extends _LocalNote
   set text(String value) => RealmObjectBase.set(this, 'text', value);
 
   @override
+  bool get pinned => RealmObjectBase.get<bool>(this, 'pinned') as bool;
+  @override
+  set pinned(bool value) => RealmObjectBase.set(this, 'pinned', value);
+
+  @override
   Stream<RealmObjectChanges<LocalNote>> get changes =>
       RealmObjectBase.getChanges<LocalNote>(this);
 
@@ -80,6 +87,7 @@ class LocalNote extends _LocalNote
       'hexColor': hexColor.toEJson(),
       'tags': tags.toEJson(),
       'text': text.toEJson(),
+      'pinned': pinned.toEJson(),
     };
   }
 
@@ -93,6 +101,7 @@ class LocalNote extends _LocalNote
         'hexColor': EJsonValue hexColor,
         'tags': EJsonValue tags,
         'text': EJsonValue text,
+        'pinned': EJsonValue pinned,
       } =>
         LocalNote(
           fromEJson(id),
@@ -100,6 +109,7 @@ class LocalNote extends _LocalNote
           fromEJson(date),
           fromEJson(hexColor),
           fromEJson(text),
+          fromEJson(pinned),
           tags: fromEJson(tags),
         ),
       _ => raiseInvalidEJson(ejson),
@@ -117,6 +127,7 @@ class LocalNote extends _LocalNote
       SchemaProperty('tags', RealmPropertyType.string,
           collectionType: RealmCollectionType.list),
       SchemaProperty('text', RealmPropertyType.string),
+      SchemaProperty('pinned', RealmPropertyType.bool),
     ]);
   }();
 

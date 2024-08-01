@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:scriby_app/common/utils/utils.dart';
-import 'package:scriby_app/core/domain/repositories/theme_mode/theme_mode.dart';
+import 'package:scriby_app/core/domain/repositories/theme_mode_repository/theme_mode.dart';
 
 part 'theme_state.dart';
 
