@@ -36,7 +36,7 @@ class AllNotesBloc extends Bloc<AllNotesEvent, AllNotesState> {
       //
       await Future.delayed(const Duration(milliseconds: 300));
       //
-      
+
       final notes = await _notesRepository.getAllNotes();
 
       emit(AllNotesLoadedState(notes: notes));
@@ -51,7 +51,6 @@ class AllNotesBloc extends Bloc<AllNotesEvent, AllNotesState> {
     Emitter<AllNotesState> emit,
   ) async {
     try {
-
       //
       await Future.delayed(const Duration(milliseconds: 300));
       //

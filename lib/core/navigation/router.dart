@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:scriby_app/common/utils/utils.dart';
 import 'package:scriby_app/core/navigation/navigation.dart';
 import 'package:scriby_app/features/home/presentation/presentation.dart';
+import 'package:scriby_app/features/home/presentation/widgets/folders_tab.dart';
+import 'package:scriby_app/features/home/presentation/widgets/pinned_tab.dart';
 import 'package:scriby_app/features/new_note/presentation/screens/screens.dart';
 import 'package:scriby_app/features/settings/presentation/screens/screens.dart';
 
@@ -17,6 +19,20 @@ class AppRouter extends _$AppRouter {
         AutoRoute(
           page: HomeRoute.page,
           path: '/',
+          children: [
+            AutoRoute(
+              page: AllNotesTabRoute.page,
+              path: 'all_notes',
+            ),
+            AutoRoute(
+              page: PinnedNotesTabRoute.page,
+              path: 'pinned_notes',
+            ),
+            AutoRoute(
+              page: FoldersTabRoute.page,
+              path: 'folders',
+            ),
+          ],
         ),
         CustomRoute(
           page: SettingsRoute.page,

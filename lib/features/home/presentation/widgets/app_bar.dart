@@ -77,7 +77,7 @@ class AppBarBottom extends StatelessWidget implements PreferredSizeWidget {
 
     return Container(
       height: 50,
-      padding: const EdgeInsets.symmetric(vertical: 8),
+      padding: const EdgeInsets.only(left: 12, right: 12),
       decoration: BoxDecoration(
         color: colorScheme.surface,
         borderRadius: const BorderRadius.only(
@@ -85,19 +85,18 @@ class AppBarBottom extends StatelessWidget implements PreferredSizeWidget {
           topRight: Radius.circular(30),
         ),
       ),
-      child: CustomTabBar(
-        indicator: CustomTabBarIndicator.rounded(
-          color: colorScheme.onBackground,
-          height: 35,
-          width: 105,
-        ),
+      child: CustomHorizontalTabBar(
+        padding: const EdgeInsets.symmetric(horizontal: 12),
         tabController: tabController,
-        labels: const ["All notes", "Pinned", "Folders"],
-        selectedLabelColor: colorScheme.onBackground,
-        unSelectedLabelColor: colorScheme.background,
-        labelStyle: textScheme.label.copyWith(
-          fontSize: 18,
-        ),
+        activeTextColor: colorScheme.background,
+        inActiveTextColor: colorScheme.onBackground,
+        indicatorColor: colorScheme.onBackground,
+        labelStyle: textScheme.label.copyWith(fontSize: 18),
+        tabs: const [
+          "All notes",
+          "Pinned",
+          "Folders",
+        ],
       ),
     );
   }

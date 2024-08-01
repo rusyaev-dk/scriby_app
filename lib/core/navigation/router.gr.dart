@@ -15,6 +15,18 @@ abstract class _$AppRouter extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
+    AllNotesTabRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const AllNotesTab(),
+      );
+    },
+    FoldersTabRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const FoldersTab(),
+      );
+    },
     HomeRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -25,6 +37,12 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const NewNoteScreen(),
+      );
+    },
+    PinnedNotesTabRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const PinnedNotesTab(),
       );
     },
     PrivacyRoute.name: (routeData) {
@@ -40,6 +58,34 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
   };
+}
+
+/// generated route for
+/// [AllNotesTabRoute]
+class AllNotesTabRoute extends PageRouteInfo<void> {
+  const AllNotesTabRoute({List<PageRouteInfo>? children})
+      : super(
+          AllNotesTabRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'AllNotesTab';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [FoldersTabRoute]
+class FoldersTabRoute extends PageRouteInfo<void> {
+  const FoldersTabRoute({List<PageRouteInfo>? children})
+      : super(
+          FoldersTabRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'FoldersTab';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for
@@ -66,6 +112,20 @@ class NewNoteRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'NewNoteRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [PinnedNotesTabRoute]
+class PinnedNotesTabRoute extends PageRouteInfo<void> {
+  const PinnedNotesTabRoute({List<PageRouteInfo>? children})
+      : super(
+          PinnedNotesTabRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'PinnedTab';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
