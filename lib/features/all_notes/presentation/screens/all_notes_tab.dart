@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scriby_app/common/widgets/widgets.dart';
@@ -34,6 +35,7 @@ class AllNotesTab extends StatelessWidget {
                     bottom: 10,
                   ),
                   sliver: NotesSliverGrid(
+                    key: ValueKey(state.notes.length),
                     notes: state.notes,
                     onCardPressed: _onDeleteNote,
                   ),

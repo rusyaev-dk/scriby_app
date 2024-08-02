@@ -87,7 +87,7 @@ class AllNotesBloc extends Bloc<AllNotesEvent, AllNotesState> {
 
       final prevState = state;
       if (prevState is AllNotesLoadedState) {
-        final updatedNotes = prevState.notes + [event.addedNote];
+        final updatedNotes = [event.addedNote] + prevState.notes;
         return emit(prevState.copyWith(notes: updatedNotes));
       }
 
@@ -117,7 +117,7 @@ class AllNotesBloc extends Bloc<AllNotesEvent, AllNotesState> {
         updatedNotes.removeWhere(
           (Note note) => note.id == event.editedNote.id,
         );
-        updatedNotes.add(event.editedNote);
+        updatedNotes = [event.editedNote] + updatedNotes;
 
         return emit(prevState.copyWith(notes: updatedNotes));
       }

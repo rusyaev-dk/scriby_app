@@ -11,4 +11,5 @@ abstract interface class INotesRepository {
   Future<void> deleteNote(Note noteToDelete);
   Future<void> deleteAllNotes();
   Stream<NoteActivityRecord> notesStream();
+  Future<void> generateFakeNotes(int quantity);
 }

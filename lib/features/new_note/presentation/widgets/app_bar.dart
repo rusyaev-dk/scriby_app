@@ -67,7 +67,7 @@ class NewNoteAppBar extends StatelessWidget {
 
     if (noteTextController.text.trim().isEmpty) {
       shouldSave = await _showSaveEmptyNoteDialog(context);
-      if (!shouldSave!) {
+      if (shouldSave != null && !shouldSave) {
         return;
       }
     }

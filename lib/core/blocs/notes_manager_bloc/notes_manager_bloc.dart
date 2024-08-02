@@ -17,7 +17,6 @@ class NotesManagerBloc extends Bloc<NotesManagerEvent, NotesManagerState> {
         super(NotesManagerInitialState()) {
     on<DeleteNoteEvent>(_onDeleteNote);
     on<DeleteAllNotesEvent>(_onDeleteAllNotes);
-    // add(LoadAllNotesEvent());
   }
 
   final INotesRepository _notesRepository;

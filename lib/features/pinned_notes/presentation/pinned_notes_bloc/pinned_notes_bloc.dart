@@ -90,7 +90,7 @@ class PinnedNotesBloc extends Bloc<PinnedNotesEvent, PinnedNotesState> {
 
       final prevState = state;
       if (prevState is PinnedNotesLoadedState) {
-        final updatedNotes = prevState.notes + [event.addedNote];
+        final updatedNotes = [event.addedNote] + prevState.notes;
         return emit(prevState.copyWith(notes: updatedNotes));
       }
 
@@ -120,7 +120,7 @@ class PinnedNotesBloc extends Bloc<PinnedNotesEvent, PinnedNotesState> {
         updatedNotes.removeWhere(
           (Note note) => note.id == event.editedNote.id,
         );
-        updatedNotes.add(event.editedNote);
+        updatedNotes = [event.editedNote] + updatedNotes;
 
         return emit(prevState.copyWith(notes: updatedNotes));
       }

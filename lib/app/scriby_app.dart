@@ -3,8 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scriby_app/app/app_config.dart';
 import 'package:scriby_app/app/app_initializer.dart';
 import 'package:scriby_app/common/utils/utils.dart';
-import 'package:scriby_app/features/all_notes/presentation/all_notes_bloc/all_notes_bloc.dart';
-import 'package:scriby_app/core/blocs/notes_manager_bloc/notes_manager_bloc.dart';
 import 'package:scriby_app/core/blocs/theme_cubit/theme_cubit.dart';
 import 'package:scriby_app/core/navigation/router.dart';
 import 'package:scriby_app/uikit/themes/themes.dart';
@@ -30,25 +28,18 @@ class _ScribyAppState extends State<ScribyApp> {
       appConfig: widget.appConfig,
       child: BlocBuilder<ThemeCubit, ThemeState>(
         builder: (context, state) {
-          return BlocListener<NotesManagerBloc, NotesManagerState>(
-            listener: (context, state) {
-              // if (state is NotesManagerLoadedState) {
-              //   BlocProvider.of<AllNotesBloc>(context).add(RefreshAllNotesEvent());
-              // }
-            },
-            child: MaterialApp.router(
-              theme: AppThemeData.lightTheme,
-              darkTheme: AppThemeData.darkTheme,
-              themeMode: state.themeMode,
-              title: "Scriby",
-              debugShowCheckedModeBanner: false,
-              routerConfig: router.config(
-                navigatorObservers: () => [
-                  CustomNavigationObserver(
-                    logger: context.read<ILogger>(),
-                  ),
-                ],
-              ),
+          return MaterialApp.router(
+            theme: AppThemeData.lightTheme,
+            darkTheme: AppThemeData.darkTheme,
+            themeMode: state.themeMode,
+            title: "Scriby",
+            debugShowCheckedModeBanner: false,
+            routerConfig: router.config(
+              navigatorObservers: () => [
+                CustomNavigationObserver(
+                  logger: context.read<ILogger>(),
+                ),
+              ],
             ),
           );
         },

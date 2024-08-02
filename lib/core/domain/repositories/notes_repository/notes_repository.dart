@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:realm/realm.dart';
+import 'package:scriby_app/common/utils/utils.dart';
 import 'package:scriby_app/core/domain/entity/entity.dart';
 import 'package:scriby_app/core/domain/repositories/repositories.dart';
 import 'package:scriby_app/persistence/storage/realm/realm.dart';
@@ -8,6 +9,7 @@ import 'package:scriby_app/persistence/storage/realm/realm.dart';
 class NotesRepository implements INotesRepository {
   NotesRepository({required Realm realm}) : _realm = realm {
     _notesStreamController = StreamController<NoteActivityRecord>.broadcast();
+    // generateFakeNotes(30);
   }
 
   final Realm _realm;
@@ -66,5 +68,14 @@ class NotesRepository implements INotesRepository {
     }
 
     return notes;
+  }
+
+  @override
+  Future<void> generateFakeNotes(int quantity) async {
+    for (int i = 0; i < quantity; i++) {
+      await Future.delayed(const Duration(milliseconds: 300));
+      final Note fakeNote = FakeNoteGenerator.createFakeNote();
+      await addNote(fakeNote);
+    }
   }
 }
