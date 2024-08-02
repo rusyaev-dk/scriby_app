@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class CustomHorizontalTabBar extends StatefulWidget {
+class CustomHorizontalTabBar extends StatelessWidget {
   const CustomHorizontalTabBar({
     super.key,
     required this.tabs,
@@ -20,25 +20,18 @@ class CustomHorizontalTabBar extends StatefulWidget {
   final Color? inActiveTextColor;
   final EdgeInsets? padding;
 
-  @override
-  State<CustomHorizontalTabBar> createState() => _CustomHorizontalTabBarState();
-}
-
-class _CustomHorizontalTabBarState extends State<CustomHorizontalTabBar> {
   static const double _defaultSidePadding = 12;
 
   @override
   Widget build(BuildContext context) {
-    final tabController = widget.tabController;
-
     final double commonSidePadding = _calculateCommonSidePadding();
 
     final double tabWidth =
         (MediaQuery.of(context).size.width - 24 - commonSidePadding) /
-            widget.tabs.length;
+            tabs.length;
 
     return Padding(
-      padding: widget.padding ??
+      padding: padding ??
           const EdgeInsets.symmetric(horizontal: _defaultSidePadding),
       child: Stack(
         alignment: Alignment.center,
@@ -47,11 +40,11 @@ class _CustomHorizontalTabBarState extends State<CustomHorizontalTabBar> {
             tabController: tabController,
             width: tabWidth,
             height: 35,
-            color: widget.indicatorColor,
+            color: indicatorColor,
           ),
           Row(
             children: List.generate(
-              widget.tabs.length,
+              tabs.length,
               (i) {
                 return GestureDetector(
                   onTap: () => _onTabPressed(i),
@@ -65,14 +58,14 @@ class _CustomHorizontalTabBarState extends State<CustomHorizontalTabBar> {
                               tabController.animation!.value;
 
                           final color = Color.lerp(
-                            widget.activeTextColor,
-                            widget.inActiveTextColor,
+                            activeTextColor,
+                            inActiveTextColor,
                             (animationValue - i).abs().clamp(0.0, 1.0),
                           );
 
                           return Text(
-                            widget.tabs[i],
-                            style: widget.labelStyle?.copyWith(color: color) ??
+                            tabs[i],
+                            style: labelStyle?.copyWith(color: color) ??
                                 TextStyle(
                                   fontSize: 18,
                                   color: color,
@@ -92,8 +85,7 @@ class _CustomHorizontalTabBarState extends State<CustomHorizontalTabBar> {
   }
 
   double _calculateCommonSidePadding() {
-    double commonSidePadding =
-        (widget.padding?.left ?? 0.0) + (widget.padding?.right ?? 0.0);
+    double commonSidePadding = (padding?.left ?? 0.0) + (padding?.right ?? 0.0);
 
     if (commonSidePadding == 0) {
       return _defaultSidePadding * 2;
@@ -102,7 +94,7 @@ class _CustomHorizontalTabBarState extends State<CustomHorizontalTabBar> {
   }
 
   void _onTabPressed(int index) {
-    widget.tabController.animateTo(index);
+    tabController.animateTo(index);
   }
 }
 

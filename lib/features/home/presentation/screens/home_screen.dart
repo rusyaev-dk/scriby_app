@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:scriby_app/common/widgets/widgets.dart';
 import 'package:scriby_app/core/navigation/router.dart';
 import 'package:scriby_app/features/home/presentation/presentation.dart';
 import 'package:scriby_app/uikit/uikit.dart';
@@ -32,7 +33,7 @@ class HomeScreen extends StatelessWidget {
                 HomeAppBar(tabController: tabController),
               ];
             },
-            body: child,
+            body: DisableScrollStretching(child: child),
           ),
         );
       },

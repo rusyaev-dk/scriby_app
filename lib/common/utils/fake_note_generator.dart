@@ -34,7 +34,7 @@ class FakeNoteGenerator {
     List<String> tags = [];
     for (int i = 0; i < 3; i++) {
       var index = _random.nextInt(_tags.length) + 1;
-      tags.add(_tags[i]);
+      tags.add(_tags[index]);
     }
     return tags;
   }

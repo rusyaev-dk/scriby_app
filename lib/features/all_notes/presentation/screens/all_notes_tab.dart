@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scriby_app/common/widgets/widgets.dart';
@@ -19,8 +18,6 @@ class AllNotesTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<AllNotesBloc, AllNotesState>(
       builder: (context, state) {
-        print(
-            "AllNotesBloc: ________ ${state.toString().substring(0, 20)} BUILDING");
         return CustomScrollView(
           slivers: [
             if (state is AllNotesLoadedState)
