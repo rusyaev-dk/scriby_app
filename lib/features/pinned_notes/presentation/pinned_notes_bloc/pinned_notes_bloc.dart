@@ -71,7 +71,7 @@ class PinnedNotesBloc extends Bloc<PinnedNotesEvent, PinnedNotesState> {
       await Future.delayed(const Duration(milliseconds: 300));
       //
 
-      final notes = await _notesRepository.getAllNotes();
+      final notes = await _notesRepository.getPinnedNotes();
       emit(PinnedNotesLoadedState(notes: notes));
     } catch (exception, stackTrace) {
       _logger.exception(exception, stackTrace);
@@ -97,7 +97,7 @@ class PinnedNotesBloc extends Bloc<PinnedNotesEvent, PinnedNotesState> {
       if (state is! PinnedNotesLoadingState) {
         emit(PinnedNotesLoadingState());
       }
-      final notes = await _notesRepository.getAllNotes();
+      final notes = await _notesRepository.getPinnedNotes();
       emit(PinnedNotesLoadedState(notes: notes));
     } catch (exception, stackTrace) {
       _logger.exception(exception, stackTrace);
@@ -128,7 +128,7 @@ class PinnedNotesBloc extends Bloc<PinnedNotesEvent, PinnedNotesState> {
       if (state is! PinnedNotesLoadingState) {
         emit(PinnedNotesLoadingState());
       }
-      final notes = await _notesRepository.getAllNotes();
+      final notes = await _notesRepository.getPinnedNotes();
       emit(PinnedNotesLoadedState(notes: notes));
     } catch (exception, stackTrace) {
       _logger.exception(exception, stackTrace);
@@ -158,7 +158,7 @@ class PinnedNotesBloc extends Bloc<PinnedNotesEvent, PinnedNotesState> {
       if (state is! PinnedNotesLoadingState) {
         emit(PinnedNotesLoadingState());
       }
-      final notes = await _notesRepository.getAllNotes();
+      final notes = await _notesRepository.getPinnedNotes();
       emit(PinnedNotesLoadedState(notes: notes));
     } catch (exception, stackTrace) {
       _logger.exception(exception, stackTrace);

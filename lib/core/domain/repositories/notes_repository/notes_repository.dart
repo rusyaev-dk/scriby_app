@@ -25,8 +25,8 @@ class NotesRepository implements INotesRepository {
   @override
   Future<List<Note>> getPinnedNotes() async {
     final List<LocalNote> localPinnedNotes =
-        _realm.query<LocalNote>("pinned == '${true}'").toList();
-
+        _realm.query<LocalNote>("pinned == true").toList();
+    
     return _formatNotesFromLocal(localPinnedNotes);
   }
 
