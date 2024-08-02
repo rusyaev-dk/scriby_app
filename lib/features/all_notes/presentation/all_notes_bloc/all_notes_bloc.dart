@@ -24,9 +24,8 @@ class AllNotesBloc extends Bloc<AllNotesEvent, AllNotesState> {
   }
 
   final INotesRepository _notesRepository;
-  late final StreamSubscription<({NoteAction action, Note? note})>?
-      _notesSubscription;
   final ILogger _logger;
+  late final StreamSubscription<NoteActivityRecord>? _notesSubscription;
 
   void _subscribeToNotesStream() {
     _notesSubscription = _notesRepository.notesStream().listen(

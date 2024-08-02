@@ -7,13 +7,11 @@ import 'package:scriby_app/persistence/storage/realm/realm.dart';
 
 class NotesRepository implements INotesRepository {
   NotesRepository({required Realm realm}) : _realm = realm {
-    _notesStreamController =
-        StreamController<({NoteAction action, Note? note})>.broadcast();
+    _notesStreamController = StreamController<NoteActivityRecord>.broadcast();
   }
 
   final Realm _realm;
-  late final StreamController<({NoteAction action, Note? note})>
-      _notesStreamController;
+  late final StreamController<NoteActivityRecord> _notesStreamController;
 
   @override
   Future<List<Note>> getAllNotes() async {
@@ -45,7 +43,8 @@ class NotesRepository implements INotesRepository {
         )
         .first;
     _realm.write(() => _realm.delete(note));
-    _notesStreamController.add((action: NoteAction.deleted, note: noteToDelete));
+    _notesStreamController
+        .add((action: NoteAction.deleted, note: noteToDelete));
   }
 
   @override
@@ -55,7 +54,7 @@ class NotesRepository implements INotesRepository {
   }
 
   @override
-  Stream<({NoteAction action, Note? note})> notesStream() {
+  Stream<NoteActivityRecord> notesStream() {
     return _notesStreamController.stream;
   }
 

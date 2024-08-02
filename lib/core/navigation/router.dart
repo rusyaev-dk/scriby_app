@@ -1,14 +1,14 @@
 import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/material.dart';
 import 'package:scriby_app/common/utils/utils.dart';
 import 'package:scriby_app/core/navigation/navigation.dart';
+import 'package:scriby_app/features/all_notes/presentation/presentation.dart';
+import 'package:scriby_app/features/folders/presentation/presentation.dart';
 import 'package:scriby_app/features/home/presentation/presentation.dart';
-import 'package:scriby_app/features/folders/presentation/screens/folders_tab.dart';
-import 'package:scriby_app/features/pinned_notes/presentation/screens/pinned_notes_tab.dart';
-import 'package:scriby_app/features/new_note/presentation/screens/screens.dart';
-import 'package:scriby_app/features/settings/presentation/screens/screens.dart';
+import 'package:scriby_app/features/new_note/presentation/presentation.dart';
+import 'package:scriby_app/features/pinned_notes/presentation/presentation.dart';
+import 'package:scriby_app/features/settings/presentation/presentation.dart';
 
 part 'router.gr.dart';
 

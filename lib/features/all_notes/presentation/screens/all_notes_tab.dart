@@ -6,23 +6,25 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scriby_app/common/widgets/widgets.dart';
 import 'package:scriby_app/core/blocs/blocs.dart';
 import 'package:scriby_app/core/domain/domain.dart';
-import 'package:scriby_app/features/pinned_notes/presentation/presentation.dart';
+import 'package:scriby_app/features/all_notes/presentation/presentation.dart';
 
-@RoutePage(name: "PinnedNotesTabRoute")
-class PinnedNotesTab extends StatelessWidget {
-  const PinnedNotesTab({super.key});
+@RoutePage(name: "AllNotesTabRoute")
+class AllNotesTab extends StatelessWidget {
+  const AllNotesTab({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<PinnedNotesBloc, PinnedNotesState>(
+    return BlocBuilder<AllNotesBloc, AllNotesState>(
       builder: (context, state) {
         print(
-            "PinnedNotesBloc: ________ ${state.toString().substring(0, 20)} BUILDING");
+            "AllNotesBloc: ________ ${state.toString().substring(0, 20)} BUILDING");
         return CustomScrollView(
           slivers: [
-            if (state is PinnedNotesLoadedState)
+            if (state is AllNotesLoadedState)
               if (state.notes.isEmpty)
-                const NoPinnedNotesWidget()
+                const NoNotesWidget()
               else
                 SliverPadding(
                   padding: const EdgeInsets.only(
@@ -36,7 +38,7 @@ class PinnedNotesTab extends StatelessWidget {
                     onCardPressed: _onDeleteNote,
                   ),
                 )
-            else if (state is PinnedNotesLoadingState)
+            else if (state is AllNotesLoadingState)
               const SliverToBoxAdapter(
                 child: Center(
                   child: CircularProgressIndicator(

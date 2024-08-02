@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:scriby_app/common/utils/utils.dart';
@@ -14,12 +16,44 @@ class PinnedNotesBloc extends Bloc<PinnedNotesEvent, PinnedNotesState> {
         _logger = logger,
         super(PinnedNotesLoadingState()) {
     on<LoadPinnedNotesEvent>(_onLoadNotes);
-    on<RefreshPinnedNotesEvent>(_onRefreshNotes);
+    on<_NoteAddedEvent>(_onNoteAdded);
+    on<_NoteEditedEvent>(_onNoteEdited);
+    on<_NoteDeletedEvent>(_onNoteDeleted);
     add(LoadPinnedNotesEvent());
+    _subscribeToNotesStream();
   }
 
   final INotesRepository _notesRepository;
   final ILogger _logger;
+  late final StreamSubscription<NoteActivityRecord>? _notesSubscription;
+
+  void _subscribeToNotesStream() {
+    _notesSubscription = _notesRepository.notesStream().listen(
+      (record) {
+        switch (record.action) {
+          case NoteAction.created:
+            add(_NoteAddedEvent(addedNote: record.note!));
+            return;
+          case NoteAction.edited:
+            add(_NoteEditedEvent(editedNote: record.note!));
+            return;
+          case NoteAction.deleted:
+            add(_NoteDeletedEvent(deletedNote: record.note!));
+            return;
+          case NoteAction.deletedAll:
+            add(_AllPinnedNotesDeletedEvent());
+            return;
+        }
+      },
+      onError: (exception, stackTrace) {
+        _logger.exception(exception, stackTrace);
+        add(_PinnedNotesFailureEvent(
+          exception: exception,
+          stackTrace: stackTrace,
+        ));
+      },
+    );
+  }
 
   Future<void> _onLoadNotes(
     LoadPinnedNotesEvent event,
@@ -42,24 +76,96 @@ class PinnedNotesBloc extends Bloc<PinnedNotesEvent, PinnedNotesState> {
     }
   }
 
-  Future<void> _onRefreshNotes(
-    RefreshPinnedNotesEvent event,
+  Future<void> _onNoteAdded(
+    _NoteAddedEvent event,
     Emitter<PinnedNotesState> emit,
   ) async {
     try {
       //
-      await Future.delayed(const Duration(milliseconds: 300));
+      await Future.delayed(const Duration(milliseconds: 700));
       //
 
-      final notes = await _notesRepository.getAllNotes();
       final prevState = state;
       if (prevState is PinnedNotesLoadedState) {
-        return emit(prevState.copyWith(notes: notes));
+        final updatedNotes = prevState.notes + [event.addedNote];
+        return emit(prevState.copyWith(notes: updatedNotes));
       }
+
+      if (state is! PinnedNotesLoadingState) {
+        emit(PinnedNotesLoadingState());
+      }
+      final notes = await _notesRepository.getAllNotes();
       emit(PinnedNotesLoadedState(notes: notes));
     } catch (exception, stackTrace) {
       _logger.exception(exception, stackTrace);
       emit(PinnedNotesFailureState(exception: exception));
     }
+  }
+
+  Future<void> _onNoteEdited(
+    _NoteEditedEvent event,
+    Emitter<PinnedNotesState> emit,
+  ) async {
+    try {
+      //
+      await Future.delayed(const Duration(milliseconds: 700));
+      //
+
+      final prevState = state;
+      if (prevState is PinnedNotesLoadedState) {
+        List<Note> updatedNotes = List.from(prevState.notes);
+        updatedNotes.removeWhere(
+          (Note note) => note.id == event.editedNote.id,
+        );
+        updatedNotes.add(event.editedNote);
+
+        return emit(prevState.copyWith(notes: updatedNotes));
+      }
+
+      if (state is! PinnedNotesLoadingState) {
+        emit(PinnedNotesLoadingState());
+      }
+      final notes = await _notesRepository.getAllNotes();
+      emit(PinnedNotesLoadedState(notes: notes));
+    } catch (exception, stackTrace) {
+      _logger.exception(exception, stackTrace);
+      emit(PinnedNotesFailureState(exception: exception));
+    }
+  }
+
+  Future<void> _onNoteDeleted(
+    _NoteDeletedEvent event,
+    Emitter<PinnedNotesState> emit,
+  ) async {
+    try {
+      //
+      await Future.delayed(const Duration(milliseconds: 700));
+      //
+
+      final prevState = state;
+      if (prevState is PinnedNotesLoadedState) {
+        List<Note> updatedNotes = List.from(prevState.notes);
+        updatedNotes.removeWhere(
+          (Note note) => note.id == event.deletedNote.id,
+        );
+
+        return emit(prevState.copyWith(notes: updatedNotes));
+      }
+
+      if (state is! PinnedNotesLoadingState) {
+        emit(PinnedNotesLoadingState());
+      }
+      final notes = await _notesRepository.getAllNotes();
+      emit(PinnedNotesLoadedState(notes: notes));
+    } catch (exception, stackTrace) {
+      _logger.exception(exception, stackTrace);
+      emit(PinnedNotesFailureState(exception: exception));
+    }
+  }
+
+  @override
+  Future<void> close() {
+    _notesSubscription?.cancel();
+    return super.close();
   }
 }

@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scriby_app/app/app_config.dart';
 import 'package:scriby_app/app/app_initializer.dart';
 import 'package:scriby_app/common/utils/utils.dart';
-import 'package:scriby_app/features/home/presentation/all_notes_bloc/all_notes_bloc.dart';
+import 'package:scriby_app/features/all_notes/presentation/all_notes_bloc/all_notes_bloc.dart';
 import 'package:scriby_app/core/blocs/notes_manager_bloc/notes_manager_bloc.dart';
 import 'package:scriby_app/core/blocs/theme_cubit/theme_cubit.dart';
 import 'package:scriby_app/core/navigation/router.dart';
