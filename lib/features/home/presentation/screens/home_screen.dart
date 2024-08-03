@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:scriby_app/common/widgets/widgets.dart';
 import 'package:scriby_app/core/navigation/router.dart';
@@ -24,14 +25,13 @@ class HomeScreen extends StatelessWidget {
         return Scaffold(
           backgroundColor: colorScheme.surface,
           floatingActionButton: const NewNoteButton(),
-          body: NestedScrollView(
+          body: ExtendedNestedScrollView(
+            onlyOneScrollInBody: true,
             headerSliverBuilder: (
               BuildContext context,
               bool innerBoxIsScrolled,
             ) {
-              return [
-                HomeAppBar(tabController: tabController),
-              ];
+              return [HomeAppBar(tabController: tabController)];
             },
             body: DisableScrollStretching(child: child),
           ),
