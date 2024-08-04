@@ -17,9 +17,13 @@ class AllNotesTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AllNotesBloc, AllNotesState>(
+      key: const PageStorageKey<String>("Tab1"),
       builder: (context, state) {
         return CustomScrollView(
           slivers: [
+            SliverOverlapInjector(
+              handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+            ),
             if (state is AllNotesLoadedState)
               if (state.notes.isEmpty)
                 const NoNotesWidget()

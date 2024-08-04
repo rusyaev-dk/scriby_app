@@ -15,9 +15,13 @@ class PinnedNotesTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<PinnedNotesBloc, PinnedNotesState>(
+      key: const PageStorageKey<String>("Tab2"),
       builder: (context, state) {
         return CustomScrollView(
           slivers: [
+            SliverOverlapInjector(
+              handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+            ),
             if (state is PinnedNotesLoadedState)
               if (state.notes.isEmpty)
                 const NoPinnedNotesWidget()

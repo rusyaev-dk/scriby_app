@@ -24,18 +24,20 @@ class HomeScreen extends StatelessWidget {
         return Scaffold(
           backgroundColor: colorScheme.surface,
           floatingActionButton: const NewNoteButton(),
-          body: CustomScrollView(
-            slivers: [
-              HomeAppBar(tabController: tabController),
-              DisableScrollStretching(
-                child: SliverToBoxAdapter(
-                  child: SizedBox(
-                    height: MediaQuery.of(context).size.height,
-                    child: child,
+          body: NestedScrollView(
+            headerSliverBuilder: (context, isScrolled) {
+              return [
+                SliverOverlapAbsorber(
+                  handle:
+                      NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                  sliver: SliverSafeArea(
+                    top: false,
+                    sliver: HomeAppBar(tabController: tabController),
                   ),
                 ),
-              ),
-            ],
+              ];
+            },
+            body: child,
           ),
         );
       },
