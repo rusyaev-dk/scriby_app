@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scriby_app/common/widgets/widgets.dart';
@@ -17,38 +16,33 @@ class PinnedNotesTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<PinnedNotesBloc, PinnedNotesState>(
       builder: (context, state) {
-        return ExtendedVisibilityDetector(
-          uniqueKey: const Key('Tab2'),
-          child: CustomScrollView(
-            // key: const PageStorageKey<String>("Pinned notes"),
-            slivers: [
-              
-              if (state is PinnedNotesLoadedState)
-                if (state.notes.isEmpty)
-                  const NoPinnedNotesWidget()
-                else
-                  SliverPadding(
-                    padding: const EdgeInsets.only(
-                      left: 13,
-                      right: 13,
-                      bottom: 10,
-                    ),
-                    sliver: NotesSliverGrid(
-                      key: ValueKey(state.notes.length),
-                      notes: state.notes,
-                      onCardPressed: _onDeleteNote,
-                    ),
-                  )
-              else if (state is PinnedNotesLoadingState)
-                const SliverToBoxAdapter(
-                  child: Center(
-                    child: CircularProgressIndicator(
-                      color: Colors.red,
-                    ),
+        return CustomScrollView(
+          slivers: [
+            if (state is PinnedNotesLoadedState)
+              if (state.notes.isEmpty)
+                const NoPinnedNotesWidget()
+              else
+                SliverPadding(
+                  padding: const EdgeInsets.only(
+                    left: 13,
+                    right: 13,
+                    bottom: 10,
+                  ),
+                  sliver: NotesSliverGrid(
+                    key: ValueKey(state.notes.length),
+                    notes: state.notes,
+                    onCardPressed: _onDeleteNote,
                   ),
                 )
-            ],
-          ),
+            else if (state is PinnedNotesLoadingState)
+              const SliverToBoxAdapter(
+                child: Center(
+                  child: CircularProgressIndicator(
+                    color: Colors.red,
+                  ),
+                ),
+              )
+          ],
         );
       },
     );

@@ -1,8 +1,7 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
-import 'package:scriby_app/common/widgets/widgets.dart';
-import 'package:scriby_app/core/navigation/router.dart';
+import 'package:scriby_app/common/widgets/disable_scroll_stretching.dart';
+import 'package:scriby_app/core/navigation/navigation.dart';
 import 'package:scriby_app/features/home/presentation/presentation.dart';
 import 'package:scriby_app/uikit/uikit.dart';
 
@@ -25,18 +24,30 @@ class HomeScreen extends StatelessWidget {
         return Scaffold(
           backgroundColor: colorScheme.surface,
           floatingActionButton: const NewNoteButton(),
-          body: ExtendedNestedScrollView(
-            onlyOneScrollInBody: true,
-            headerSliverBuilder: (
-              BuildContext context,
-              bool innerBoxIsScrolled,
-            ) {
-              return [HomeAppBar(tabController: tabController)];
-            },
-            body: DisableScrollStretching(child: child),
+          body: CustomScrollView(
+            slivers: [
+              HomeAppBar(tabController: tabController),
+              DisableScrollStretching(
+                child: SliverToBoxAdapter(
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height,
+                    child: child,
+                  ),
+                ),
+              ),
+            ],
           ),
         );
       },
     );
   }
 }
+
+// TabBarView(
+//                       controller: _tabController,
+//                       children: const [
+//                         AllNotesTab(),
+//                         PinnedNotesTab(),
+//                         FoldersTab(),
+//                       ],
+//                     ),
