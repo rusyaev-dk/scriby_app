@@ -43,6 +43,8 @@ class AllNotesBloc extends Bloc<AllNotesEvent, AllNotesState> {
           case NoteAction.deletedAll:
             add(_AllNotesDeletedEvent());
             return;
+          default:
+            return;
         }
       },
       onError: (exception, stackTrace) {

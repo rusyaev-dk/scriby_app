@@ -32,6 +32,7 @@ class PinnedNotesBloc extends Bloc<PinnedNotesEvent, PinnedNotesState> {
       (record) {
         switch (record.action) {
           case NoteAction.created:
+          case NoteAction.pinned:
             if (!record.note!.pinned) return;
             add(_NoteAddedEvent(addedNote: record.note!));
             return;
@@ -40,6 +41,7 @@ class PinnedNotesBloc extends Bloc<PinnedNotesEvent, PinnedNotesState> {
             add(_NoteEditedEvent(editedNote: record.note!));
             return;
           case NoteAction.deleted:
+          case NoteAction.unpinned:
             if (!record.note!.pinned) return;
             add(_NoteDeletedEvent(deletedNote: record.note!));
             return;
