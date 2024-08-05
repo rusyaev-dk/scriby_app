@@ -13,14 +13,15 @@ const _double11 = 11.0;
 enum AppTextStyle {
   displayLarge(TextStyle(fontSize: _double57, height: 1.2)), // Примерно 57 / 64
   displayMedium(
-      TextStyle(fontSize: _double45, height: 1.15)), // Примерно 45 / 52
+      TextStyle(fontSize: _double45, height: 1.15,
+      fontFamily: "ProductSans")), // Примерно 45 / 52
   displaySmall(TextStyle(fontSize: _double36, height: 1.1)), // Примерно 36 / 44
   headlineLarge(
       TextStyle(fontSize: _double32, height: 1.1)), // Примерно 32 / 40
   headlineMedium(
-      TextStyle(fontSize: _double28, height: 1.1)), // Примерно 28 / 36
+      TextStyle(fontSize: _double28, height: 1.1, fontFamily: "ProductSans")), // Примерно 28 / 36
   headlineSmall(
-      TextStyle(fontSize: _double24, height: 1.1)), // Примерно 24 / 32
+      TextStyle(fontSize: _double24, height: 1.1, fontFamily: "ProductSans")), // Примерно 24 / 32
   titleLarge(TextStyle(fontSize: _double22, height: 1.1)), // Примерно 22 / 28
   titleMedium(TextStyle(
       fontSize: AppSizes.double16,
@@ -37,7 +38,7 @@ enum AppTextStyle {
   labelMedium(TextStyle(
       fontSize: AppSizes.double12,
       fontWeight: FontWeight.w500,
-      height: 1.1)), // Примерно 12 / 16
+      height: 1.1,  fontFamily: "ProductSans")), // Примерно 12 / 16
   labelSmall(TextStyle(
       fontSize: _double11,
       fontWeight: FontWeight.w500,

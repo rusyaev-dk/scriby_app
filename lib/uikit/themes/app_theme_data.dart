@@ -48,6 +48,9 @@ abstract class AppThemeData {
         color: _lightColorScheme.onPrimary,
       ),
     ),
+    dialogTheme: DialogTheme(
+      backgroundColor: _lightColorScheme.background,
+    )
   );
 
   static final darkTheme = ThemeData(
@@ -88,6 +91,9 @@ abstract class AppThemeData {
         color: _darkColorScheme.onPrimary,
       ),
     ),
+    dialogTheme: DialogTheme(
+        backgroundColor: _darkColorScheme.background,
+      )
   );
 
   static const _lightColorScheme = AppColorScheme.light();

@@ -40,3 +40,9 @@ flutter:
 
   assets:
     - assets/
+
+  fonts:
+    - family: ProductSans
+      fonts:
+        - asset: assets/fonts/Product Sans 400.ttf
+        - asset: assets/fonts/Product Sans Bold 700.ttf
