@@ -1,54 +1,74 @@
 import 'package:flutter/material.dart';
-import 'package:scriby_app/uikit/app_sizes.dart';
-
-const _double57 = 57.0;
-const _double45 = 45.0;
-const _double36 = 36.0;
-const _double32 = 32.0;
-const _double28 = 28.0;
-const _double24 = 24.0;
-const _double22 = 22.0;
-const _double11 = 11.0;
 
 enum AppTextStyle {
-  displayLarge(TextStyle(fontSize: _double57, height: 1.2)), // Примерно 57 / 64
-  displayMedium(
-      TextStyle(fontSize: _double45, height: 1.15,
-      fontFamily: "ProductSans")), // Примерно 45 / 52
-  displaySmall(TextStyle(fontSize: _double36, height: 1.1)), // Примерно 36 / 44
-  headlineLarge(
-      TextStyle(fontSize: _double32, height: 1.1)), // Примерно 32 / 40
-  headlineMedium(
-      TextStyle(fontSize: _double28, height: 1.1, fontFamily: "ProductSans")), // Примерно 28 / 36
-  headlineSmall(
-      TextStyle(fontSize: _double24, height: 1.1, fontFamily: "ProductSans")), // Примерно 24 / 32
-  titleLarge(TextStyle(fontSize: _double22, height: 1.1)), // Примерно 22 / 28
+  displayLarge(TextStyle(
+    fontSize: 57,
+    height: 1.2,
+  )),
+  displayMedium(TextStyle(
+    fontSize: 45,
+    height: 1.15,
+    fontFamily: "ProductSans",
+  )),
+  displaySmall(TextStyle(
+    fontSize: 36,
+    height: 1.1,
+  )),
+  headlineLarge(TextStyle(
+    fontSize: 32,
+    height: 1.1,
+  )),
+  headlineMedium(TextStyle(
+    fontSize: 28,
+    fontFamily: "ProductSans",
+  )),
+  headlineSmall(TextStyle(
+    fontSize: 24,
+    height: 1.1,
+    fontFamily: "ProductSans",
+  )),
+  titleLarge(TextStyle(
+    fontSize: 22,
+    height: 1.1,
+  )),
   titleMedium(TextStyle(
-      fontSize: AppSizes.double16,
-      fontWeight: FontWeight.w500,
-      height: 1.1)), // Примерно 16 / 24
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+    height: 1.1,
+  )),
   titleSmall(TextStyle(
-      fontSize: AppSizes.double14,
-      fontWeight: FontWeight.w500,
-      height: 1.1)), // Примерно 14 / 20
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    height: 1.1,
+  )),
   labelLarge(TextStyle(
-      fontSize: AppSizes.double14,
-      fontWeight: FontWeight.w500,
-      height: 1.1)), // Примерно 14 / 20
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    height: 1.1,
+  )),
   labelMedium(TextStyle(
-      fontSize: AppSizes.double12,
-      fontWeight: FontWeight.w500,
-      height: 1.1,  fontFamily: "ProductSans")), // Примерно 12 / 16
+    fontSize: 12,
+    fontWeight: FontWeight.w500,
+    height: 1.1,
+    fontFamily: "ProductSans",
+  )),
   labelSmall(TextStyle(
-      fontSize: _double11,
-      fontWeight: FontWeight.w500,
-      height: 1.1)), // Примерно 11 / 16
-  bodyLarge(
-      TextStyle(fontSize: AppSizes.double16, height: 1.15)), // Примерно 16 / 24
-  bodyMedium(
-      TextStyle(fontSize: AppSizes.double14, height: 1.15)), // Примерно 14 / 20
-  bodySmall(
-      TextStyle(fontSize: AppSizes.double12, height: 1.15)); // Примерно 12 / 16
+    fontSize: 11,
+    fontWeight: FontWeight.w500,
+    height: 1.1,
+  )),
+  bodyLarge(TextStyle(
+    fontSize: 16,
+    height: 1.15,
+  )),
+  bodyMedium(TextStyle(
+    fontSize: 14,
+    height: 1.15,
+  )),
+  bodySmall(TextStyle(
+    fontSize: 12,
+    height: 1.15,
+  ));
 
   final TextStyle value;
 

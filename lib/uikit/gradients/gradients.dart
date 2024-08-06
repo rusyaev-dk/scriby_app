@@ -7,7 +7,7 @@ class AppGradients extends ThemeExtension<AppGradients> {
   static const List<Color> _darkGradientColors = [
     Color(0xFF212121),
     Color(0xFF212121),
-    Color(0xFF616161),
+    Color(0xFF444444),
     Color(0xFF212121),
     Color(0xFF212121),
   ];
@@ -33,7 +33,7 @@ class AppGradients extends ThemeExtension<AppGradients> {
           begin: Alignment.topLeft,
           end: Alignment.centerRight,
           colors: _darkGradientColors,
-          stops: <double>[0.0, 0.35, 0.5, 0.65, 1.0],
+          stops: <double>[0.0, 0.45, 0.5, 0.65, 1.0],
         );
 
   const AppGradients({

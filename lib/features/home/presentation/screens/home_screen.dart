@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:scriby_app/common/utils/utils.dart';
+import 'package:scriby_app/common/widgets/widgets.dart';
 import 'package:scriby_app/core/navigation/navigation.dart';
 import 'package:scriby_app/features/home/presentation/presentation.dart';
 import 'package:scriby_app/uikit/uikit.dart';
@@ -37,22 +38,24 @@ class _HomeScreenState extends State<HomeScreen> {
         return Scaffold(
           backgroundColor: colorScheme.surface,
           floatingActionButton: const NewNoteButton(),
-          body: NestedScrollView(
-            key: Keys.nestedScrollViewKey,
-            controller: _scrollController,
-            headerSliverBuilder: (context, isScrolled) {
-              return [
-                SliverOverlapAbsorber(
-                  handle:
-                      NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-                  sliver: SliverSafeArea(
-                    top: false,
-                    sliver: HomeAppBar(tabController: tabController),
+          body: DisableScrollStretching(
+            child: NestedScrollView(
+              key: Keys.nestedScrollViewKey,
+              controller: _scrollController,
+              headerSliverBuilder: (context, isScrolled) {
+                return [
+                  SliverOverlapAbsorber(
+                    handle:
+                        NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                    sliver: SliverSafeArea(
+                      top: false,
+                      sliver: HomeAppBar(tabController: tabController),
+                    ),
                   ),
-                ),
-              ];
-            },
-            body: child,
+                ];
+              },
+              body: child,
+            ),
           ),
         );
       },

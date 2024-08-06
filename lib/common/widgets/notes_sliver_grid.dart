@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -64,5 +66,69 @@ class _NotesSliverGridState extends State<NotesSliverGrid> {
       },
       childCount: widget.notes.length,
     );
+  }
+}
+
+class NotesSliverGridLoading extends StatefulWidget {
+  const NotesSliverGridLoading({super.key});
+
+  @override
+  State<NotesSliverGridLoading> createState() => _NotesSliverGridLoadingState();
+}
+
+class _NotesSliverGridLoadingState extends State<NotesSliverGridLoading>
+    with SingleTickerProviderStateMixin {
+  static Random random = Random();
+  late AnimationController _animationController;
+  late Animation<Color?> _colorAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      duration: const Duration(milliseconds: 1500),
+      vsync: this,
+    )..repeat(reverse: true);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = AppColorScheme.of(context);
+
+    Color? beginColor = colorScheme.primary.withOpacity(0.05);
+    Color? endColor = colorScheme.primary.withOpacity(0.25);
+
+    _colorAnimation = ColorTween(
+      begin: beginColor,
+      end: endColor,
+    ).animate(_animationController);
+
+    return SliverMasonryGrid.count(
+      crossAxisCount: 2,
+      mainAxisSpacing: 10,
+      crossAxisSpacing: 10,
+      childCount: 10,
+      itemBuilder: (context, i) {
+        final double height = 80 + random.nextDouble() * 200;
+        return AnimatedBuilder(
+          animation: _animationController,
+          builder: (context, child) {
+            return Container(
+              height: height,
+              decoration: BoxDecoration(
+                color: _colorAnimation.value,
+                borderRadius: BorderRadius.circular(20),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
   }
 }

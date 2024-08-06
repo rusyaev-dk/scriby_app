@@ -18,6 +18,12 @@ class PinnedNotesTab extends StatefulWidget {
 }
 
 class _PinnedNotesTabState extends State<PinnedNotesTab> {
+  static const EdgeInsets _padding = EdgeInsets.only(
+    left: 13,
+    right: 13,
+    bottom: 10,
+  );
+
   late final ScrollController _scrollController;
 
   @override
@@ -35,38 +41,36 @@ class _PinnedNotesTabState extends State<PinnedNotesTab> {
             ScrollAbsorber.absorbScrollNotification(notification);
             return true;
           },
-          child: CustomScrollView(
-            controller: _scrollController,
-            slivers: [
-              SliverOverlapInjector(
-                handle:
-                    NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-              ),
-              if (state is PinnedNotesLoadedState)
-                if (state.notes.isEmpty)
-                  const NoPinnedNotesWidget()
-                else
-                  SliverPadding(
-                    padding: const EdgeInsets.only(
-                      left: 13,
-                      right: 13,
-                      bottom: 10,
-                    ),
-                    sliver: NotesSliverGrid(
-                      key: ValueKey(state.notes.length),
-                      notes: state.notes,
-                      onCardPressed: _onDeleteNote,
-                    ),
-                  )
-              else if (state is PinnedNotesLoadingState)
-                const SliverToBoxAdapter(
-                  child: Center(
-                    child: CircularProgressIndicator(
-                      color: Colors.red,
-                    ),
+          child: DisableScrollStretching(
+            child: CustomScrollView(
+              physics: state is PinnedNotesLoadingState
+                  ? const NeverScrollableScrollPhysics()
+                  : null,
+              controller: _scrollController,
+              slivers: [
+                SliverOverlapInjector(
+                  handle:
+                      NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                ),
+                if (state is PinnedNotesLoadedState)
+                  if (state.notes.isEmpty)
+                    const NoPinnedNotesWidget()
+                  else
+                    SliverPadding(
+                      padding: _padding,
+                      sliver: NotesSliverGrid(
+                        key: ValueKey(state.notes.length),
+                        notes: state.notes,
+                        onCardPressed: _onDeleteNote,
+                      ),
+                    )
+                else if (state is PinnedNotesLoadingState)
+                  const SliverPadding(
+                    padding: _padding,
+                    sliver: NotesSliverGridLoading(),
                   ),
-                )
-            ],
+              ],
+            ),
           ),
         );
       },

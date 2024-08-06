@@ -20,6 +20,12 @@ class AllNotesTab extends StatefulWidget {
 }
 
 class _AllNotesTabState extends State<AllNotesTab> {
+  static EdgeInsets _padding = const EdgeInsets.only(
+    left: 13,
+    right: 13,
+    bottom: 10,
+  );
+
   late final ScrollController _scrollController;
 
   @override
@@ -37,39 +43,36 @@ class _AllNotesTabState extends State<AllNotesTab> {
             ScrollAbsorber.absorbScrollNotification(notification);
             return true;
           },
-          child: CustomScrollView(
-            controller: _scrollController,
-            slivers: [
-              SliverOverlapInjector(
-                handle:
-                    NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-              ),
-              if (state is AllNotesLoadedState)
-                if (state.notes.isEmpty)
-                  const NoNotesWidget()
-                else
+          child: DisableScrollStretching(
+            child: CustomScrollView(
+              physics: state is AllNotesLoadingState
+                  ? const NeverScrollableScrollPhysics()
+                  : null,
+              controller: _scrollController,
+              slivers: [
+                SliverOverlapInjector(
+                  handle:
+                      NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                ),
+                if (state is AllNotesLoadedState)
+                  if (state.notes.isEmpty)
+                    const NoNotesWidget()
+                  else
+                    SliverPadding(
+                      padding: _padding,
+                      sliver: NotesSliverGrid(
+                        key: ValueKey(state.notes.length),
+                        notes: state.notes,
+                        onCardPressed: _onDeleteNote,
+                      ),
+                    )
+                else if (state is AllNotesLoadingState)
                   SliverPadding(
-                    padding: const EdgeInsets.only(
-                      left: 13,
-                      right: 13,
-                      // top: 10,
-                      bottom: 10,
-                    ),
-                    sliver: NotesSliverGrid(
-                      key: ValueKey(state.notes.length),
-                      notes: state.notes,
-                      onCardPressed: _onDeleteNote,
-                    ),
-                  )
-              else if (state is AllNotesLoadingState)
-                const SliverToBoxAdapter(
-                  child: Center(
-                    child: CircularProgressIndicator(
-                      color: Colors.red,
-                    ),
+                    padding: _padding,
+                    sliver: const NotesSliverGridLoading(),
                   ),
-                )
-            ],
+              ],
+            ),
           ),
         );
       },
