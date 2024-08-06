@@ -1,15 +1,11 @@
-import 'dart:async';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scriby_app/common/utils/utils.dart';
 import 'package:scriby_app/common/widgets/widgets.dart';
-import 'package:scriby_app/core/blocs/blocs.dart';
-import 'package:scriby_app/core/domain/domain.dart';
 import 'package:scriby_app/features/all_notes/presentation/presentation.dart';
 
-@RoutePage(name: "AllNotesTab")
+@RoutePage(name: "AllNotesRoute")
 class AllNotesTab extends StatefulWidget {
   const AllNotesTab({
     super.key,
@@ -64,7 +60,6 @@ class _AllNotesTabState extends State<AllNotesTab> {
                       sliver: NotesSliverGrid(
                         key: ValueKey(state.notes.length),
                         notes: state.notes,
-                        onCardPressed: _onDeleteNote,
                       ),
                     )
                 else if (state is AllNotesLoadingState)
@@ -78,21 +73,6 @@ class _AllNotesTabState extends State<AllNotesTab> {
         );
       },
     );
-  }
-
-  Future<void> _onDeleteNote(
-    BuildContext context,
-    Note note,
-  ) async {
-    final Completer completer = Completer();
-    BlocProvider.of<NotesManagerBloc>(context).add(
-      DeleteNoteEvent(
-        note: note,
-        completer: completer,
-      ),
-    );
-
-    await completer.future;
   }
 
   @override

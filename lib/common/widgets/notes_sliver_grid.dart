@@ -1,27 +1,33 @@
+import 'dart:async';
 import 'dart:math';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:scriby_app/core/blocs/blocs.dart';
 import 'package:scriby_app/core/domain/domain.dart';
+import 'package:scriby_app/core/navigation/router.dart';
+import 'package:scriby_app/features/edit_note/presentation/presentation.dart';
 import 'package:scriby_app/uikit/uikit.dart';
 
 class NotesSliverGrid extends StatefulWidget {
   const NotesSliverGrid({
     super.key,
     required this.notes,
-    required this.onCardPressed,
   });
 
   final List<Note> notes;
-  final void Function(BuildContext context, Note note) onCardPressed;
 
   @override
   State<NotesSliverGrid> createState() => _NotesSliverGridState();
 }
 
-class _NotesSliverGridState extends State<NotesSliverGrid> {
+class _NotesSliverGridState extends State<NotesSliverGrid>
+    with SingleTickerProviderStateMixin {
   List<Note> _prevNotes = [];
+  final Map<Note, GlobalKey> _noteKeys = {};
 
   @override
   void didUpdateWidget(covariant NotesSliverGrid oldWidget) {
@@ -39,6 +45,20 @@ class _NotesSliverGridState extends State<NotesSliverGrid> {
         final Note note = widget.notes[i];
         final bool isNewNote = !_prevNotes.contains(note);
 
+        if (!_noteKeys.containsKey(note)) {
+          _noteKeys[note] = GlobalKey();
+        }
+
+        Widget card = GestureDetector(
+          key: _noteKeys[note],
+          onTap: () => _openNoteEditor(context, note),
+          onLongPress: () => _deleteNote(context, note),
+          child: NoteCard(
+            key: ValueKey(note),
+            note: note,
+          ),
+        );
+
         return isNewNote
             ? AnimationConfiguration.staggeredGrid(
                 delay: const Duration(milliseconds: 0),
@@ -47,24 +67,60 @@ class _NotesSliverGridState extends State<NotesSliverGrid> {
                 columnCount: 2,
                 child: FadeInAnimation(
                   curve: Curves.linear,
-                  child: GestureDetector(
-                    onDoubleTap: () => widget.onCardPressed(context, note),
-                    child: NoteCard(
-                      note: note,
-                      key: ValueKey(note),
-                    ),
-                  ),
+                  child: card,
                 ),
               )
-            : GestureDetector(
-                onDoubleTap: () => widget.onCardPressed(context, note),
-                child: NoteCard(
-                  key: ValueKey(note),
-                  note: note,
-                ),
-              );
+            : card;
       },
       childCount: widget.notes.length,
+    );
+  }
+
+  Future<void> _deleteNote(
+    BuildContext context,
+    Note note,
+  ) async {
+    final Completer completer = Completer();
+    BlocProvider.of<NotesManagerBloc>(context).add(
+      DeleteNoteEvent(
+        note: note,
+        completer: completer,
+      ),
+    );
+
+    await completer.future;
+  }
+
+  Future<void> _openNoteEditor(
+    BuildContext context,
+    Note note,
+  ) async {
+    final Alignment alignment = _calculateTransitionAlignment(note);
+
+    BlocProvider.of<EditNoteBloc>(context)
+        .add(PrepareToEditNoteEvent(note: note));
+    _animationController.forward();
+    await Future.delayed(const Duration(milliseconds: 100));
+
+    if (!context.mounted) return;
+
+    AutoRouter.of(context)
+        .push(EditNoteRoute(note: note, alignment: alignment))
+        .then((value) async {
+      await _animationController.reverse();
+    });
+  }
+
+  Alignment _calculateTransitionAlignment(Note note) {
+    final RenderBox box =
+        _noteKeys[note]!.currentContext!.findRenderObject() as RenderBox;
+    final Offset position = box.localToGlobal(Offset.zero);
+    final Size size = box.size;
+    return Alignment(
+      (position.dx + size.width / 2) / MediaQuery.of(context).size.width * 2 -
+          1,
+      (position.dy + size.height / 2) / MediaQuery.of(context).size.height * 2 -
+          1,
     );
   }
 }

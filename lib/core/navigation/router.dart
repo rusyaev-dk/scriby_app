@@ -2,11 +2,12 @@ import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:scriby_app/common/utils/utils.dart';
+import 'package:scriby_app/core/domain/domain.dart';
 import 'package:scriby_app/core/navigation/navigation.dart';
 import 'package:scriby_app/features/all_notes/presentation/presentation.dart';
+import 'package:scriby_app/features/edit_note/presentation/presentation.dart';
 import 'package:scriby_app/features/folders/presentation/presentation.dart';
 import 'package:scriby_app/features/home/presentation/presentation.dart';
-import 'package:scriby_app/features/new_note/presentation/presentation.dart';
 import 'package:scriby_app/features/pinned_notes/presentation/presentation.dart';
 import 'package:scriby_app/features/settings/presentation/presentation.dart';
 
@@ -21,15 +22,15 @@ class AppRouter extends _$AppRouter {
           path: '/',
           children: [
             AutoRoute(
-              page: AllNotesTabRoute.page,
+              page: AllNotesRoute.page,
               path: 'all_notes',
             ),
             AutoRoute(
-              page: PinnedNotesTabRoute.page,
+              page: PinnedNotesRoute.page,
               path: 'pinned_notes',
             ),
             AutoRoute(
-              page: FoldersTabRoute.page,
+              page: FoldersRoute.page,
               path: 'folders',
             ),
           ],
@@ -69,16 +70,26 @@ class AppRouter extends _$AppRouter {
           },
         ),
         CustomRoute(
-          page: NewNoteRoute.page,
-          path: '/new_note',
+          page: EditNoteRoute.page,
+          path: '/edit_note',
           opaque: true,
           customRouteBuilder:
               (BuildContext context, Widget child, AutoRoutePage page) {
+            final alignment = (page.arguments as EditNoteRouteArgs).alignment;
+
             return PageRouteBuilder(
               transitionDuration: const Duration(milliseconds: 450),
               fullscreenDialog: page.fullscreenDialog,
               transitionsBuilder:
-                  CustomPageTransitionsBuilder.scaleTransitionsBuilder,
+                  (context, animation, secondaryAnimation, child) {
+                return CustomPageTransitionsBuilder.scaleTransitionsBuilder(
+                  context,
+                  animation,
+                  secondaryAnimation,
+                  child,
+                  alignment,
+                );
+              },
               settings: page,
               pageBuilder: (context, animation, _) => child,
             );
@@ -102,7 +113,6 @@ class CustomNavigationObserver extends AutoRouterObserver {
     _logger.log("Route popped: ${route.settings.name}");
   }
 
-  // only override to observer tab routes
   @override
   void didInitTabRoute(TabPageRoute route, TabPageRoute? previousRoute) {
     _logger.log("Tab route visited: ${route.name}");

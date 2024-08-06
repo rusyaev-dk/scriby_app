@@ -75,7 +75,7 @@ class _NewNoteButtonState extends State<NewNoteButton>
     await Future.delayed(const Duration(milliseconds: 100));
 
     if (!mounted) return;
-    context.router.push(const NewNoteRoute()).then((value) async {
+    context.router.push(EditNoteRoute(note: null)).then((value) async {
       await _animationController.reverse();
       setState(() {
         isVisible = true;

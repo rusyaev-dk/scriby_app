@@ -28,8 +28,6 @@ class NoteCard extends StatelessWidget {
         TextFormatter.removeEmptyLinesAfterLastNonEmpty(note.text);
     final textColor = ColorFormatter.getContrastTextColor(note.hexColor);
 
-    // final dateText = TextFormatter.formatDateText(note.date);
-
     final textScheme = AppTextScheme.of(context);
 
     return Container(
@@ -65,16 +63,6 @@ class NoteCard extends StatelessWidget {
                   color: textColor,
                 ),
               ),
-            // const SizedBox(height: 12),
-            // Text(
-            //   dateText,
-            //   style: textScheme.label.copyWith(
-            //     fontSize: 16,
-            //     overflow: TextOverflow.ellipsis,
-            //     fontWeight: FontWeight.w400,
-            //     color: textColor,
-            //   ),
-            // ),
           ],
         ),
       ),

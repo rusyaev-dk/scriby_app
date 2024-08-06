@@ -5,7 +5,7 @@ import 'package:scriby_app/common/utils/utils.dart';
 import 'package:scriby_app/core/blocs/blocs.dart';
 import 'package:scriby_app/core/domain/domain.dart';
 import 'package:scriby_app/features/all_notes/presentation/presentation.dart';
-import 'package:scriby_app/features/new_note/presentation/presentation.dart';
+import 'package:scriby_app/features/edit_note/presentation/presentation.dart';
 import 'package:scriby_app/features/pinned_notes/presentation/presentation.dart';
 import 'package:scriby_app/features/settings/domain/domain.dart';
 import 'package:scriby_app/features/settings/presentation/blocs/blocs.dart';
@@ -73,7 +73,7 @@ class AppInitializer extends StatelessWidget {
             ),
           ),
           BlocProvider(
-            create: (context) => NewNoteBloc(
+            create: (context) => EditNoteBloc(
               notesRepository: context.read<INotesRepository>(),
               logger: context.read<ILogger>(),
             ),

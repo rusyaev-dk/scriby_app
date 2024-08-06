@@ -29,9 +29,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return AutoTabsRouter.tabBar(
       routes: const [
-        AllNotesTabRoute(),
-        PinnedNotesTabRoute(),
-        FoldersTabRoute(),
+        AllNotesRoute(),
+        PinnedNotesRoute(),
+        FoldersRoute(),
       ],
       duration: const Duration(milliseconds: 150),
       builder: (context, child, tabController) {
@@ -45,8 +45,8 @@ class _HomeScreenState extends State<HomeScreen> {
               headerSliverBuilder: (context, isScrolled) {
                 return [
                   SliverOverlapAbsorber(
-                    handle:
-                        NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                    handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                        context),
                     sliver: SliverSafeArea(
                       top: false,
                       sliver: HomeAppBar(tabController: tabController),

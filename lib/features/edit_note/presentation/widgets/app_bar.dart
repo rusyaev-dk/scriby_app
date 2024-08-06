@@ -5,18 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scriby_app/common/utils/utils.dart';
 import 'package:scriby_app/core/domain/domain.dart';
-import 'package:scriby_app/features/new_note/presentation/presentation.dart';
+import 'package:scriby_app/features/edit_note/presentation/presentation.dart';
 import 'package:scriby_app/uikit/uikit.dart';
 
-class NewNoteAppBar extends StatelessWidget {
-  const NewNoteAppBar({
+class EditNoteAppBar extends StatelessWidget {
+  const EditNoteAppBar({
     super.key,
-    required this.isSaving,
     required this.titleController,
     required this.noteTextController,
   });
 
-  final bool isSaving;
   final TextEditingController titleController;
   final TextEditingController noteTextController;
 
@@ -36,8 +34,9 @@ class NewNoteAppBar extends StatelessWidget {
                   height: 40,
                   width: 40,
                   decoration: BoxDecoration(
-                      color: colorScheme.surface,
-                      borderRadius: BorderRadius.circular(20)),
+                    color: colorScheme.surface,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
                   child: IconButton(
                     onPressed: () => AutoRouter.of(context).back(),
                     icon: Icon(
@@ -47,10 +46,16 @@ class NewNoteAppBar extends StatelessWidget {
                   ),
                 ),
                 const Spacer(),
-                SaveNoteButton(
-                  onPressed: () => _onSaveButtonPressed(context),
-                  isSaving: isSaving,
-                  height: 40,
+                BlocBuilder<EditNoteBloc, EditNoteState>(
+                  builder: (context, state) {
+                    return SaveNoteButton(
+                      onPressed: () => (state is NoteEditingState)
+                          ? _onSaveButtonPressed(context)
+                          : () {},
+                      isSaving: state is NoteSavingState,
+                      height: 40,
+                    );
+                  },
                 ),
               ],
             ),
@@ -83,7 +88,7 @@ class NewNoteAppBar extends StatelessWidget {
 
     if (!context.mounted) return;
 
-    BlocProvider.of<NewNoteBloc>(context).add(
+    BlocProvider.of<EditNoteBloc>(context).add(
       SaveNewNoteEvent(
         note: newNote,
         completer: completer,
