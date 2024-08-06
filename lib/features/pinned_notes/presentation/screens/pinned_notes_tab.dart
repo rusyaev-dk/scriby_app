@@ -43,6 +43,7 @@ class _PinnedNotesTabState extends State<PinnedNotesTab> {
           },
           child: DisableScrollStretching(
             child: CustomScrollView(
+              cacheExtent: 350,
               physics: state is PinnedNotesLoadingState
                   ? const NeverScrollableScrollPhysics()
                   : null,

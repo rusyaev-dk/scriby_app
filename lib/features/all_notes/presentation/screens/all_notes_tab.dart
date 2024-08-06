@@ -20,7 +20,7 @@ class AllNotesTab extends StatefulWidget {
 }
 
 class _AllNotesTabState extends State<AllNotesTab> {
-  static EdgeInsets _padding = const EdgeInsets.only(
+  static const EdgeInsets _padding = EdgeInsets.only(
     left: 13,
     right: 13,
     bottom: 10,
@@ -45,6 +45,7 @@ class _AllNotesTabState extends State<AllNotesTab> {
           },
           child: DisableScrollStretching(
             child: CustomScrollView(
+              cacheExtent: 350,
               physics: state is AllNotesLoadingState
                   ? const NeverScrollableScrollPhysics()
                   : null,
@@ -67,9 +68,9 @@ class _AllNotesTabState extends State<AllNotesTab> {
                       ),
                     )
                 else if (state is AllNotesLoadingState)
-                  SliverPadding(
+                  const SliverPadding(
                     padding: _padding,
-                    sliver: const NotesSliverGridLoading(),
+                    sliver: NotesSliverGridLoading(),
                   ),
               ],
             ),
