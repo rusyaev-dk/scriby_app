@@ -61,9 +61,9 @@ class _PinnedNotesTabState extends State<PinnedNotesTab> {
                       ),
                     )
                 else if (state is PinnedNotesLoadingState)
-                  const SliverPadding(
+                  SliverPadding(
                     padding: _padding,
-                    sliver: NotesSliverGridLoading(),
+                    sliver: NotesSliverGrid.loading(),
                   ),
               ],
             ),

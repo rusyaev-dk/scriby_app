@@ -20,6 +20,10 @@ class NotesSliverGrid extends StatefulWidget {
 
   final List<Note> notes;
 
+  static Widget loading() {
+    return const _NotesSliverGridLoading();
+  }
+
   @override
   State<NotesSliverGrid> createState() => _NotesSliverGridState();
 }
@@ -99,7 +103,7 @@ class _NotesSliverGridState extends State<NotesSliverGrid>
 
     BlocProvider.of<EditNoteBloc>(context)
         .add(PrepareToEditNoteEvent(note: note));
-    _animationController.forward();
+    // _animationController.forward();
     await Future.delayed(const Duration(milliseconds: 100));
 
     if (!context.mounted) return;
@@ -107,7 +111,7 @@ class _NotesSliverGridState extends State<NotesSliverGrid>
     AutoRouter.of(context)
         .push(EditNoteRoute(note: note, alignment: alignment))
         .then((value) async {
-      await _animationController.reverse();
+      // await _animationController.reverse();
     });
   }
 
@@ -125,14 +129,15 @@ class _NotesSliverGridState extends State<NotesSliverGrid>
   }
 }
 
-class NotesSliverGridLoading extends StatefulWidget {
-  const NotesSliverGridLoading({super.key});
+class _NotesSliverGridLoading extends StatefulWidget {
+  const _NotesSliverGridLoading();
 
   @override
-  State<NotesSliverGridLoading> createState() => _NotesSliverGridLoadingState();
+  State<_NotesSliverGridLoading> createState() =>
+      _NotesSliverGridLoadingState();
 }
 
-class _NotesSliverGridLoadingState extends State<NotesSliverGridLoading>
+class _NotesSliverGridLoadingState extends State<_NotesSliverGridLoading>
     with SingleTickerProviderStateMixin {
   static Random random = Random();
   late AnimationController _animationController;

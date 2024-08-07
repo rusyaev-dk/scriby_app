@@ -63,9 +63,9 @@ class _AllNotesTabState extends State<AllNotesTab> {
                       ),
                     )
                 else if (state is AllNotesLoadingState)
-                  const SliverPadding(
+                  SliverPadding(
                     padding: _padding,
-                    sliver: NotesSliverGridLoading(),
+                    sliver: NotesSliverGrid.loading(),
                   ),
               ],
             ),
