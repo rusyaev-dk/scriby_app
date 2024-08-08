@@ -11,28 +11,15 @@ final class PrepareToEditNoteEvent extends EditNoteEvent {
   List<Object?> get props => [note];
 }
 
-final class SaveNewNoteEvent extends EditNoteEvent {
-  SaveNewNoteEvent({
-    required this.newNote,
+final class SaveNoteEvent extends EditNoteEvent {
+  SaveNoteEvent({
+    required this.note,
     required this.completer,
   });
 
-  final Note newNote;
+  final Note note;
   final Completer completer;
 
   @override
-  List<Object?> get props => [newNote, completer];
-}
-
-final class SaveEditedNoteEvent extends EditNoteEvent {
-  SaveEditedNoteEvent({
-    required this.editedNote,
-    required this.completer,
-  });
-
-  final Note editedNote;
-  final Completer completer;
-
-  @override
-  List<Object?> get props => [editedNote, completer];
+  List<Object?> get props => [note, completer];
 }

@@ -9,6 +9,8 @@ abstract interface class INotesRepository {
   Future<List<Note>> getPinnedNotes();
 
   Future<void> addNote(Note newNote);
+  Future<bool> exists(String noteId);
+
   Future<void> pinNote(Note note);
   Future<void> unpinNote(Note note);
 

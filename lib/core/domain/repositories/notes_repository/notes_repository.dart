@@ -39,9 +39,20 @@ class NotesRepository implements INotesRepository {
   }
 
   @override
+  Future<bool> exists(String noteId) async {
+    final LocalNote? note =
+        _realm.query<LocalNote>("id == '$noteId'").firstOrNull;
+    if (note == null) return false;
+    return true;
+  }
+
+  @override
   Future<void> pinNote(Note note) async {
-    final LocalNote localNote =
-        _realm.query<LocalNote>("id == '${note.id}'").first;
+    final LocalNote? localNote =
+        _realm.query<LocalNote>("id == '${note.id}'").firstOrNull;
+
+    if (localNote == null) return;
+
     _realm.write(() {
       localNote.pinned = true;
       _realm.add(localNote, update: true);
@@ -51,8 +62,11 @@ class NotesRepository implements INotesRepository {
 
   @override
   Future<void> unpinNote(Note note) async {
-    final LocalNote localNote =
-        _realm.query<LocalNote>("id == '${note.id}'").first;
+    final LocalNote? localNote =
+        _realm.query<LocalNote>("id == '${note.id}'").firstOrNull;
+
+    if (localNote == null) return;
+
     _realm.write(() {
       localNote.pinned = false;
       _realm.add(localNote, update: true);
@@ -72,12 +86,15 @@ class NotesRepository implements INotesRepository {
 
   @override
   Future<void> deleteNote(Note noteToDelete) async {
-    final note = _realm
+    final LocalNote? localNote = _realm
         .query<LocalNote>(
           "id == '${noteToDelete.id}' ",
         )
-        .first;
-    _realm.write(() => _realm.delete(note));
+        .firstOrNull;
+
+    if (localNote == null) return;
+
+    _realm.write(() => _realm.delete(localNote));
     _notesStreamController
         .add((action: NoteAction.deleted, note: noteToDelete));
   }

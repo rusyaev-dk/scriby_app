@@ -16,8 +16,7 @@ class EditNoteBloc extends Bloc<EditNoteEvent, EditNoteState> {
         _logger = logger,
         super(NoteEditingState()) {
     on<PrepareToEditNoteEvent>(_onPrepareToEditNote);
-    on<SaveNewNoteEvent>(_onSaveNewNote);
-    on<SaveEditedNoteEvent>(_onSaveEditedNote);
+    on<SaveNoteEvent>(_onSaveNote);
   }
 
   final INotesRepository _notesRepository;
@@ -41,8 +40,8 @@ class EditNoteBloc extends Bloc<EditNoteEvent, EditNoteState> {
     }
   }
 
-  Future<void> _onSaveEditedNote(
-    SaveEditedNoteEvent event,
+  Future<void> _onSaveNote(
+    SaveNoteEvent event,
     Emitter<EditNoteState> emit,
   ) async {
     try {
@@ -50,38 +49,17 @@ class EditNoteBloc extends Bloc<EditNoteEvent, EditNoteState> {
         emit(NoteSavingState());
       }
 
-      final Note formattedNote = _formatNote(event.editedNote);
-      await _notesRepository.updateNote(formattedNote);
-
-      //
-      await Future.delayed(const Duration(milliseconds: 1000));
-      //
-
-      emit(NoteEditingState());
-    } catch (exception, stackTrace) {
-      _logger.exception(exception, stackTrace);
-      emit(EditNoteFailureState(exception: exception));
-    }
-
-     event.completer.complete();
-  }
-
-  Future<void> _onSaveNewNote(
-    SaveNewNoteEvent event,
-    Emitter<EditNoteState> emit,
-  ) async {
-    try {
-      if (state is! NoteSavingState) {
-        emit(NoteSavingState());
+      final bool exists = await _notesRepository.exists(event.note.id);
+      final Note formattedNote = _formatNote(event.note);
+      if (exists) {
+        await _notesRepository.updateNote(formattedNote);
+      } else {
+        await _notesRepository.addNote(formattedNote);
       }
 
+        //
+      await Future.delayed(const Duration(milliseconds: 500));
       //
-      await Future.delayed(const Duration(milliseconds: 1000));
-      //
-
-      final Note formattedNote = _formatNote(event.newNote);
-
-      await _notesRepository.addNote(formattedNote);
 
       emit(NoteEditingState());
     } catch (exception, stackTrace) {

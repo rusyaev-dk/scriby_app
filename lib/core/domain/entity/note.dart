@@ -22,6 +22,7 @@ class Note extends Equatable {
   final bool pinned;
 
   factory Note.create({
+    String? id,
     required String title,
     required DateTime date,
     required String hexColor,
@@ -29,9 +30,8 @@ class Note extends Equatable {
     required String text,
     required bool pinned,
   }) {
-    final id = Uuid.v4().toString();
     return Note(
-      id: id,
+      id: id ?? Uuid.v4().toString(),
       title: title,
       date: date,
       hexColor: hexColor,
