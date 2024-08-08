@@ -93,6 +93,15 @@ class NotesRepository implements INotesRepository {
     return _notesStreamController.stream;
   }
 
+  @override
+  Future<void> generateFakeNotes(int quantity) async {
+    for (int i = 0; i < quantity; i++) {
+      await Future.delayed(const Duration(milliseconds: 300));
+      final Note fakeNote = FakeNoteGenerator.createFakeNote();
+      await addNote(fakeNote);
+    }
+  }
+
   List<Note> _formatNotesFromLocal(List<LocalNote> localNotes) {
     List<Note> notes = [];
 
@@ -101,14 +110,5 @@ class NotesRepository implements INotesRepository {
     }
 
     return notes;
-  }
-
-  @override
-  Future<void> generateFakeNotes(int quantity) async {
-    for (int i = 0; i < quantity; i++) {
-      await Future.delayed(const Duration(milliseconds: 300));
-      final Note fakeNote = FakeNoteGenerator.createFakeNote();
-      await addNote(fakeNote);
-    }
   }
 }
