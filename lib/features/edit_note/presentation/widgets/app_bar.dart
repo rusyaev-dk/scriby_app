@@ -43,10 +43,10 @@ class EditNoteAppBar extends StatelessWidget {
                 BlocBuilder<EditNoteBloc, EditNoteState>(
                   builder: (context, state) {
                     return SaveNoteButton(
-                      onPressed: () => (state is NoteEditingState)
+                      onPressed: () => (state is EditNoteEditingState)
                           ? onSaveButtonPressed(context)
                           : () {},
-                      isSaving: state is NoteSavingState,
+                      isSaving: state is EditNoteSavingState,
                       height: 40,
                     );
                   },

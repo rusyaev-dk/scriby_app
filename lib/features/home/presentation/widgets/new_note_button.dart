@@ -37,7 +37,7 @@ class _NewNoteButtonState extends State<NewNoteButton>
     final colorScheme = AppColorScheme.of(context);
 
     return GestureDetector(
-      onTap: _animatedTransition,
+      onTap: _openNoteEditor,
       child: AnimatedBuilder(
         animation: _scaleAnimation,
         builder: (context, child) {
@@ -66,7 +66,7 @@ class _NewNoteButtonState extends State<NewNoteButton>
     );
   }
 
-  Future<void> _animatedTransition() async {
+  Future<void> _openNoteEditor() async {
     setState(() {
       isVisible = false;
     });
@@ -75,7 +75,7 @@ class _NewNoteButtonState extends State<NewNoteButton>
     await Future.delayed(const Duration(milliseconds: 100));
 
     if (!mounted) return;
-    context.router.push(EditNoteRoute(note: null)).then((value) async {
+    context.router.push(EditNoteRoute(editingNote: null)).then((value) async {
       await _animationController.reverse();
       setState(() {
         isVisible = true;

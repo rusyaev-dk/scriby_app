@@ -14,9 +14,11 @@ class EditNoteScreen extends StatefulWidget {
   const EditNoteScreen({
     super.key,
     this.editingNote,
+    this.animationAlignment,
   });
 
   final Note? editingNote;
+  final Alignment? animationAlignment;
 
   @override
   State<EditNoteScreen> createState() => _EditNoteScreenState();
@@ -56,7 +58,7 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
         ),
         child: BlocBuilder<EditNoteBloc, EditNoteState>(
           builder: (context, state) {
-            if (state is NoteEditingState || state is NoteSavingState) {
+            if (state is EditNoteEditingState || state is EditNoteSavingState) {
               return DisableScrollStretching(
                 child: CustomScrollView(
                   slivers: [

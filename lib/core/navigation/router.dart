@@ -75,7 +75,7 @@ class AppRouter extends _$AppRouter {
           opaque: true,
           customRouteBuilder:
               (BuildContext context, Widget child, AutoRoutePage page) {
-            final alignment = (page.arguments as EditNoteRouteArgs).alignment;
+            final alignment = (page.arguments as EditNoteRouteArgs).animationAlignment;
 
             return PageRouteBuilder(
               transitionDuration: const Duration(milliseconds: 450),

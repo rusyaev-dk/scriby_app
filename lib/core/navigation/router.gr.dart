@@ -28,7 +28,8 @@ abstract class _$AppRouter extends RootStackRouter {
         routeData: routeData,
         child: EditNoteScreen(
           key: args.key,
-          editingNote: args.note,
+          editingNote: args.editingNote,
+          animationAlignment: args.animationAlignment,
         ),
       );
     },
@@ -84,15 +85,15 @@ class AllNotesRoute extends PageRouteInfo<void> {
 class EditNoteRoute extends PageRouteInfo<EditNoteRouteArgs> {
   EditNoteRoute({
     Key? key,
-    Note? note,
-    Alignment? alignment,
+    Note? editingNote,
+    Alignment? animationAlignment,
     List<PageRouteInfo>? children,
   }) : super(
           EditNoteRoute.name,
           args: EditNoteRouteArgs(
             key: key,
-            note: note,
-            alignment: alignment,
+            editingNote: editingNote,
+            animationAlignment: animationAlignment,
           ),
           initialChildren: children,
         );
@@ -106,19 +107,19 @@ class EditNoteRoute extends PageRouteInfo<EditNoteRouteArgs> {
 class EditNoteRouteArgs {
   const EditNoteRouteArgs({
     this.key,
-    this.note,
-    this.alignment,
+    this.editingNote,
+    this.animationAlignment,
   });
 
   final Key? key;
 
-  final Note? note;
+  final Note? editingNote;
 
-  final Alignment? alignment;
+  final Alignment? animationAlignment;
 
   @override
   String toString() {
-    return 'EditNoteRouteArgs{key: $key, note: $note}';
+    return 'EditNoteRouteArgs{key: $key, editingNote: $editingNote, animationAlignment: $animationAlignment}';
   }
 }
 

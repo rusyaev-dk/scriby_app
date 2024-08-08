@@ -109,7 +109,7 @@ class _NotesSliverGridState extends State<NotesSliverGrid>
     if (!context.mounted) return;
 
     AutoRouter.of(context)
-        .push(EditNoteRoute(note: note, alignment: alignment))
+        .push(EditNoteRoute(editingNote: note, animationAlignment: alignment))
         .then((value) async {
       // await _animationController.reverse();
     });

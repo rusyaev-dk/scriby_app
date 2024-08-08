@@ -14,7 +14,7 @@ class EditNoteBloc extends Bloc<EditNoteEvent, EditNoteState> {
     required ILogger logger,
   })  : _notesRepository = notesRepository,
         _logger = logger,
-        super(NoteEditingState()) {
+        super(EditNoteEditingState()) {
     on<PrepareToEditNoteEvent>(_onPrepareToEditNote);
     on<SaveNoteEvent>(_onSaveNote);
   }
@@ -33,7 +33,7 @@ class EditNoteBloc extends Bloc<EditNoteEvent, EditNoteState> {
       //
       // await Future.delayed(const Duration(milliseconds: 4000));
       //
-      return emit(NoteEditingState(note: event.note));
+      return emit(EditNoteEditingState(note: event.note));
     } catch (exception, stackTrace) {
       _logger.exception(exception, stackTrace);
       emit(EditNoteFailureState(exception: exception));
@@ -45,8 +45,8 @@ class EditNoteBloc extends Bloc<EditNoteEvent, EditNoteState> {
     Emitter<EditNoteState> emit,
   ) async {
     try {
-      if (state is! NoteSavingState) {
-        emit(NoteSavingState());
+      if (state is! EditNoteSavingState) {
+        emit(EditNoteSavingState());
       }
 
       final bool exists = await _notesRepository.exists(event.note.id);
@@ -57,11 +57,11 @@ class EditNoteBloc extends Bloc<EditNoteEvent, EditNoteState> {
         await _notesRepository.addNote(formattedNote);
       }
 
-        //
+      //
       await Future.delayed(const Duration(milliseconds: 500));
       //
 
-      emit(NoteEditingState());
+      emit(EditNoteEditingState());
     } catch (exception, stackTrace) {
       _logger.exception(exception, stackTrace);
       emit(EditNoteFailureState(exception: exception));

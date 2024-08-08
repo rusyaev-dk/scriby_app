@@ -7,8 +7,8 @@ final class EditNoteLoadingState extends EditNoteState {
   List<Object?> get props => [];
 }
 
-final class NoteEditingState extends EditNoteState {
-  NoteEditingState({this.note});
+final class EditNoteEditingState extends EditNoteState {
+  EditNoteEditingState({this.note});
 
   final Note? note;
 
@@ -16,7 +16,7 @@ final class NoteEditingState extends EditNoteState {
   List<Object?> get props => [];
 }
 
-final class NoteSavingState extends EditNoteState {
+final class EditNoteSavingState extends EditNoteState {
   @override
   List<Object?> get props => [];
 }
