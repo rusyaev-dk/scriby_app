@@ -46,11 +46,24 @@ class EditNoteBloc extends Bloc<EditNoteEvent, EditNoteState> {
     Emitter<EditNoteState> emit,
   ) async {
     try {
-      // TODO: implement _onSaveEditedNote
+      if (state is! NoteSavingState) {
+        emit(NoteSavingState());
+      }
+
+      final Note formattedNote = _formatNote(event.editedNote);
+      await _notesRepository.updateNote(formattedNote);
+
+      //
+      await Future.delayed(const Duration(milliseconds: 1000));
+      //
+
+      emit(NoteEditingState());
     } catch (exception, stackTrace) {
       _logger.exception(exception, stackTrace);
       emit(EditNoteFailureState(exception: exception));
     }
+
+     event.completer.complete();
   }
 
   Future<void> _onSaveNewNote(
@@ -66,7 +79,7 @@ class EditNoteBloc extends Bloc<EditNoteEvent, EditNoteState> {
       await Future.delayed(const Duration(milliseconds: 1000));
       //
 
-      final Note formattedNote = _formatNote(event.note);
+      final Note formattedNote = _formatNote(event.newNote);
 
       await _notesRepository.addNote(formattedNote);
 
@@ -87,7 +100,8 @@ class EditNoteBloc extends Bloc<EditNoteEvent, EditNoteState> {
       formattedTitle = TextFormatter.removeLeadingEmptyLines(note.title);
     }
 
-    return Note.create(
+    return Note(
+      id: note.id,
       title: formattedTitle,
       date: note.date,
       hexColor: note.hexColor,

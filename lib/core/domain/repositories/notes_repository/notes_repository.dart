@@ -17,7 +17,8 @@ class NotesRepository implements INotesRepository {
 
   @override
   Future<List<Note>> getAllNotes() async {
-    final List<LocalNote> localNotes = _realm.all<LocalNote>().toList();
+    final List<LocalNote> localNotes =
+        _realm.query<LocalNote>('TRUEPREDICATE SORT(date ASC)').toList();
 
     return _formatNotesFromLocal(localNotes);
   }
@@ -39,27 +40,34 @@ class NotesRepository implements INotesRepository {
 
   @override
   Future<void> pinNote(Note note) async {
-    final LocalNote localNote = _realm.query<LocalNote>("id == '${note.id}'").first;
-    if (localNote != null) {
-      _realm.write(() {
-        localNote.pinned = true;
-        _realm.add(localNote, update: true);
-      });
-      _notesStreamController.add((action: NoteAction.pinned, note: note));
-    }
+    final LocalNote localNote =
+        _realm.query<LocalNote>("id == '${note.id}'").first;
+    _realm.write(() {
+      localNote.pinned = true;
+      _realm.add(localNote, update: true);
+    });
+    _notesStreamController.add((action: NoteAction.pinned, note: note));
   }
 
   @override
   Future<void> unpinNote(Note note) async {
     final LocalNote localNote =
         _realm.query<LocalNote>("id == '${note.id}'").first;
-    if (localNote != null) {
-      _realm.write(() {
-        localNote.pinned = false;
-        _realm.add(localNote, update: true);
-      });
-      _notesStreamController.add((action: NoteAction.unpinned, note: note));
-    }
+    _realm.write(() {
+      localNote.pinned = false;
+      _realm.add(localNote, update: true);
+    });
+    _notesStreamController.add((action: NoteAction.unpinned, note: note));
+  }
+
+  @override
+  Future<void> updateNote(Note updatedNote) async {
+    final LocalNote updatedLocalNote = updatedNote.toLocal();
+
+    _realm.write(() {
+      _realm.add(updatedLocalNote, update: true);
+    });
+    _notesStreamController.add((action: NoteAction.updated, note: updatedNote));
   }
 
   @override

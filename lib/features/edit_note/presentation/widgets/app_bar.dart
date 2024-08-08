@@ -77,23 +77,42 @@ class EditNoteAppBar extends StatelessWidget {
       }
     }
 
-    final Note newNote = Note.create(
-      title: titleController.text,
-      date: DateTime.now(),
-      hexColor: ColorFormatter.getRandomHexColor(),
-      tags: const ["test_tag", "one_more_test_tag"],
-      text: noteTextController.text,
-      pinned: true,
-    );
-
     if (!context.mounted) return;
 
-    BlocProvider.of<EditNoteBloc>(context).add(
-      SaveNewNoteEvent(
-        note: newNote,
-        completer: completer,
-      ),
-    );
+    final editNoteBloc = BlocProvider.of<EditNoteBloc>(context);
+    final state = editNoteBloc.state;
+    if (state is NoteEditingState && state.note != null) {
+      final Note editedNote = Note(
+        id: state.note!.id,
+        title: titleController.text,
+        date: DateTime.now(),
+        hexColor: ColorFormatter.getRandomHexColor(),
+        tags: const ["test_tag", "one_more_test_tag"],
+        text: noteTextController.text,
+        pinned: state.note!.pinned,
+      );
+      editNoteBloc.add(
+        SaveEditedNoteEvent(
+          editedNote: editedNote,
+          completer: completer,
+        ),
+      );
+    } else {
+      final Note newNote = Note.create(
+        title: titleController.text,
+        date: DateTime.now(),
+        hexColor: ColorFormatter.getRandomHexColor(),
+        tags: const ["test_tag", "one_more_test_tag"],
+        text: noteTextController.text,
+        pinned: true,
+      );
+      editNoteBloc.add(
+        SaveNewNoteEvent(
+          newNote: newNote,
+          completer: completer,
+        ),
+      );
+    }
 
     await completer.future;
 

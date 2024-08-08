@@ -34,7 +34,7 @@ class AllNotesBloc extends Bloc<AllNotesEvent, AllNotesState> {
           case NoteAction.created:
             add(_NoteAddedEvent(addedNote: record.note!));
             return;
-          case NoteAction.edited:
+          case NoteAction.updated:
             add(_NoteEditedEvent(editedNote: record.note!));
             return;
           case NoteAction.deleted:
