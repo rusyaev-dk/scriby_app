@@ -6,9 +6,14 @@ import 'package:scriby_app/core/blocs/blocs.dart';
 import 'package:scriby_app/features/settings/presentation/presentation.dart';
 import 'package:scriby_app/uikit/uikit.dart';
 
-@RoutePage()
-class SettingsScreen extends StatelessWidget {
-  const SettingsScreen({super.key});
+@RoutePage(name: "GeneralSettingsShellRoute")
+class GeneralSettingsShellPage extends AutoRouter {
+  const GeneralSettingsShellPage({super.key});
+}
+
+@RoutePage(name: "GeneralSettingsRoute")
+class GeneralSettingsScreen extends StatelessWidget {
+  const GeneralSettingsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

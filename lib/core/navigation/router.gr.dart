@@ -39,6 +39,18 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const FoldersTab(),
       );
     },
+    GeneralSettingsRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const GeneralSettingsScreen(),
+      );
+    },
+    GeneralSettingsShellRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const GeneralSettingsShellPage(),
+      );
+    },
     HomeRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -51,16 +63,10 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const PinnedNotesTab(),
       );
     },
-    PrivacyRoute.name: (routeData) {
+    PrivacySettingsRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const PrivacyScreen(),
-      );
-    },
-    SettingsRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const SettingsScreen(),
       );
     },
   };
@@ -138,6 +144,34 @@ class FoldersRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [GeneralSettingsScreen]
+class GeneralSettingsRoute extends PageRouteInfo<void> {
+  const GeneralSettingsRoute({List<PageRouteInfo>? children})
+      : super(
+          GeneralSettingsRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'GeneralSettingsRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [GeneralSettingsShellPage]
+class GeneralSettingsShellRoute extends PageRouteInfo<void> {
+  const GeneralSettingsShellRoute({List<PageRouteInfo>? children})
+      : super(
+          GeneralSettingsShellRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'GeneralSettingsShellRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
 /// [HomeScreen]
 class HomeRoute extends PageRouteInfo<void> {
   const HomeRoute({List<PageRouteInfo>? children})
@@ -167,28 +201,14 @@ class PinnedNotesRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [PrivacyScreen]
-class PrivacyRoute extends PageRouteInfo<void> {
-  const PrivacyRoute({List<PageRouteInfo>? children})
+class PrivacySettingsRoute extends PageRouteInfo<void> {
+  const PrivacySettingsRoute({List<PageRouteInfo>? children})
       : super(
-          PrivacyRoute.name,
+          PrivacySettingsRoute.name,
           initialChildren: children,
         );
 
-  static const String name = 'PrivacyRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [SettingsScreen]
-class SettingsRoute extends PageRouteInfo<void> {
-  const SettingsRoute({List<PageRouteInfo>? children})
-      : super(
-          SettingsRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'SettingsRoute';
+  static const String name = 'PrivacySettingsRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

@@ -18,8 +18,9 @@ class AppRouter extends _$AppRouter {
   @override
   List<AutoRoute> get routes => [
         AutoRoute(
+          path: '/home',
+          initial: true,
           page: HomeRoute.page,
-          path: '/',
           children: [
             AutoRoute(
               page: AllNotesRoute.page,
@@ -35,47 +36,15 @@ class AppRouter extends _$AppRouter {
             ),
           ],
         ),
+        SettingsRoutes.route,
         CustomRoute(
-          page: SettingsRoute.page,
-          path: '/settings',
-          customRouteBuilder:
-              (BuildContext context, Widget child, AutoRoutePage page) {
-            return PageRouteBuilder(
-              transitionDuration:
-                  Duration(milliseconds: Platform.isIOS ? 300 : 250),
-              fullscreenDialog: page.fullscreenDialog,
-              transitionsBuilder: Platform.isIOS
-                  ? CustomPageTransitionsBuilder.slideWithFadeTransitionsBuilder
-                  : CustomPageTransitionsBuilder.fadeTransitionsBuilder,
-              settings: page,
-              pageBuilder: (context, animation, _) => child,
-            );
-          },
-        ),
-        CustomRoute(
-          page: PrivacyRoute.page,
-          path: '/settings/privacy',
-          customRouteBuilder:
-              (BuildContext context, Widget child, AutoRoutePage page) {
-            return PageRouteBuilder(
-              transitionDuration:
-                  Duration(milliseconds: Platform.isIOS ? 300 : 250),
-              fullscreenDialog: page.fullscreenDialog,
-              transitionsBuilder: Platform.isIOS
-                  ? CustomPageTransitionsBuilder.slideWithFadeTransitionsBuilder
-                  : CustomPageTransitionsBuilder.fadeTransitionsBuilder,
-              settings: page,
-              pageBuilder: (context, animation, _) => child,
-            );
-          },
-        ),
-        CustomRoute(
-          page: EditNoteRoute.page,
           path: '/edit_note',
+          page: EditNoteRoute.page,
           opaque: true,
           customRouteBuilder:
               (BuildContext context, Widget child, AutoRoutePage page) {
-            final alignment = (page.arguments as EditNoteRouteArgs).animationAlignment;
+            final alignment =
+                (page.arguments as EditNoteRouteArgs).animationAlignment;
 
             return PageRouteBuilder(
               transitionDuration: const Duration(milliseconds: 450),
@@ -96,6 +65,50 @@ class AppRouter extends _$AppRouter {
           },
         ),
       ];
+}
+
+class SettingsRoutes {
+  static final route = CustomRoute(
+    path: "/general_settings",
+    page: GeneralSettingsShellRoute.page,
+    children: _childrenRoutes,
+    customRouteBuilder:
+        (BuildContext context, Widget child, AutoRoutePage page) {
+      return PageRouteBuilder(
+        transitionDuration: Duration(milliseconds: Platform.isIOS ? 300 : 250),
+        fullscreenDialog: page.fullscreenDialog,
+        transitionsBuilder: Platform.isIOS
+            ? CustomPageTransitionsBuilder.slideWithFadeTransitionsBuilder
+            : CustomPageTransitionsBuilder.fadeTransitionsBuilder,
+        settings: page,
+        pageBuilder: (context, animation, _) => child,
+      );
+    },
+  );
+
+  static final _childrenRoutes = [
+    AutoRoute(
+      path: '',
+      page: GeneralSettingsRoute.page,
+    ),
+    CustomRoute(
+      path: 'privacy',
+      page: PrivacySettingsRoute.page,
+      customRouteBuilder:
+          (BuildContext context, Widget child, AutoRoutePage page) {
+        return PageRouteBuilder(
+          transitionDuration:
+              Duration(milliseconds: Platform.isIOS ? 300 : 250),
+          fullscreenDialog: page.fullscreenDialog,
+          transitionsBuilder: Platform.isIOS
+              ? CustomPageTransitionsBuilder.slideWithFadeTransitionsBuilder
+              : CustomPageTransitionsBuilder.fadeTransitionsBuilder,
+          settings: page,
+          pageBuilder: (context, animation, _) => child,
+        );
+      },
+    ),
+  ];
 }
 
 class CustomNavigationObserver extends AutoRouterObserver {

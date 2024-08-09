@@ -40,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
           floatingActionButton: const NewNoteButton(),
           body: DisableScrollStretching(
             child: NestedScrollView(
-              key: Keys.nestedScrollViewKey,
+              key: ScrollAbsorberKeys.nestedScrollViewKey,
               controller: _scrollController,
               headerSliverBuilder: (context, isScrolled) {
                 return [

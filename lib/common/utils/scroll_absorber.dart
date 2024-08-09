@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class Keys {
+class ScrollAbsorberKeys {
   static final nestedScrollViewKey = GlobalKey();
 }
 
 class ScrollAbsorber {
   static void absorbScrollNotification(Notification notification) {
-    NestedScrollView nestedScrollView =
-        Keys.nestedScrollViewKey.currentWidget as NestedScrollView;
+    NestedScrollView nestedScrollView = ScrollAbsorberKeys
+        .nestedScrollViewKey.currentWidget as NestedScrollView;
     double scrolled = 0;
 
     // We just need absorb the vertical scroll

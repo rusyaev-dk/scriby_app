@@ -58,7 +58,7 @@ class HomeAppBar extends StatelessWidget {
   }
 
   Future<void> _openSettings(BuildContext context) async {
-    AutoRouter.of(context).push(const SettingsRoute());
+    AutoRouter.of(context).push(const GeneralSettingsRoute());
   }
 }
 

@@ -102,6 +102,6 @@ class GeneralSettings extends StatelessWidget {
   }
 
   Future<void> _openPrivacySettings(BuildContext context) async {
-    await AutoRouter.of(context).push(const PrivacyRoute());
+    await AutoRouter.of(context).push(const PrivacySettingsRoute());
   }
 }
