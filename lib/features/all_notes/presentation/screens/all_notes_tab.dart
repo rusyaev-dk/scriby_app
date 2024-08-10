@@ -44,7 +44,7 @@ class _AllNotesTabState extends State<AllNotesTab> {
               cacheExtent: 350,
               physics: state is AllNotesLoadingState
                   ? const NeverScrollableScrollPhysics()
-                  : null,
+                  : const ClampingScrollPhysics(),
               controller: _scrollController,
               slivers: [
                 SliverOverlapInjector(

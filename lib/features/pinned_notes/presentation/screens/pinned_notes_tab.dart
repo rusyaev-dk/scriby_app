@@ -42,7 +42,7 @@ class _PinnedNotesTabState extends State<PinnedNotesTab> {
               cacheExtent: 350,
               physics: state is PinnedNotesLoadingState
                   ? const NeverScrollableScrollPhysics()
-                  : null,
+                  : const ClampingScrollPhysics(),
               controller: _scrollController,
               slivers: [
                 SliverOverlapInjector(

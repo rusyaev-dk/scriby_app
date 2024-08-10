@@ -47,10 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   SliverOverlapAbsorber(
                     handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
                         context),
-                    sliver: SliverSafeArea(
-                      top: false,
-                      sliver: HomeAppBar(tabController: tabController),
-                    ),
+                    sliver: HomeAppBar(tabController: tabController),
                   ),
                 ];
               },

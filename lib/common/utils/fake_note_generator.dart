@@ -33,7 +33,7 @@ class FakeNoteGenerator {
   static List<String> _generateRandomTags() {
     List<String> tags = [];
     for (int i = 0; i < 3; i++) {
-      var index = _random.nextInt(_tags.length) + 1;
+      var index = _random.nextInt(_tags.length);
       tags.add(_tags[index]);
     }
     return tags;

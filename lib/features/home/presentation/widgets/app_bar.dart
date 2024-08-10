@@ -17,11 +17,11 @@ class HomeAppBar extends StatelessWidget {
     final textScheme = AppTextScheme.of(context);
 
     return SliverAppBar(
-      snap: false,
       forceElevated: false,
       scrolledUnderElevation: 0,
       elevation: 0,
       surfaceTintColor: Colors.transparent,
+      snap: false,
       floating: true,
       pinned: true,
       title: Text(
