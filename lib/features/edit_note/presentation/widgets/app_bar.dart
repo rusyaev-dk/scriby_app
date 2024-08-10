@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -56,8 +58,57 @@ class EditNoteAppBar extends StatelessWidget {
   }
 
   Future<void> _onScreenPopButtonPressed(BuildContext context) async {
-    final editBlocState = BlocProvider.of<EditNoteBloc>(context).state;
-    if (editBlocState is EditNoteEditingState) {}
+    final stageCubitState = BlocProvider.of<EditNoteStageCubit>(context).state;
+    if (stageCubitState is! EditNoteStageEditingState ||
+        stageCubitState.updatedNote == null ||
+        (stageCubitState.updatedNote != null &&
+            stageCubitState.updatedNote == stageCubitState.initialNote)) {
+      FocusScope.of(context).unfocus();
+      AutoRouter.of(context).back();
+      return;
+    }
+
+    bool shouldSave = await _showSaveChangesDialog(context) ?? false;
+    if (!context.mounted) return;
+
+    if (!shouldSave) {
+      FocusScope.of(context).unfocus();
+      AutoRouter.of(context).back();
+      return;
+    }
+
+    final Completer completer = Completer();
+    BlocProvider.of<EditNoteBloc>(context).add(SaveNoteEvent(
+      note: stageCubitState.updatedNote!,
+      completer: completer,
+    ));
+    await completer.future;
+
+    if (!context.mounted) return;
+
+    FocusScope.of(context).unfocus();
     AutoRouter.of(context).back();
+  }
+
+  Future<bool?> _showSaveChangesDialog(BuildContext context) {
+    return showDialog<bool?>(
+      context: context,
+      builder: (context) {
+        return AppAlertDialog(
+          actions: [
+            AppAlertDialogAction(
+              onPressed: () => AutoRouter.of(context).maybePop<bool?>(true),
+              child: const Text("Yes"),
+            ),
+            AppAlertDialogAction(
+              isDestructiveAction: true,
+              onPressed: () => AutoRouter.of(context).maybePop<bool?>(false),
+              child: const Text("No"),
+            ),
+          ],
+          title: const Text("Save changes?"),
+        );
+      },
+    );
   }
 }

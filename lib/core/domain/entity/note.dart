@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:realm/realm.dart';
+import 'package:scriby_app/common/utils/utils.dart';
 import 'package:scriby_app/persistence/storage/realm/models/models.dart';
 
 class Note extends Equatable {
@@ -38,6 +39,18 @@ class Note extends Equatable {
       tags: tags,
       text: text,
       pinned: pinned,
+    );
+  }
+
+  factory Note.empty() {
+    return Note(
+      id: Uuid.v4().toString(),
+      title: "",
+      date: DateTime.now(),
+      hexColor: ColorFormatter.getRandomHexColor(),
+      tags: const [],
+      text: "",
+      pinned: false,
     );
   }
 

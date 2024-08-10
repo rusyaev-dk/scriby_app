@@ -13,7 +13,7 @@ final class EditNoteStageEditingState extends EditNoteStageState {
     required this.updatedNote,
   });
 
-  final Note? initialNote;
+  final Note initialNote;
   final Note? updatedNote;
 
   EditNoteStageEditingState copyWith({

@@ -1,38 +1,53 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:scriby_app/common/utils/utils.dart';
 import 'package:scriby_app/core/domain/domain.dart';
 
 part 'edit_note_stage_state.dart';
 
 class EditNoteStageCubit extends Cubit<EditNoteStageState> {
-  EditNoteStageCubit() : super(EditNoteStageInitialState());
+  EditNoteStageCubit({required ILogger logger})
+      : _logger = logger,
+        super(EditNoteStageInitialState());
 
-  late final Note _initialNote;
+  final ILogger _logger;
 
   Future<void> loadNote({required Note? initialNote}) async {
-    emit(EditNoteStageEditingState(
-      initialNote: initialNote,
-      updatedNote: null,
-    ));
-  }
-
-  Future<void> stageTitleText(String updatedTitle) async {
-    if (_initialNote.title == updatedTitle) return;
-
-    final Note updatedNote = _initialNote.copyWith(title: updatedTitle);
-    final curState = state;
-    if (curState is EditNoteStageEditingState) {
-      emit(curState.copyWith(updatedNote: updatedNote));
+    try {
+      emit(EditNoteStageEditingState(
+        initialNote: initialNote ?? Note.empty(),
+        updatedNote: null,
+      ));
+    } catch (exception, stackTrace) {
+      _logger.exception(exception, stackTrace);
     }
   }
 
-  Future<void> stageText(String updatedText) async {
-    if (_initialNote.text == updatedText) return;
+  Future<void> stageTitleText(String updatedTitle) async {
+    try {
+      final curState = state;
+      if (curState is! EditNoteStageEditingState) return;
 
-    final Note updatedNote = _initialNote.copyWith(text: updatedText);
-    final curState = state;
-    if (curState is EditNoteStageEditingState) {
+      final Note noteToCopyFrom = curState.updatedNote ?? curState.initialNote;
+      final Note updatedNote = noteToCopyFrom.copyWith(title: updatedTitle);
+
       emit(curState.copyWith(updatedNote: updatedNote));
+    } catch (exception, stackTrace) {
+      _logger.exception(exception, stackTrace);
+    }
+  }
+
+  Future<void> stageNoteText(String updatedNoteText) async {
+    try {
+      final curState = state;
+      if (curState is! EditNoteStageEditingState) return;
+
+      final Note noteToCopyFrom = curState.updatedNote ?? curState.initialNote;
+      final Note updatedNote = noteToCopyFrom.copyWith(text: updatedNoteText);
+
+      emit(curState.copyWith(updatedNote: updatedNote));
+    } catch (exception, stackTrace) {
+      _logger.exception(exception, stackTrace);
     }
   }
 }

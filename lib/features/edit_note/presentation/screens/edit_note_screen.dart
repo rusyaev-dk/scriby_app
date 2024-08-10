@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:scriby_app/common/utils/utils.dart';
 import 'package:scriby_app/common/widgets/widgets.dart';
 import 'package:scriby_app/core/domain/domain.dart';
 import 'package:scriby_app/features/edit_note/presentation/presentation.dart';
@@ -33,9 +32,19 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
     super.initState();
     _titleController = TextEditingController(text: widget.initialNote?.title);
     _noteTextController = TextEditingController(text: widget.initialNote?.text);
-    // _titleController.addListener(() {
-    //   print("Something edited...");
-    // });
+
+    _titleController.addListener(_listenToTitleEditing);
+    _noteTextController.addListener(_listenToTextEditing);
+  }
+
+  void _listenToTitleEditing() {
+    BlocProvider.of<EditNoteStageCubit>(context)
+        .stageTitleText(_titleController.text);
+  }
+
+  void _listenToTextEditing() {
+    BlocProvider.of<EditNoteStageCubit>(context)
+        .stageNoteText(_noteTextController.text);
   }
 
   @override
@@ -99,35 +108,29 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
   }
 
   void _onSaveButtonPressed(BuildContext context) async {
-    final Completer completer = Completer();
+    final stageCubitState = BlocProvider.of<EditNoteStageCubit>(context).state;
+    if (stageCubitState is! EditNoteStageEditingState) return;
 
-    bool? shouldSave = true;
-
-    if (_noteTextController.text.trim().isEmpty) {
-      shouldSave = await _showSaveEmptyNoteDialog(context);
-      if (shouldSave != null && !shouldSave) {
-        return;
-      }
+    if (_noteTextController.text.trim().isEmpty &&
+        _titleController.text.trim().isEmpty) {
+      bool shouldSave = await _showSaveEmptyNoteDialog(context) ?? false;
+      if (!shouldSave) return;
     }
-
-    final Note? editingNote = widget.initialNote;
-    final Note note = Note.create(
-      id: editingNote?.id,
-      title: _titleController.text,
-      date: DateTime.now(),
-      hexColor: editingNote?.hexColor ?? ColorFormatter.getRandomHexColor(),
-      tags: editingNote?.tags ?? const ["test_tag", "one_more_test_tag"],
-      text: _noteTextController.text,
-      pinned: editingNote?.pinned ?? true,
-    );
 
     if (!context.mounted) return;
 
+    if (stageCubitState.updatedNote != null &&
+        stageCubitState.updatedNote == stageCubitState.initialNote) {
+      FocusScope.of(context).unfocus();
+      AutoRouter.of(context).back();
+      return;
+    }
+
+    final Completer completer = Completer();
     BlocProvider.of<EditNoteBloc>(context).add(SaveNoteEvent(
-      note: note,
+      note: stageCubitState.updatedNote!,
       completer: completer,
     ));
-
     await completer.future;
 
     if (!context.mounted) return;
@@ -137,18 +140,18 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
   }
 
   Future<bool?> _showSaveEmptyNoteDialog(BuildContext context) {
-    return showDialog<bool>(
+    return showDialog<bool?>(
       context: context,
       builder: (context) {
         return AppAlertDialog(
           actions: [
             AppAlertDialogAction(
+              onPressed: () => AutoRouter.of(context).maybePop<bool?>(true),
               child: const Text("Yes"),
-              onPressed: () => AutoRouter.of(context).maybePop(true),
             ),
             AppAlertDialogAction(
-              child: const Text("Cancel"),
-              onPressed: () => AutoRouter.of(context).maybePop(false),
+              onPressed: () => AutoRouter.of(context).maybePop<bool?>(false),
+              child: const Text("No"),
             ),
           ],
           title: const Text("Save empty note?"),
@@ -159,6 +162,9 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
 
   @override
   void dispose() {
+    _titleController.removeListener(_listenToTitleEditing);
+    _noteTextController.removeListener(_listenToTextEditing);
+
     _titleController.dispose();
     _noteTextController.dispose();
     super.dispose();

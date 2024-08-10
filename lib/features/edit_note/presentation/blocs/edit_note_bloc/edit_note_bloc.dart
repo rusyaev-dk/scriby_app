@@ -73,7 +73,7 @@ class EditNoteBloc extends Bloc<EditNoteEvent, EditNoteState> {
   Note _formatNote(Note note) {
     String formattedTitle;
     if (note.title.trim().isEmpty) {
-      formattedTitle = note.text.trim().isEmpty ? "Empty note" : "Untitled";
+      formattedTitle = "Untitled";
     } else {
       formattedTitle = TextFormatter.removeLeadingEmptyLines(note.title);
     }

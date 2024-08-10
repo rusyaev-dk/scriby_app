@@ -79,7 +79,7 @@ class _NewNoteButtonState extends State<NewNoteButton>
     if (!mounted) return;
 
     BlocProvider.of<EditNoteStageCubit>(context).loadNote(initialNote: null);
-    context.router.push(EditNoteRoute(editingNote: null)).then((value) async {
+    context.router.push(EditNoteRoute(initialNote: null)).then((value) async {
       await _animationController.reverse();
       setState(() {
         isVisible = true;
