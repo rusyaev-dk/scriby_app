@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:scriby_app/common/utils/utils.dart';
-import 'package:scriby_app/core/domain/repositories/theme_mode_repository/theme_mode.dart';
+import 'package:scriby_app/core/domain/domain.dart';
 
 part 'theme_state.dart';
 
@@ -20,15 +20,14 @@ class ThemeCubit extends Cubit<ThemeState> {
   final ILogger _logger;
 
   Future<void> _restoreTheme() async {
-    final ThemeMode themeMode;
     try {
-      themeMode = await _themeModeRepository.getThemeMode() ?? ThemeMode.system;
+      final ThemeMode? themeMode = await _themeModeRepository.getThemeMode();
+      if (themeMode == null) return;
+
+      emit(ThemeState(themeMode: themeMode));
     } catch (exception, stackTrace) {
       _logger.exception(exception, stackTrace);
-      return;
     }
-
-    emit(ThemeState(themeMode: themeMode));
   }
 
   Future<void> setTheme(ThemeMode themeMode) async {

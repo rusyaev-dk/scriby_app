@@ -2,16 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:scriby_app/uikit/text/app_text_style.dart';
 
 class AppTextScheme extends ThemeExtension<AppTextScheme> {
-  /// Text style with a size of 45/52.
-  /// Use for short, important text or numerals.
   final TextStyle display;
-
-  /// Text style with a size of 28/36.
-  /// Use for marking primary passages of text or important regions of content.
   final TextStyle headline;
-
-  /// Text style with a size of 12/16.
-  /// Use for things like the text inside components or for very small text in the content body.
   final TextStyle label;
 
   const AppTextScheme._({
@@ -41,11 +33,6 @@ class AppTextScheme extends ThemeExtension<AppTextScheme> {
     );
   }
 
-  static AppTextScheme of(BuildContext context) {
-    return Theme.of(context).extension<AppTextScheme>() ??
-        _throwThemeExceptionFromFunc(context);
-  }
-
   @override
   AppTextScheme copyWith({
     TextStyle? display,
@@ -57,6 +44,11 @@ class AppTextScheme extends ThemeExtension<AppTextScheme> {
       headline: headline ?? this.headline,
       label: label ?? this.label,
     );
+  }
+
+  static AppTextScheme of(BuildContext context) {
+    return Theme.of(context).extension<AppTextScheme>() ??
+        _throwThemeExceptionFromFunc(context);
   }
 }
 

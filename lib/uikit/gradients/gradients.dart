@@ -41,15 +41,6 @@ class AppGradients extends ThemeExtension<AppGradients> {
   });
 
   @override
-  ThemeExtension<AppGradients> copyWith({
-    Gradient? shimmerGradient,
-  }) {
-    return AppGradients(
-      shimmerGradient: shimmerGradient ?? this.shimmerGradient,
-    );
-  }
-
-  @override
   ThemeExtension<AppGradients> lerp(
     ThemeExtension<AppGradients>? other,
     double t,
@@ -64,7 +55,20 @@ class AppGradients extends ThemeExtension<AppGradients> {
     );
   }
 
+  @override
+  ThemeExtension<AppGradients> copyWith({
+    Gradient? shimmerGradient,
+  }) {
+    return AppGradients(
+      shimmerGradient: shimmerGradient ?? this.shimmerGradient,
+    );
+  }
+
   static AppGradients of(BuildContext context) {
-    return Theme.of(context).extension<AppGradients>()!;
+    return Theme.of(context).extension<AppGradients>() ??
+        _throwThemeExceptionFromFunc(context);
   }
 }
+
+Never _throwThemeExceptionFromFunc(BuildContext context) =>
+    throw Exception('$AppGradients not found in $context');

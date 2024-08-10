@@ -153,6 +153,71 @@ class AppColorScheme extends ThemeExtension<AppColorScheme> {
   });
 
   @override
+  ThemeExtension<AppColorScheme> lerp(
+    ThemeExtension<AppColorScheme>? other,
+    double t,
+  ) {
+    if (other is! AppColorScheme) {
+      return this;
+    }
+
+    return AppColorScheme._(
+      primary: Color.lerp(primary, other.primary, t)!,
+      onPrimary: Color.lerp(onPrimary, other.onPrimary, t)!,
+      primaryContainer:
+          Color.lerp(primaryContainer, other.primaryContainer, t)!,
+      onPrimaryContainer:
+          Color.lerp(onPrimaryContainer, other.onPrimaryContainer, t)!,
+      secondary: Color.lerp(secondary, other.secondary, t)!,
+      onSecondary: Color.lerp(onSecondary, other.onSecondary, t)!,
+      secondaryContainer:
+          Color.lerp(secondaryContainer, other.secondaryContainer, t)!,
+      onSecondaryContainer:
+          Color.lerp(onSecondaryContainer, other.onSecondaryContainer, t)!,
+      tertiary: Color.lerp(tertiary, other.tertiary, t)!,
+      onTertiary: Color.lerp(onTertiary, other.onTertiary, t)!,
+      tertiaryContainer:
+          Color.lerp(tertiaryContainer, other.tertiaryContainer, t)!,
+      onTertiaryContainer:
+          Color.lerp(onTertiaryContainer, other.onTertiaryContainer, t)!,
+      error: Color.lerp(error, other.error, t)!,
+      onError: Color.lerp(onError, other.onError, t)!,
+      errorContainer: Color.lerp(errorContainer, other.errorContainer, t)!,
+      onErrorContainer:
+          Color.lerp(onErrorContainer, other.onErrorContainer, t)!,
+      background: Color.lerp(background, other.background, t)!,
+      onBackground: Color.lerp(onBackground, other.onBackground, t)!,
+      surface: Color.lerp(surface, other.surface, t)!,
+      onSurface: Color.lerp(onSurface, other.onSurface, t)!,
+      surfaceVariant: Color.lerp(surfaceVariant, other.surfaceVariant, t)!,
+      onSurfaceVariant:
+          Color.lerp(onSurfaceVariant, other.onSurfaceVariant, t)!,
+      outline: Color.lerp(outline, other.outline, t)!,
+      surfaceContainer:
+          Color.lerp(surfaceContainer, other.surfaceContainer, t)!,
+      surfaceContainerHighest: Color.lerp(
+          surfaceContainerHighest, other.surfaceContainerHighest, t)!,
+      surfaceContainerHigh:
+          Color.lerp(surfaceContainerHigh, other.surfaceContainerHigh, t)!,
+      surfaceContainerLow:
+          Color.lerp(surfaceContainerLow, other.surfaceContainerLow, t)!,
+      surfaceContainerLowest:
+          Color.lerp(surfaceContainerLowest, other.surfaceContainerLowest, t)!,
+      surfaceBright: Color.lerp(surfaceBright, other.surfaceBright, t)!,
+      surfaceDim: Color.lerp(surfaceDim, other.surfaceDim, t)!,
+      shimmer: Color.lerp(shimmer, other.shimmer, t)!,
+      activatedFilterButtonColor: Color.lerp(
+          activatedFilterButtonColor, other.activatedFilterButtonColor, t)!,
+      inActivatedFilterButtonColor: Color.lerp(
+          inActivatedFilterButtonColor, other.inActivatedFilterButtonColor, t)!,
+      activatedThemeButtonColor: Color.lerp(
+          activatedThemeButtonColor, other.activatedThemeButtonColor, t)!,
+      inActivatedThemeButtonColor: Color.lerp(
+          inActivatedThemeButtonColor, other.inActivatedThemeButtonColor, t)!,
+    );
+  }
+
+  @override
   ThemeExtension<AppColorScheme> copyWith({
     Color? primary,
     Color? onPrimary,
@@ -235,71 +300,10 @@ class AppColorScheme extends ThemeExtension<AppColorScheme> {
     );
   }
 
-  @override
-  ThemeExtension<AppColorScheme> lerp(
-    ThemeExtension<AppColorScheme>? other,
-    double t,
-  ) {
-    if (other is! AppColorScheme) {
-      return this;
-    }
-
-    return AppColorScheme._(
-      primary: Color.lerp(primary, other.primary, t)!,
-      onPrimary: Color.lerp(onPrimary, other.onPrimary, t)!,
-      primaryContainer:
-          Color.lerp(primaryContainer, other.primaryContainer, t)!,
-      onPrimaryContainer:
-          Color.lerp(onPrimaryContainer, other.onPrimaryContainer, t)!,
-      secondary: Color.lerp(secondary, other.secondary, t)!,
-      onSecondary: Color.lerp(onSecondary, other.onSecondary, t)!,
-      secondaryContainer:
-          Color.lerp(secondaryContainer, other.secondaryContainer, t)!,
-      onSecondaryContainer:
-          Color.lerp(onSecondaryContainer, other.onSecondaryContainer, t)!,
-      tertiary: Color.lerp(tertiary, other.tertiary, t)!,
-      onTertiary: Color.lerp(onTertiary, other.onTertiary, t)!,
-      tertiaryContainer:
-          Color.lerp(tertiaryContainer, other.tertiaryContainer, t)!,
-      onTertiaryContainer:
-          Color.lerp(onTertiaryContainer, other.onTertiaryContainer, t)!,
-      error: Color.lerp(error, other.error, t)!,
-      onError: Color.lerp(onError, other.onError, t)!,
-      errorContainer: Color.lerp(errorContainer, other.errorContainer, t)!,
-      onErrorContainer:
-          Color.lerp(onErrorContainer, other.onErrorContainer, t)!,
-      background: Color.lerp(background, other.background, t)!,
-      onBackground: Color.lerp(onBackground, other.onBackground, t)!,
-      surface: Color.lerp(surface, other.surface, t)!,
-      onSurface: Color.lerp(onSurface, other.onSurface, t)!,
-      surfaceVariant: Color.lerp(surfaceVariant, other.surfaceVariant, t)!,
-      onSurfaceVariant:
-          Color.lerp(onSurfaceVariant, other.onSurfaceVariant, t)!,
-      outline: Color.lerp(outline, other.outline, t)!,
-      surfaceContainer:
-          Color.lerp(surfaceContainer, other.surfaceContainer, t)!,
-      surfaceContainerHighest: Color.lerp(
-          surfaceContainerHighest, other.surfaceContainerHighest, t)!,
-      surfaceContainerHigh:
-          Color.lerp(surfaceContainerHigh, other.surfaceContainerHigh, t)!,
-      surfaceContainerLow:
-          Color.lerp(surfaceContainerLow, other.surfaceContainerLow, t)!,
-      surfaceContainerLowest:
-          Color.lerp(surfaceContainerLowest, other.surfaceContainerLowest, t)!,
-      surfaceBright: Color.lerp(surfaceBright, other.surfaceBright, t)!,
-      surfaceDim: Color.lerp(surfaceDim, other.surfaceDim, t)!,
-      shimmer: Color.lerp(shimmer, other.shimmer, t)!,
-      activatedFilterButtonColor: Color.lerp(
-          activatedFilterButtonColor, other.activatedFilterButtonColor, t)!,
-      inActivatedFilterButtonColor: Color.lerp(
-          inActivatedFilterButtonColor, other.inActivatedFilterButtonColor, t)!,
-      activatedThemeButtonColor: Color.lerp(
-          activatedThemeButtonColor, other.activatedThemeButtonColor, t)!,
-      inActivatedThemeButtonColor: Color.lerp(
-          inActivatedThemeButtonColor, other.inActivatedThemeButtonColor, t)!,
-    );
-  }
-
   static AppColorScheme of(BuildContext context) =>
-      Theme.of(context).extension<AppColorScheme>()!;
+      Theme.of(context).extension<AppColorScheme>() ??
+      _throwThemeExceptionFromFunc(context);
 }
+
+Never _throwThemeExceptionFromFunc(BuildContext context) =>
+    throw Exception('$AppColorScheme not found in $context');
