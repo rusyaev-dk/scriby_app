@@ -63,6 +63,26 @@ class Note extends Equatable {
     );
   }
 
+  Note copyWith({
+    String? id,
+    String? title,
+    DateTime? date,
+    String? hexColor,
+    List<String>? tags,
+    String? text,
+    bool? pinned,
+  }) {
+    return Note(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      date: date ?? this.date,
+      hexColor: hexColor ?? this.hexColor,
+      tags: tags ?? this.tags,
+      text: text ?? this.text,
+      pinned: pinned ?? this.pinned,
+    );
+  }
+
   @override
   List<Object?> get props => [title, date, hexColor, tags, text, pinned];
 }

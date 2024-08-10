@@ -102,9 +102,10 @@ class _NotesSliverGridState extends State<NotesSliverGrid>
     final Alignment alignment = _calculateTransitionAlignment(note);
 
     BlocProvider.of<EditNoteBloc>(context)
-        .add(PrepareToEditNoteEvent(note: note));
-    // _animationController.forward();
-    await Future.delayed(const Duration(milliseconds: 100));
+        .add(PrepareToEditNoteEvent(initialNote: note));
+    BlocProvider.of<EditNoteStageCubit>(context).loadNote(initialNote: note);
+
+    await Future.delayed(const Duration(milliseconds: 100)); // 85?
 
     if (!context.mounted) return;
 

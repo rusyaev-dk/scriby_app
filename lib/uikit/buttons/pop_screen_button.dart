@@ -9,27 +9,35 @@ class PopScreenButton extends StatelessWidget {
     super.key,
     this.callback,
     this.iconColor,
+    this.onPressed,
+    this.iconSize,
   });
 
+  final void Function()? onPressed;
   final void Function()? callback;
   final Color? iconColor;
+  final double? iconSize;
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = AppColorScheme.of(context);
 
     return IconButton(
-      onPressed: () async {
-        await AutoRouter.of(context).maybePop();
-        if (callback != null) {
-          callback!();
-        }
-      },
+      onPressed: onPressed ?? () => _defaultBtnAction(context),
       icon: Icon(
         color: iconColor ?? colorScheme.onBackground,
-        Platform.isAndroid ? Icons.arrow_back : Icons.arrow_back_ios,
-        size: 25,
+        Platform.isAndroid
+            ? Icons.arrow_back_rounded
+            : Icons.arrow_back_ios_new_rounded,
+        size: iconSize,
       ),
     );
+  }
+
+  Future<void> _defaultBtnAction(BuildContext context) async {
+    await AutoRouter.of(context).maybePop();
+    if (callback != null) {
+      callback!();
+    }
   }
 }

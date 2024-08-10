@@ -79,6 +79,9 @@ class AppInitializer extends StatelessWidget {
             ),
           ),
           BlocProvider(
+            create: (context) => EditNoteStageCubit(),
+          ),
+          BlocProvider(
             create: (context) => GeneralSettingsBloc(
               generalSettingsRepository:
                   context.read<IGeneralSettingsRepository>(),

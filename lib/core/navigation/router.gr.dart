@@ -28,7 +28,7 @@ abstract class _$AppRouter extends RootStackRouter {
         routeData: routeData,
         child: EditNoteScreen(
           key: args.key,
-          editingNote: args.editingNote,
+          initialNote: args.editingNote,
           animationAlignment: args.animationAlignment,
         ),
       );

@@ -1,3 +1,3 @@
-export 'edit_note_bloc/edit_note_bloc.dart';
+export 'blocs/blocs.dart';
 export 'screens/screens.dart';
 export 'widgets/widgets.dart';

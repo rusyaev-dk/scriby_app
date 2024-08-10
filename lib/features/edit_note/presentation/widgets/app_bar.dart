@@ -31,12 +31,8 @@ class EditNoteAppBar extends StatelessWidget {
                     color: colorScheme.surface,
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  child: IconButton(
-                    onPressed: () => AutoRouter.of(context).back(),
-                    icon: Icon(
-                      Icons.arrow_back,
-                      color: colorScheme.onBackground,
-                    ),
+                  child: PopScreenButton(
+                    onPressed: () => _onScreenPopButtonPressed(context),
                   ),
                 ),
                 const Spacer(),
@@ -57,5 +53,11 @@ class EditNoteAppBar extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _onScreenPopButtonPressed(BuildContext context) async {
+    final editBlocState = BlocProvider.of<EditNoteBloc>(context).state;
+    if (editBlocState is EditNoteEditingState) {}
+    AutoRouter.of(context).back();
   }
 }

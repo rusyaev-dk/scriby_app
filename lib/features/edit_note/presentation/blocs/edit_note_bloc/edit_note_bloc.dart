@@ -33,7 +33,7 @@ class EditNoteBloc extends Bloc<EditNoteEvent, EditNoteState> {
       //
       // await Future.delayed(const Duration(milliseconds: 4000));
       //
-      return emit(EditNoteEditingState(note: event.note));
+      return emit(EditNoteEditingState(note: event.initialNote));
     } catch (exception, stackTrace) {
       _logger.exception(exception, stackTrace);
       emit(EditNoteFailureState(exception: exception));

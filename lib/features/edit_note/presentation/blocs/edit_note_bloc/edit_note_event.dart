@@ -3,12 +3,12 @@ part of 'edit_note_bloc.dart';
 sealed class EditNoteEvent extends Equatable {}
 
 final class PrepareToEditNoteEvent extends EditNoteEvent {
-  PrepareToEditNoteEvent({required this.note});
+  PrepareToEditNoteEvent({required this.initialNote});
 
-  final Note note;
+  final Note initialNote;
 
   @override
-  List<Object?> get props => [note];
+  List<Object?> get props => [initialNote];
 }
 
 final class SaveNoteEvent extends EditNoteEvent {

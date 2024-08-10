@@ -13,11 +13,11 @@ import 'package:scriby_app/uikit/uikit.dart';
 class EditNoteScreen extends StatefulWidget {
   const EditNoteScreen({
     super.key,
-    this.editingNote,
+    this.initialNote,
     this.animationAlignment,
   });
 
-  final Note? editingNote;
+  final Note? initialNote;
   final Alignment? animationAlignment;
 
   @override
@@ -31,8 +31,11 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
   @override
   void initState() {
     super.initState();
-    _titleController = TextEditingController(text: widget.editingNote?.title);
-    _noteTextController = TextEditingController(text: widget.editingNote?.text);
+    _titleController = TextEditingController(text: widget.initialNote?.title);
+    _noteTextController = TextEditingController(text: widget.initialNote?.text);
+    // _titleController.addListener(() {
+    //   print("Something edited...");
+    // });
   }
 
   @override
@@ -71,7 +74,7 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
                       ),
                     ),
                     const SliverToBoxAdapter(
-                      child: SizedBox(height: 6),
+                      child: SizedBox(height: 15),
                     ),
                     SliverFillRemaining(
                       hasScrollBody: false,
@@ -95,13 +98,6 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
     );
   }
 
-  @override
-  void dispose() {
-    _titleController.dispose();
-    _noteTextController.dispose();
-    super.dispose();
-  }
-
   void _onSaveButtonPressed(BuildContext context) async {
     final Completer completer = Completer();
 
@@ -114,7 +110,7 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
       }
     }
 
-    final Note? editingNote = widget.editingNote;
+    final Note? editingNote = widget.initialNote;
     final Note note = Note.create(
       id: editingNote?.id,
       title: _titleController.text,
@@ -159,5 +155,12 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
         );
       },
     );
+  }
+
+  @override
+  void dispose() {
+    _titleController.dispose();
+    _noteTextController.dispose();
+    super.dispose();
   }
 }

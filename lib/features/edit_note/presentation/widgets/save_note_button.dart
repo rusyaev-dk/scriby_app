@@ -38,7 +38,7 @@ class SaveNoteButton extends StatelessWidget {
               : Text(
                   'Save',
                   style: textScheme.label.copyWith(
-                    fontSize: 19,
+                    fontSize: 21,
                     color: colorScheme.onBackground,
                   ),
                 ),
