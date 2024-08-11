@@ -58,7 +58,7 @@ class _NewNoteButtonState extends State<NewNoteButton>
           child: Visibility(
             visible: isVisible,
             child: Icon(
-              Icons.add,
+              Icons.add_rounded,
               size: 33,
               color: colorScheme.onBackground,
             ),

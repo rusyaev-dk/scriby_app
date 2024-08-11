@@ -53,7 +53,7 @@ class MainInputTextField extends StatelessWidget {
       controller: controller,
       maxLines: null,
       decoration: InputDecoration(
-        hintText: "Enter your note here",
+        hintText: "Enter your note here...",
         hintStyle: textScheme.headline.copyWith(
           fontSize: 22,
           color: colorScheme.secondary.withOpacity(0.7),
