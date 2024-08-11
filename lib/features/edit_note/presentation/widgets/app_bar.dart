@@ -73,6 +73,9 @@ class EditNoteAppBar extends StatelessWidget {
 
     if (!shouldSave) {
       FocusScope.of(context).unfocus();
+      await Future.delayed(const Duration(milliseconds: 200));
+      
+      if (!context.mounted) return;
       AutoRouter.of(context).back();
       return;
     }

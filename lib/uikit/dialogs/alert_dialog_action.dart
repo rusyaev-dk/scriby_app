@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:scriby_app/uikit/uikit.dart';
 
 class AppAlertDialogAction extends StatelessWidget {
   const AppAlertDialogAction({
@@ -40,9 +41,16 @@ class AppAlertDialogAction extends StatelessWidget {
       );
     }
 
+    final textScheme = AppTextScheme.of(context);
+    final colorScheme = AppColorScheme.of(context);
     return TextButton(
       onPressed: onPressed,
-      style: style,
+      style: TextButton.styleFrom(
+        textStyle: textScheme.label.copyWith(
+          fontSize: 18,
+          color: colorScheme.onBackground,
+        ),
+      ),
       child: child,
     );
   }

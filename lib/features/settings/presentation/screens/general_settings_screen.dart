@@ -72,16 +72,16 @@ class GeneralSettingsScreen extends StatelessWidget {
   }
 
   Future<void> _deleteAllNotes(BuildContext context) async {
-    final bool deleteConfirmation =
+    final bool confirmDelete =
         await _showDeleteAllNotesDialog(context) ?? false;
 
-    if (context.mounted && deleteConfirmation) {
+    if (context.mounted && confirmDelete) {
       BlocProvider.of<NotesManagerBloc>(context).add(DeleteAllNotesEvent());
     }
   }
 
   Future<bool?> _showDeleteAllNotesDialog(BuildContext context) async {
-    return await showDialog<bool>(
+    return await showDialog<bool?>(
       context: context,
       builder: (context) {
         return AppAlertDialog(
