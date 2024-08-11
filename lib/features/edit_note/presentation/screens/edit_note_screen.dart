@@ -119,10 +119,13 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
 
     if (!context.mounted) return;
 
-    if (stageCubitState.updatedNote != null &&
-        stageCubitState.updatedNote == stageCubitState.initialNote) {
-      FocusScope.of(context).unfocus();
-      AutoRouter.of(context).back();
+    if (stageCubitState.updatedNote == null) {
+      _closeKeyboardAndPop(context);
+      return;
+    }
+
+    if (stageCubitState.updatedNote == stageCubitState.initialNote) {
+      _closeKeyboardAndPop(context);
       return;
     }
 
@@ -135,8 +138,7 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
 
     if (!context.mounted) return;
 
-    FocusScope.of(context).unfocus();
-    AutoRouter.of(context).back();
+    _closeKeyboardAndPop(context);
   }
 
   Future<bool?> _showSaveEmptyNoteDialog(BuildContext context) {
@@ -158,6 +160,11 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
         );
       },
     );
+  }
+
+  void _closeKeyboardAndPop(BuildContext context) {
+    FocusScope.of(context).unfocus();
+    AutoRouter.of(context).back();
   }
 
   @override
