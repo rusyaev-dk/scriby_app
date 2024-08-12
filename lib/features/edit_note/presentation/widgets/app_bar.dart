@@ -34,6 +34,7 @@ class EditNoteAppBar extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: PopScreenButton(
+                    icon: Icons.close_rounded,
                     onPressed: () => _onScreenPopButtonPressed(context),
                   ),
                 ),

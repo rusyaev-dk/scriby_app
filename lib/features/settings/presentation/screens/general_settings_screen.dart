@@ -7,8 +7,8 @@ import 'package:scriby_app/features/settings/presentation/presentation.dart';
 import 'package:scriby_app/uikit/uikit.dart';
 
 @RoutePage(name: "GeneralSettingsShellRoute")
-class GeneralSettingsShellPage extends AutoRouter {
-  const GeneralSettingsShellPage({super.key});
+class GeneralSettingsShellScreen extends AutoRouter {
+  const GeneralSettingsShellScreen({super.key});
 }
 
 @RoutePage(name: "GeneralSettingsRoute")

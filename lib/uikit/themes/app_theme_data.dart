@@ -94,11 +94,11 @@ abstract class AppThemeData {
       backgroundColor: _darkColorScheme.background,
       titleTextStyle: _textScheme.headline.copyWith(
         fontSize: 22,
-        color: _lightColorScheme.onBackground,
+        color: _darkColorScheme.onBackground,
       ),
       contentTextStyle: _textScheme.label.copyWith(
         fontSize: 18,
-        color: _lightColorScheme.onBackground,
+        color: _darkColorScheme.onBackground,
       ),
     ),
   );

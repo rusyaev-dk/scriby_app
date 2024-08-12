@@ -10,12 +10,14 @@ class PopScreenButton extends StatelessWidget {
     this.callback,
     this.iconColor,
     this.onPressed,
+    this.icon,
     this.iconSize,
   });
 
   final void Function()? onPressed;
   final void Function()? callback;
   final Color? iconColor;
+  final IconData? icon;
   final double? iconSize;
 
   @override
@@ -25,10 +27,11 @@ class PopScreenButton extends StatelessWidget {
     return IconButton(
       onPressed: onPressed ?? () => _defaultBtnAction(context),
       icon: Icon(
+        icon ??
+            (Platform.isAndroid
+                ? Icons.arrow_back_rounded
+                : Icons.arrow_back_ios_new_rounded),
         color: iconColor ?? colorScheme.onBackground,
-        Platform.isAndroid
-            ? Icons.arrow_back_rounded
-            : Icons.arrow_back_ios_new_rounded,
         size: iconSize,
       ),
     );

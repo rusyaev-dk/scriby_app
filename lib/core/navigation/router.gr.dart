@@ -48,7 +48,7 @@ abstract class _$AppRouter extends RootStackRouter {
     GeneralSettingsShellRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const GeneralSettingsShellPage(),
+        child: const GeneralSettingsShellScreen(),
       );
     },
     HomeRoute.name: (routeData) {
@@ -158,7 +158,7 @@ class GeneralSettingsRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [GeneralSettingsShellPage]
+/// [GeneralSettingsShellScreen]
 class GeneralSettingsShellRoute extends PageRouteInfo<void> {
   const GeneralSettingsShellRoute({List<PageRouteInfo>? children})
       : super(
