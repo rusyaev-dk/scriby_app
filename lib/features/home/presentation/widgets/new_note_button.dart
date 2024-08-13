@@ -74,7 +74,7 @@ class _NewNoteButtonState extends State<NewNoteButton>
     });
 
     _animationController.forward();
-    await Future.delayed(const Duration(milliseconds: 100)); // 85?
+    await Future.delayed(const Duration(milliseconds: 85)); // 85?
 
     if (!mounted) return;
 

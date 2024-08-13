@@ -10,7 +10,7 @@ class FoldersTab extends StatefulWidget {
   State<FoldersTab> createState() => _FoldersTabState();
 }
 
-class _FoldersTabState extends State<FoldersTab> {
+class _FoldersTabState extends State<FoldersTab>   {
   late final ScrollController _scrollController;
 
   @override
@@ -50,4 +50,5 @@ class _FoldersTabState extends State<FoldersTab> {
     _scrollController.dispose();
     super.dispose();
   }
+  
 }

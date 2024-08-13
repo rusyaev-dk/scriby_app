@@ -42,7 +42,8 @@ class _HomeScreenState extends State<HomeScreen> {
             child: NestedScrollView(
               key: ScrollAbsorberKeys.nestedScrollViewKey,
               controller: _scrollController,
-              headerSliverBuilder: (context, isScrolled) {
+              headerSliverBuilder:
+                  (BuildContext context, bool innerBoxIsScrolled) {
                 return [
                   SliverOverlapAbsorber(
                     handle: NestedScrollView.sliverOverlapAbsorberHandleFor(

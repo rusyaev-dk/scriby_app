@@ -13,7 +13,7 @@ class PinnedNotesTab extends StatefulWidget {
   State<PinnedNotesTab> createState() => _PinnedNotesTabState();
 }
 
-class _PinnedNotesTabState extends State<PinnedNotesTab> {
+class _PinnedNotesTabState extends State<PinnedNotesTab>  {
   static const EdgeInsets _padding = EdgeInsets.only(
     left: 13,
     right: 13,
@@ -30,6 +30,7 @@ class _PinnedNotesTabState extends State<PinnedNotesTab> {
 
   @override
   Widget build(BuildContext context) {
+
     return BlocBuilder<PinnedNotesBloc, PinnedNotesState>(
       builder: (context, state) {
         return NotificationListener(
@@ -78,4 +79,6 @@ class _PinnedNotesTabState extends State<PinnedNotesTab> {
     _scrollController.dispose();
     super.dispose();
   }
+  
+
 }
