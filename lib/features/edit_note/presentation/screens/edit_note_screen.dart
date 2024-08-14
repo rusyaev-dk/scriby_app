@@ -119,11 +119,6 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
 
     if (!context.mounted) return;
 
-    if (stageCubitState.updatedNote == null) {
-      _closeKeyboardAndPop(context);
-      return;
-    }
-
     if (stageCubitState.updatedNote == stageCubitState.initialNote) {
       _closeKeyboardAndPop(context);
       return;
@@ -131,7 +126,7 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
 
     final Completer completer = Completer();
     BlocProvider.of<EditNoteBloc>(context).add(SaveNoteEvent(
-      note: stageCubitState.updatedNote!,
+      note: stageCubitState.updatedNote ?? stageCubitState.initialNote,
       completer: completer,
     ));
     await completer.future;
