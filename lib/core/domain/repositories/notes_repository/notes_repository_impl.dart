@@ -20,7 +20,7 @@ class NotesRepository implements INotesRepository {
     final List<LocalNote> localNotes =
         _realm.query<LocalNote>('TRUEPREDICATE SORT(date ASC)').toList();
 
-    return _formatNotesFromLocal(localNotes);
+    return _convertNotesFromLocal(localNotes);
   }
 
   @override
@@ -28,13 +28,13 @@ class NotesRepository implements INotesRepository {
     final List<LocalNote> localPinnedNotes =
         _realm.query<LocalNote>("pinned == true").toList();
 
-    return _formatNotesFromLocal(localPinnedNotes);
+    return _convertNotesFromLocal(localPinnedNotes);
   }
 
   @override
   Future<void> addNote(Note newNote) async {
     final localNote = newNote.toLocal();
-    _realm.write(() => _realm.add(localNote));
+    _realm.write(() => _realm.add<LocalNote>(localNote));
     _notesStreamController.add((action: NoteAction.created, note: newNote));
   }
 
@@ -55,7 +55,7 @@ class NotesRepository implements INotesRepository {
 
     _realm.write(() {
       localNote.pinned = true;
-      _realm.add(localNote, update: true);
+      _realm.add<LocalNote>(localNote, update: true);
     });
     _notesStreamController.add((action: NoteAction.pinned, note: note));
   }
@@ -69,7 +69,7 @@ class NotesRepository implements INotesRepository {
 
     _realm.write(() {
       localNote.pinned = false;
-      _realm.add(localNote, update: true);
+      _realm.add<LocalNote>(localNote, update: true);
     });
     _notesStreamController.add((action: NoteAction.unpinned, note: note));
   }
@@ -79,7 +79,7 @@ class NotesRepository implements INotesRepository {
     final LocalNote updatedLocalNote = updatedNote.toLocal();
 
     _realm.write(() {
-      _realm.add(updatedLocalNote, update: true);
+      _realm.add<LocalNote>(updatedLocalNote, update: true);
     });
     _notesStreamController.add((action: NoteAction.updated, note: updatedNote));
   }
@@ -94,7 +94,7 @@ class NotesRepository implements INotesRepository {
 
     if (localNote == null) return;
 
-    _realm.write(() => _realm.delete(localNote));
+    _realm.write(() => _realm.delete<LocalNote>(localNote));
     _notesStreamController
         .add((action: NoteAction.deleted, note: noteToDelete));
   }
@@ -119,7 +119,7 @@ class NotesRepository implements INotesRepository {
     }
   }
 
-  List<Note> _formatNotesFromLocal(List<LocalNote> localNotes) {
+  List<Note> _convertNotesFromLocal(List<LocalNote> localNotes) {
     List<Note> notes = [];
 
     for (int i = localNotes.length - 1; i >= 0; i--) {

@@ -57,9 +57,9 @@ class GeneralSettingsBloc
 
       await _generalSettingsRepository.toggleNotifications(!curNotifications);
 
-      final prevState = state;
-      if (prevState is GeneralSettingsLoadedState) {
-        emit(prevState.copyWith(notifications: !curNotifications));
+      final curState = state;
+      if (curState is GeneralSettingsLoadedState) {
+        emit(curState.copyWith(notifications: !curNotifications));
       }
     } catch (exception, stackTrace) {
       _logger.exception(exception, stackTrace);
@@ -77,9 +77,9 @@ class GeneralSettingsBloc
 
       await _generalSettingsRepository.toggleVibration(!curVibration);
 
-      final prevState = state;
-      if (prevState is GeneralSettingsLoadedState) {
-        emit(prevState.copyWith(vibration: !curVibration));
+      final curState = state;
+      if (curState is GeneralSettingsLoadedState) {
+        emit(curState.copyWith(vibration: !curVibration));
       }
     } catch (exception, stackTrace) {
       _logger.exception(exception, stackTrace);
@@ -96,9 +96,9 @@ class GeneralSettingsBloc
           await _generalSettingsRepository.getCloudSyncStatus();
 
       await _generalSettingsRepository.toggleCloudSync(!curCloudSync);
-      final prevState = state;
-      if (prevState is GeneralSettingsLoadedState) {
-        emit(prevState.copyWith(cloudSync: !curCloudSync));
+      final curState = state;
+      if (curState is GeneralSettingsLoadedState) {
+        emit(curState.copyWith(cloudSync: !curCloudSync));
       }
     } catch (exception, stackTrace) {
       _logger.exception(exception, stackTrace);

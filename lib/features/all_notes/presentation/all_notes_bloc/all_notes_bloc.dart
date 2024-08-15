@@ -87,10 +87,10 @@ class AllNotesBloc extends Bloc<AllNotesEvent, AllNotesState> {
       await Future.delayed(const Duration(milliseconds: 700));
       //
 
-      final prevState = state;
-      if (prevState is AllNotesLoadedState) {
-        final updatedNotes = [event.addedNote] + prevState.notes;
-        return emit(prevState.copyWith(notes: updatedNotes));
+      final curState = state;
+      if (curState is AllNotesLoadedState) {
+        final updatedNotes = [event.addedNote] + curState.notes;
+        return emit(curState.copyWith(notes: updatedNotes));
       }
 
       if (state is! AllNotesLoadingState) {
@@ -113,15 +113,15 @@ class AllNotesBloc extends Bloc<AllNotesEvent, AllNotesState> {
       await Future.delayed(const Duration(milliseconds: 700));
       //
 
-      final prevState = state;
-      if (prevState is AllNotesLoadedState) {
-        List<Note> updatedNotes = List.from(prevState.notes);
+      final curState = state;
+      if (curState is AllNotesLoadedState) {
+        List<Note> updatedNotes = List.from(curState.notes);
         updatedNotes.removeWhere(
           (Note note) => note.id == event.editedNote.id,
         );
         updatedNotes = [event.editedNote] + updatedNotes;
 
-        return emit(prevState.copyWith(notes: updatedNotes));
+        return emit(curState.copyWith(notes: updatedNotes));
       }
 
       if (state is! AllNotesLoadingState) {
@@ -144,14 +144,14 @@ class AllNotesBloc extends Bloc<AllNotesEvent, AllNotesState> {
       await Future.delayed(const Duration(milliseconds: 700));
       //
 
-      final prevState = state;
-      if (prevState is AllNotesLoadedState) {
-        List<Note> updatedNotes = List.from(prevState.notes);
+      final curState = state;
+      if (curState is AllNotesLoadedState) {
+        List<Note> updatedNotes = List.from(curState.notes);
         updatedNotes.removeWhere(
           (Note note) => note.id == event.deletedNote.id,
         );
 
-        return emit(prevState.copyWith(notes: updatedNotes));
+        return emit(curState.copyWith(notes: updatedNotes));
       }
 
       if (state is! AllNotesLoadingState) {
