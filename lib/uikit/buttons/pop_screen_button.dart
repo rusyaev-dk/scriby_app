@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:scriby_app/uikit/uikit.dart';
 
@@ -24,13 +25,22 @@ class PopScreenButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = AppColorScheme.of(context);
 
+    if (Platform.isIOS) {
+      return CupertinoButton(
+        padding: EdgeInsets.zero,
+        onPressed: onPressed ?? () => _defaultBtnAction(context),
+        child: Icon(
+          icon ?? Icons.arrow_back_ios_new_rounded,
+          color: iconColor ?? colorScheme.onBackground,
+          size: iconSize,
+        ),
+      );
+    }
+
     return IconButton(
       onPressed: onPressed ?? () => _defaultBtnAction(context),
       icon: Icon(
-        icon ??
-            (Platform.isAndroid
-                ? Icons.arrow_back_rounded
-                : Icons.arrow_back_ios_new_rounded),
+        icon ?? Icons.arrow_back_rounded,
         color: iconColor ?? colorScheme.onBackground,
         size: iconSize,
       ),

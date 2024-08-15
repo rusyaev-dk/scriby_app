@@ -24,7 +24,9 @@ class GeneralSettingsScreen extends StatelessWidget {
       appBar: AppBar(
         forceMaterialTransparency: true,
         foregroundColor: colorScheme.onBackground,
-        leading: const PopScreenButton(),
+        leading: const PopScreenButton(
+          iconSize: 25,
+        ),
         actionsIconTheme: IconThemeData(
           color: colorScheme.onBackground,
         ),

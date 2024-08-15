@@ -37,18 +37,21 @@ class HomeAppBar extends StatelessWidget {
         AppBarButton.round(
           diameter: 40,
           icon: Icons.filter_alt,
+          iconSize: 25,
           onPressed: () {},
         ),
         const SizedBox(width: 8),
         AppBarButton.round(
           diameter: 40,
           icon: Icons.search,
+          iconSize: 25,
           onPressed: () {},
         ),
         const SizedBox(width: 8),
         AppBarButton.round(
           diameter: 40,
           icon: Icons.settings,
+          iconSize: 25,
           onPressed: () => _openSettings(context),
         ),
         const SizedBox(width: 10),
