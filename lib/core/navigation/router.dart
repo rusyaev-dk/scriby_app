@@ -9,6 +9,7 @@ import 'package:scriby_app/features/edit_note/presentation/presentation.dart';
 import 'package:scriby_app/features/folders/presentation/presentation.dart';
 import 'package:scriby_app/features/home/presentation/presentation.dart';
 import 'package:scriby_app/features/pinned_notes/presentation/presentation.dart';
+import 'package:scriby_app/features/search/presentation/presentation.dart';
 import 'package:scriby_app/features/settings/presentation/presentation.dart';
 
 part 'router.gr.dart';
@@ -36,6 +37,7 @@ class AppRouter extends _$AppRouter {
             ),
           ],
         ),
+        SearchRoutes.route,
         SettingsRoutes.route,
         CustomRoute(
           path: '/edit_note',
@@ -65,6 +67,21 @@ class AppRouter extends _$AppRouter {
           },
         ),
       ];
+}
+
+class SearchRoutes {
+  static final route = AutoRoute(
+    path: "/search",
+    page: SearchShellRoute.page,
+    children: _childrenRoutes,
+  );
+
+  static final _childrenRoutes = [
+    AutoRoute(
+      path: '',
+      page: SearchRoute.page,
+    ),
+  ];
 }
 
 class SettingsRoutes {

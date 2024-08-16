@@ -69,6 +69,18 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const PrivacyScreen(),
       );
     },
+    SearchRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const SearchScreen(),
+      );
+    },
+    SearchShellRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const SearchSheelScreen(),
+      );
+    },
   };
 }
 
@@ -209,6 +221,34 @@ class PrivacySettingsRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'PrivacySettingsRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [SearchScreen]
+class SearchRoute extends PageRouteInfo<void> {
+  const SearchRoute({List<PageRouteInfo>? children})
+      : super(
+          SearchRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'SearchRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [SearchSheelScreen]
+class SearchShellRoute extends PageRouteInfo<void> {
+  const SearchShellRoute({List<PageRouteInfo>? children})
+      : super(
+          SearchShellRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'SearchShellRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

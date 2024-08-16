@@ -45,7 +45,7 @@ class HomeAppBar extends StatelessWidget {
           diameter: 40,
           icon: Icons.search,
           iconSize: 25,
-          onPressed: () {},
+          onPressed: () => _openSearch(context),
         ),
         const SizedBox(width: 8),
         AppBarButton.round(
@@ -62,6 +62,10 @@ class HomeAppBar extends StatelessWidget {
 
   Future<void> _openSettings(BuildContext context) async {
     AutoRouter.of(context).push(const GeneralSettingsRoute());
+  }
+
+  Future<void> _openSearch(BuildContext context) async {
+    AutoRouter.of(context).push(const SearchRoute());
   }
 }
 
