@@ -69,4 +69,33 @@ abstract class CustomPageTransitionsBuilder {
       ),
     );
   }
+
+  static Widget verticalSlideTransitionsBuilder(
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+    Widget child,
+  ) {
+    final curvedSlideAnimation = CurvedAnimation(
+      parent: animation,
+      curve: Curves.easeOutCubic,
+    );
+
+    const begin = Offset(0.0, 1.0);
+    const end = Offset.zero;
+    final tween = Tween(begin: begin, end: end).animate(curvedSlideAnimation);
+
+    final curvedFadeAnimation = CurvedAnimation(
+      parent: animation,
+      curve: Curves.ease,
+    );
+
+    return SlideTransition(
+      position: tween,
+      child: FadeTransition(
+        opacity: curvedFadeAnimation,
+        child: child,
+      ),
+    );
+  }
 }

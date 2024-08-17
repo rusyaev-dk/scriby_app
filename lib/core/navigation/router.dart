@@ -70,10 +70,21 @@ class AppRouter extends _$AppRouter {
 }
 
 class SearchRoutes {
-  static final route = AutoRoute(
+  static final route = CustomRoute(
     path: "/search",
     page: SearchNotesShellRoute.page,
     children: _childrenRoutes,
+    customRouteBuilder:
+        (BuildContext context, Widget child, AutoRoutePage page) {
+      return PageRouteBuilder(
+        transitionDuration: const Duration(milliseconds: 300),
+        fullscreenDialog: page.fullscreenDialog,
+        transitionsBuilder:
+            CustomPageTransitionsBuilder.verticalSlideTransitionsBuilder,
+        settings: page,
+        pageBuilder: (context, animation, _) => child,
+      );
+    },
   );
 
   static final _childrenRoutes = [

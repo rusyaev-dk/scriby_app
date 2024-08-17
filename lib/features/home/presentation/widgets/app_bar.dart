@@ -17,10 +17,8 @@ class HomeAppBar extends StatelessWidget {
     final textScheme = AppTextScheme.of(context);
 
     return SliverAppBar(
-      forceElevated: false,
       scrolledUnderElevation: 0,
       elevation: 0,
-      surfaceTintColor: Colors.transparent,
       snap: false,
       floating: true,
       pinned: true,
@@ -34,22 +32,19 @@ class HomeAppBar extends StatelessWidget {
       toolbarHeight: 60,
       expandedHeight: 110,
       actions: [
-        AppBarButton.round(
-          diameter: 40,
+        CustomIconButton(
           icon: Icons.filter_alt,
           iconSize: 25,
           onPressed: () {},
         ),
-        const SizedBox(width: 8),
-        AppBarButton.round(
-          diameter: 40,
-          icon: Icons.search,
+        const SizedBox(width: 4),
+        CustomIconButton(
+          icon: Icons.search_rounded,
           iconSize: 25,
           onPressed: () => _openSearch(context),
         ),
-        const SizedBox(width: 8),
-        AppBarButton.round(
-          diameter: 40,
+        const SizedBox(width: 4),
+        CustomIconButton(
           icon: Icons.settings,
           iconSize: 25,
           onPressed: () => _openSettings(context),
@@ -65,7 +60,7 @@ class HomeAppBar extends StatelessWidget {
   }
 
   Future<void> _openSearch(BuildContext context) async {
-    AutoRouter.of(context).push(const SearchRoute());
+    AutoRouter.of(context).push(const SearchNotesRoute());
   }
 }
 

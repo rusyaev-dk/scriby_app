@@ -23,12 +23,11 @@ class GeneralSettingsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         forceMaterialTransparency: true,
-        foregroundColor: colorScheme.onBackground,
-        leading: const PopScreenButton(
-          iconSize: 25,
-        ),
-        actionsIconTheme: IconThemeData(
-          color: colorScheme.onBackground,
+        leading: const Padding(
+          padding: EdgeInsets.all(7),
+          child: PopScreenButton(
+            iconSize: 25,
+          ),
         ),
         title: Text(
           "Settings",
@@ -37,6 +36,8 @@ class GeneralSettingsScreen extends StatelessWidget {
             color: colorScheme.onBackground,
           ),
         ),
+        toolbarHeight: 60,
+        leadingWidth: 60,
       ),
       body: DisableScrollStretching(
         child: SingleChildScrollView(

@@ -26,17 +26,10 @@ class EditNoteAppBar extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: Row(
               children: [
-                Container(
-                  height: 40,
-                  width: 40,
-                  decoration: BoxDecoration(
-                    color: colorScheme.surface,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: PopScreenButton(
-                    icon: Icons.close_rounded,
-                    onPressed: () => _onScreenPopButtonPressed(context),
-                  ),
+                PopScreenButtonCirlced(
+                  diameter: 40,
+                  icon: Icons.close_rounded,
+                  onPressed: () => _onScreenPopButtonPressed(context),
                 ),
                 const Spacer(),
                 BlocBuilder<EditNoteBloc, EditNoteState>(
@@ -75,7 +68,7 @@ class EditNoteAppBar extends StatelessWidget {
     if (!shouldSave) {
       FocusScope.of(context).unfocus();
       await Future.delayed(const Duration(milliseconds: 200));
-      
+
       if (!context.mounted) return;
       AutoRouter.of(context).back();
       return;

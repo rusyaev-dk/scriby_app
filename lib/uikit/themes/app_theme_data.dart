@@ -71,12 +71,12 @@ abstract class AppThemeData {
       error: _darkColorScheme.error,
       onError: _darkColorScheme.onError,
       surface: _darkColorScheme.surface,
-      surfaceContainer: _lightColorScheme.surfaceContainer,
+      surfaceContainer: _darkColorScheme.surfaceContainer,
       onSurface: _darkColorScheme.onSurface,
     ),
     scaffoldBackgroundColor: _darkColorScheme.background,
     appBarTheme: AppBarTheme(
-      color: _lightColorScheme.primary,
+      color: _darkColorScheme.background,
       elevation: 0,
     ),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(

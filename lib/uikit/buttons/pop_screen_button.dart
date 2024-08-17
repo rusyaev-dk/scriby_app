@@ -8,18 +8,18 @@ import 'package:scriby_app/uikit/uikit.dart';
 class PopScreenButton extends StatelessWidget {
   const PopScreenButton({
     super.key,
-    this.callback,
-    this.iconColor,
     this.onPressed,
+    this.callback,
     this.icon,
+    this.iconColor,
     this.iconSize,
   });
 
   final void Function()? onPressed;
   final void Function()? callback;
-  final Color? iconColor;
   final IconData? icon;
   final double? iconSize;
+  final Color? iconColor;
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +38,7 @@ class PopScreenButton extends StatelessWidget {
     }
 
     return IconButton(
+      padding: EdgeInsets.zero,
       onPressed: onPressed ?? () => _defaultBtnAction(context),
       icon: Icon(
         icon ?? Icons.arrow_back_rounded,
@@ -47,10 +48,52 @@ class PopScreenButton extends StatelessWidget {
     );
   }
 
-  Future<void> _defaultBtnAction(BuildContext context) async {
-    await AutoRouter.of(context).maybePop();
+  void _defaultBtnAction(BuildContext context) {
+    AutoRouter.of(context).maybePop();
     if (callback != null) {
       callback!();
     }
+  }
+}
+
+class PopScreenButtonCirlced extends StatelessWidget {
+  const PopScreenButtonCirlced({
+    super.key,
+    required this.diameter,
+    this.onPressed,
+    this.callback,
+    this.icon,
+    this.iconSize,
+    this.iconColor,
+    this.backgroundColor,
+  });
+
+  final void Function()? onPressed;
+  final void Function()? callback;
+  final Color? iconColor;
+  final IconData? icon;
+  final double? iconSize;
+  final double diameter;
+  final Color? backgroundColor;
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = AppColorScheme.of(context);
+
+    return Container(
+      height: diameter,
+      width: diameter,
+      decoration: BoxDecoration(
+        color: colorScheme.surface,
+        borderRadius: BorderRadius.circular(diameter / 2),
+      ),
+      child: PopScreenButton(
+        onPressed: onPressed,
+        callback: callback,
+        icon: icon,
+        iconSize: iconSize,
+        iconColor: iconColor,
+      ),
+    );
   }
 }
