@@ -69,16 +69,16 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const PrivacyScreen(),
       );
     },
-    SearchRoute.name: (routeData) {
+    SearchNotesRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const SearchScreen(),
+        child: const SearchNotesScreen(),
       );
     },
-    SearchShellRoute.name: (routeData) {
+    SearchNotesShellRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const SearchSheelScreen(),
+        child: const SearchNotesSheelScreen(),
       );
     },
   };
@@ -226,29 +226,29 @@ class PrivacySettingsRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [SearchScreen]
-class SearchRoute extends PageRouteInfo<void> {
-  const SearchRoute({List<PageRouteInfo>? children})
+/// [SearchNotesScreen]
+class SearchNotesRoute extends PageRouteInfo<void> {
+  const SearchNotesRoute({List<PageRouteInfo>? children})
       : super(
-          SearchRoute.name,
+          SearchNotesRoute.name,
           initialChildren: children,
         );
 
-  static const String name = 'SearchRoute';
+  static const String name = 'SearchNotesRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for
-/// [SearchSheelScreen]
-class SearchShellRoute extends PageRouteInfo<void> {
-  const SearchShellRoute({List<PageRouteInfo>? children})
+/// [SearchNotesSheelScreen]
+class SearchNotesShellRoute extends PageRouteInfo<void> {
+  const SearchNotesShellRoute({List<PageRouteInfo>? children})
       : super(
-          SearchShellRoute.name,
+          SearchNotesShellRoute.name,
           initialChildren: children,
         );
 
-  static const String name = 'SearchShellRoute';
+  static const String name = 'SearchNotesShellRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
