@@ -4,10 +4,7 @@ import 'package:scriby_app/uikit/uikit.dart';
 class SearchNotesAppBar extends StatelessWidget {
   const SearchNotesAppBar({
     super.key,
-    required this.searchTextController,
   });
-
-  final TextEditingController searchTextController;
 
   @override
   Widget build(BuildContext context) {
@@ -17,50 +14,14 @@ class SearchNotesAppBar extends StatelessWidget {
     return SafeArea(
       child: Container(
         color: colorScheme.background,
-        child: Center(
+        child: const Center(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
+            padding: EdgeInsets.symmetric(horizontal: 10),
             child: Row(
               children: [
-                const PopScreenButtonCirlced(
+                PopScreenButtonCirlced(
                   diameter: 40,
                   icon: Icons.close_rounded,
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: Container(
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: colorScheme.surface,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: TextField(
-                      // controller: searchTextController,
-                      maxLines: 3,
-                      decoration: InputDecoration(
-                        hintText: "Enter your note here...",
-                        hintStyle: textScheme.headline.copyWith(
-                          fontSize: 22,
-                          color: colorScheme.secondary.withOpacity(0.7),
-                        ),
-                        border: InputBorder.none,
-                        contentPadding:
-                            const EdgeInsets.symmetric(horizontal: 15),
-                      ),
-                      cursorHeight: 30,
-                      style: textScheme.headline.copyWith(
-                        height: 1.5,
-                        color: colorScheme.onBackground,
-                        fontSize: 22,
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 10),
-                CustomIconButtonCircled(
-                  diameter: 40,
-                  icon: Icons.search_rounded,
-                  onPressed: () {},
                 ),
               ],
             ),
