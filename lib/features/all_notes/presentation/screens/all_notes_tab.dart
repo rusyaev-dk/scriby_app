@@ -77,7 +77,6 @@ class _AllNotesTabState extends State<AllNotesTab> {
 
   @override
   void dispose() {
-    print("DISPOSING");
     _scrollController.dispose();
     super.dispose();
   }

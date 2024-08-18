@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:scriby_app/uikit/uikit.dart';
 
 class SearchNotesAppBar extends StatelessWidget {
-  const SearchNotesAppBar({super.key});
+  const SearchNotesAppBar({
+    super.key,
+    required this.searchTextController,
+  });
+
+  final TextEditingController searchTextController;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +35,8 @@ class SearchNotesAppBar extends StatelessWidget {
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: TextField(
-                      maxLines: null,
+                      // controller: searchTextController,
+                      maxLines: 3,
                       decoration: InputDecoration(
                         hintText: "Enter your note here...",
                         hintStyle: textScheme.headline.copyWith(
