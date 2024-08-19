@@ -8,7 +8,6 @@ class SearchNotesAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textScheme = AppTextScheme.of(context);
     final colorScheme = AppColorScheme.of(context);
 
     return SafeArea(

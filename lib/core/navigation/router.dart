@@ -79,8 +79,7 @@ class SearchRoutes {
       return PageRouteBuilder(
         transitionDuration: const Duration(milliseconds: 300),
         fullscreenDialog: page.fullscreenDialog,
-        transitionsBuilder:
-            CustomPageTransitionsBuilder.verticalSlideTransitionsBuilder,
+        transitionsBuilder: CustomPageTransitionsBuilder.fadeTransitionsBuilder,
         settings: page,
         pageBuilder: (context, animation, _) => child,
       );

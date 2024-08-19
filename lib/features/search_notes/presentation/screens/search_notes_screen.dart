@@ -1,5 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:scriby_app/common/utils/utils.dart';
+import 'package:scriby_app/common/widgets/widgets.dart';
+import 'package:scriby_app/features/search_notes/domain/domain.dart';
 import 'package:scriby_app/features/search_notes/presentation/presentation.dart';
 import 'package:scriby_app/uikit/uikit.dart';
 
@@ -29,35 +34,43 @@ class _SearchNotesScreenState extends State<SearchNotesScreen> {
   Widget build(BuildContext context) {
     final colorScheme = AppColorScheme.of(context);
 
-    return Scaffold(
-      backgroundColor: colorScheme.background,
-      appBar: const PreferredSize(
-        preferredSize: Size(double.infinity, 60),
-        child: SearchNotesAppBar(),
+    return BlocProvider(
+      create: (context) => SearchNotesBloc(
+        searchNotesRepository: context.read<ISearchNotesRepository>(),
+        logger: context.read<ILogger>(),
       ),
-      body: SafeArea(
-        bottom: true,
-        child: Container(
-          height: double.infinity,
-          width: double.infinity,
-          decoration: BoxDecoration(
-            color: colorScheme.surface,
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(30),
-              topRight: Radius.circular(30),
+      child: Scaffold(
+        backgroundColor: colorScheme.background,
+        appBar: const PreferredSize(
+          preferredSize: Size(double.infinity, 60),
+          child: SearchNotesAppBar(),
+        ),
+        body: SafeArea(
+          bottom: true,
+          child: Container(
+            height: double.infinity,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: colorScheme.surface,
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(30),
+                topRight: Radius.circular(30),
+              ),
             ),
-          ),
-          child: Align(
-            alignment: Alignment.bottomCenter,
-            child: SearchBottomBar(
-              searchTextController: _searchTextController,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Expanded(
+                  child: SearchBodyGrid(),
+                ),
+                SearchBottomBar(
+                  searchTextController: _searchTextController,
+                ),
+              ],
             ),
           ),
         ),
       ),
-      // body: BlocBuilder<SearchNotesBloc, SearchNotesState>(
-      //   builder: (context, state) {},
-      // ),
     );
   }
 
@@ -65,5 +78,44 @@ class _SearchNotesScreenState extends State<SearchNotesScreen> {
   void dispose() {
     _searchTextController.dispose();
     super.dispose();
+  }
+}
+
+class SearchBodyGrid extends StatelessWidget {
+  const SearchBodyGrid({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<SearchNotesBloc, SearchNotesState>(
+      builder: (context, state) {
+        if (state is SearchNotesInitialState) {
+          return Center(
+            child: Animate(
+              key: ValueKey(state),
+              effects: const [FadeEffect()],
+              child: const Text("Search for your notes"),
+            ),
+          );
+        }
+        if (state is SearchNotesLoadedState) {
+          if (state.foundNotes.isEmpty) {
+            return Center(
+              child: Animate(
+                key: ValueKey(state),
+                effects: const [ShakeEffect()],
+                child: const Text("No notes Found :("),
+              ),
+            );
+          }
+          return Padding(
+            padding: const EdgeInsets.only(left: 13, right: 13, top: 5),
+            child: NotesGrid(
+              notes: state.foundNotes,
+            ),
+          );
+        }
+        return NotesGrid.loading();
+      },
+    );
   }
 }

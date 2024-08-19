@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:scriby_app/features/search_notes/presentation/presentation.dart';
 import 'package:scriby_app/uikit/uikit.dart';
 
 class SearchBottomBar extends StatefulWidget {
@@ -17,8 +19,8 @@ class _SearchBottomBarState extends State<SearchBottomBar>
     with SingleTickerProviderStateMixin {
   late final AnimationController _textFieldAnimationController;
   late final Animation<double> _textFieldSizeAnimation;
-
   bool _isExpanded = false;
+
   @override
   void initState() {
     super.initState();
@@ -92,6 +94,7 @@ class _SearchBottomBarState extends State<SearchBottomBar>
                     child: TextField(
                       controller: widget.searchTextController,
                       maxLines: 5,
+                      onChanged: _onSearchTextChanged,
                       scrollPhysics: const ClampingScrollPhysics(),
                       decoration: InputDecoration(
                         hintText: "Enter your note here...",
@@ -112,12 +115,6 @@ class _SearchBottomBarState extends State<SearchBottomBar>
                     ),
                   ),
                 ),
-                const SizedBox(width: 10),
-                CustomIconButtonCircled(
-                  diameter: 40,
-                  icon: Icons.search_rounded,
-                  onPressed: () {},
-                ),
               ],
             ),
           );
@@ -128,6 +125,11 @@ class _SearchBottomBarState extends State<SearchBottomBar>
 
   void _cleanSearchText() {
     widget.searchTextController.clear();
+  }
+
+  void _onSearchTextChanged(String query) {
+    BlocProvider.of<SearchNotesBloc>(context)
+        .add(SearchNotesEvent(query: query));
   }
 
   @override

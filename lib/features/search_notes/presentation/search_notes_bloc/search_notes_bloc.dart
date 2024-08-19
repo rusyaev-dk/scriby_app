@@ -38,14 +38,17 @@ class SearchNotesBloc extends Bloc<SearchNotesEvent, SearchNotesState> {
     Emitter<SearchNotesState> emit,
   ) async {
     try {
-      if (!_isCorrectQuery(event.query)) return;
+      final validatedQuery = _validateQuery(event.query);
+      if (validatedQuery.isEmpty) {
+        return emit(SearchNotesInitialState());
+      }
 
       if (state is! SearchNotesLoadingState) {
         emit(SearchNotesLoadingState());
       }
 
       final List<Note> foundNotes =
-          await _searchNotesRepository.searchNoteByQuery(event.query);
+          await _searchNotesRepository.searchNoteByQuery(validatedQuery);
       emit(SearchNotesLoadedState(foundNotes: foundNotes));
     } catch (exception, stackTrace) {
       _logger.exception(exception, stackTrace);
@@ -53,7 +56,7 @@ class SearchNotesBloc extends Bloc<SearchNotesEvent, SearchNotesState> {
     }
   }
 
-  bool _isCorrectQuery(String query) {
-    return query.trim().isNotEmpty && query.length > 1;
+  String _validateQuery(String query) {
+    return query.trim();
   }
 }

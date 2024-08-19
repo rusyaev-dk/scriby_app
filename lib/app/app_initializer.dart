@@ -7,6 +7,8 @@ import 'package:scriby_app/core/domain/domain.dart';
 import 'package:scriby_app/features/all_notes/presentation/presentation.dart';
 import 'package:scriby_app/features/edit_note/presentation/presentation.dart';
 import 'package:scriby_app/features/pinned_notes/presentation/presentation.dart';
+import 'package:scriby_app/features/search_notes/domain/domain.dart';
+import 'package:scriby_app/features/search_notes/presentation/presentation.dart';
 import 'package:scriby_app/features/settings/domain/domain.dart';
 import 'package:scriby_app/features/settings/presentation/blocs/blocs.dart';
 import 'package:scriby_app/persistence/storage/storage.dart';
@@ -39,6 +41,11 @@ class AppInitializer extends StatelessWidget {
         ),
         RepositoryProvider<INotesRepository>(
           create: (context) => NotesRepository(realm: appConfig.realm),
+        ),
+        RepositoryProvider<ISearchNotesRepository>(
+          create: (context) => SearchNotesRepository(
+            realm: appConfig.realm,
+          ),
         ),
         RepositoryProvider<IGeneralSettingsRepository>(
           create: (context) => GeneralSettingsRepository(

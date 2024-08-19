@@ -8,53 +8,41 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:scriby_app/core/blocs/blocs.dart';
 import 'package:scriby_app/core/domain/domain.dart';
-import 'package:scriby_app/core/navigation/router.dart';
+import 'package:scriby_app/core/navigation/navigation.dart';
 import 'package:scriby_app/features/edit_note/presentation/presentation.dart';
 import 'package:scriby_app/uikit/uikit.dart';
 
-class NotesSliverGrid extends StatefulWidget {
-  const NotesSliverGrid({
-    super.key,
-    required this.notes,
-  });
+class NotesGrid extends StatelessWidget {
+  const NotesGrid({super.key, required this.notes});
 
   final List<Note> notes;
 
   static Widget loading() {
-    return const _NotesSliverGridLoading();
-  }
-
-  @override
-  State<NotesSliverGrid> createState() => _NotesSliverGridState();
-}
-
-class _NotesSliverGridState extends State<NotesSliverGrid> {
-  List<Note> _prevNotes = [];
-  final Map<Note, GlobalKey> _noteKeys = {};
-
-  @override
-  void didUpdateWidget(covariant NotesSliverGrid oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    _prevNotes = oldWidget.notes;
+    return const _NotesGridLoading();
   }
 
   @override
   Widget build(BuildContext context) {
-    return SliverMasonryGrid.count(
+    return MasonryGridView.count(
       crossAxisCount: 2,
       mainAxisSpacing: 10,
       crossAxisSpacing: 10,
+      itemCount: notes.length,
+      cacheExtent: 350,
+      physics: const ClampingScrollPhysics(),
+      keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
       itemBuilder: (context, i) {
-        final Note note = widget.notes[i];
-        final bool isNewNote = !_prevNotes.contains(note);
+        final Note note = notes[i];
+        // final bool isNewNote = !_prevNotes.contains(note);
 
-        if (!_noteKeys.containsKey(note)) {
-          _noteKeys[note] = GlobalKey();
-        }
+        // if (!_noteKeys.containsKey(note)) {
+        //   _noteKeys[note] = GlobalKey();
+        // }
+        final key = GlobalKey();
 
         Widget card = GestureDetector(
-          key: _noteKeys[note],
-          onTap: () => _openNoteEditor(context, note),
+          key: key,
+          onTap: () => _openNoteEditor(context, note, key),
           onLongPress: () => _deleteNote(context, note),
           child: NoteCard(
             key: ValueKey(note),
@@ -62,20 +50,29 @@ class _NotesSliverGridState extends State<NotesSliverGrid> {
           ),
         );
 
-        return isNewNote
-            ? AnimationConfiguration.staggeredGrid(
-                delay: const Duration(milliseconds: 0),
-                duration: const Duration(milliseconds: 225),
-                position: i,
-                columnCount: 2,
-                child: FadeInAnimation(
-                  curve: Curves.linear,
-                  child: card,
-                ),
-              )
-            : card;
+        return AnimationConfiguration.staggeredGrid(
+          delay: const Duration(milliseconds: 0),
+          duration: const Duration(milliseconds: 225),
+          position: i,
+          columnCount: 2,
+          child: FadeInAnimation(
+            curve: Curves.linear,
+            child: card,
+          ),
+        );
+        // return isNewNote
+        //     ? AnimationConfiguration.staggeredGrid(
+        //         delay: const Duration(milliseconds: 0),
+        //         duration: const Duration(milliseconds: 225),
+        //         position: i,
+        //         columnCount: 2,
+        //         child: FadeInAnimation(
+        //           curve: Curves.linear,
+        //           child: card,
+        //         ),
+        //       )
+        //     : card;
       },
-      childCount: widget.notes.length,
     );
   }
 
@@ -97,8 +94,10 @@ class _NotesSliverGridState extends State<NotesSliverGrid> {
   Future<void> _openNoteEditor(
     BuildContext context,
     Note note,
+    GlobalKey key,
   ) async {
-    final Alignment alignment = _calculateTransitionAlignment(note);
+    final Alignment alignment =
+        _calculateTransitionAlignment(note, key, context);
 
     BlocProvider.of<EditNoteBloc>(context)
         .add(PrepareToEditNoteEvent(initialNote: note));
@@ -113,9 +112,9 @@ class _NotesSliverGridState extends State<NotesSliverGrid> {
         .then((value) async {});
   }
 
-  Alignment _calculateTransitionAlignment(Note note) {
-    final RenderBox box =
-        _noteKeys[note]!.currentContext!.findRenderObject() as RenderBox;
+  Alignment _calculateTransitionAlignment(
+      Note note, GlobalKey key, BuildContext context) {
+    final RenderBox box = key.currentContext!.findRenderObject() as RenderBox;
     final Offset position = box.localToGlobal(Offset.zero);
     final Size size = box.size;
     return Alignment(
@@ -127,15 +126,14 @@ class _NotesSliverGridState extends State<NotesSliverGrid> {
   }
 }
 
-class _NotesSliverGridLoading extends StatefulWidget {
-  const _NotesSliverGridLoading();
+class _NotesGridLoading extends StatefulWidget {
+  const _NotesGridLoading();
 
   @override
-  State<_NotesSliverGridLoading> createState() =>
-      _NotesSliverGridLoadingState();
+  State<_NotesGridLoading> createState() => _NotesGridLoadingState();
 }
 
-class _NotesSliverGridLoadingState extends State<_NotesSliverGridLoading>
+class _NotesGridLoadingState extends State<_NotesGridLoading>
     with SingleTickerProviderStateMixin {
   static Random random = Random();
   late AnimationController _animationController;
@@ -162,11 +160,11 @@ class _NotesSliverGridLoadingState extends State<_NotesSliverGridLoading>
       end: endColor,
     ).animate(_animationController);
 
-    return SliverMasonryGrid.count(
+    return MasonryGridView.count(
       crossAxisCount: 2,
       mainAxisSpacing: 10,
       crossAxisSpacing: 10,
-      childCount: 10,
+      itemCount: 10,
       itemBuilder: (context, i) {
         final double height = 80 + random.nextDouble() * 200;
         return AnimatedBuilder(
