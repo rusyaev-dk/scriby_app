@@ -13,7 +13,7 @@ class ScrollAbsorber {
           .nestedScrollViewKey.currentWidget as NestedScrollView;
       ScrollController primaryScrollController = nestedScrollView.controller!;
 
-      // Проверка на то, что скроллинг активен
+      // Check if scrolling is active
       if (primaryScrollController.position.axis == Axis.vertical &&
           primaryScrollController.position.isScrollingNotifier.value) return;
 

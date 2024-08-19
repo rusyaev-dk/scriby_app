@@ -30,24 +30,28 @@ class _SearchNotesScreenState extends State<SearchNotesScreen> {
     final colorScheme = AppColorScheme.of(context);
 
     return Scaffold(
+      backgroundColor: colorScheme.background,
       appBar: const PreferredSize(
         preferredSize: Size(double.infinity, 60),
         child: SearchNotesAppBar(),
       ),
-      body: Container(
-        height: double.infinity,
-        width: double.infinity,
-        decoration: BoxDecoration(
-          color: colorScheme.surface,
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(30),
-            topRight: Radius.circular(30),
+      body: SafeArea(
+        bottom: true,
+        child: Container(
+          height: double.infinity,
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: colorScheme.surface,
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(30),
+              topRight: Radius.circular(30),
+            ),
           ),
-        ),
-        child: Align(
-          alignment: Alignment.bottomCenter,
-          child: BottomSearchBar(
-            searchTextController: _searchTextController,
+          child: Align(
+            alignment: Alignment.bottomCenter,
+            child: SearchBottomBar(
+              searchTextController: _searchTextController,
+            ),
           ),
         ),
       ),
