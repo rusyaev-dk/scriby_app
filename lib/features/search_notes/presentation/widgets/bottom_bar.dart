@@ -97,7 +97,7 @@ class _SearchBottomBarState extends State<SearchBottomBar>
                       onChanged: _onSearchTextChanged,
                       scrollPhysics: const ClampingScrollPhysics(),
                       decoration: InputDecoration(
-                        hintText: "Enter your note here...",
+                        hintText: "What to look for?",
                         hintStyle: textScheme.headline.copyWith(
                           fontSize: 22,
                           color: colorScheme.secondary.withOpacity(0.7),

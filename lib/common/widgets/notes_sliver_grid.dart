@@ -104,7 +104,7 @@ class _NotesSliverGridState extends State<NotesSliverGrid> {
         .add(PrepareToEditNoteEvent(initialNote: note));
     BlocProvider.of<EditNoteStageCubit>(context).loadNote(initialNote: note);
 
-    await Future.delayed(const Duration(milliseconds: 100)); // 85?
+    await Future.delayed(const Duration(milliseconds: 65));
 
     if (!context.mounted) return;
 

@@ -33,11 +33,6 @@ class NotesGrid extends StatelessWidget {
       keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
       itemBuilder: (context, i) {
         final Note note = notes[i];
-        // final bool isNewNote = !_prevNotes.contains(note);
-
-        // if (!_noteKeys.containsKey(note)) {
-        //   _noteKeys[note] = GlobalKey();
-        // }
         final key = GlobalKey();
 
         Widget card = GestureDetector(
@@ -60,18 +55,6 @@ class NotesGrid extends StatelessWidget {
             child: card,
           ),
         );
-        // return isNewNote
-        //     ? AnimationConfiguration.staggeredGrid(
-        //         delay: const Duration(milliseconds: 0),
-        //         duration: const Duration(milliseconds: 225),
-        //         position: i,
-        //         columnCount: 2,
-        //         child: FadeInAnimation(
-        //           curve: Curves.linear,
-        //           child: card,
-        //         ),
-        //       )
-        //     : card;
       },
     );
   }
@@ -103,7 +86,7 @@ class NotesGrid extends StatelessWidget {
         .add(PrepareToEditNoteEvent(initialNote: note));
     BlocProvider.of<EditNoteStageCubit>(context).loadNote(initialNote: note);
 
-    await Future.delayed(const Duration(milliseconds: 100)); // 85?
+    await Future.delayed(const Duration(milliseconds: 65));
 
     if (!context.mounted) return;
 
@@ -113,7 +96,10 @@ class NotesGrid extends StatelessWidget {
   }
 
   Alignment _calculateTransitionAlignment(
-      Note note, GlobalKey key, BuildContext context) {
+    Note note,
+    GlobalKey key,
+    BuildContext context,
+  ) {
     final RenderBox box = key.currentContext!.findRenderObject() as RenderBox;
     final Offset position = box.localToGlobal(Offset.zero);
     final Size size = box.size;

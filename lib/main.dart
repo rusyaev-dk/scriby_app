@@ -8,13 +8,14 @@ import 'package:talker_flutter/talker_flutter.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // make navigation bar transparent
+  // Make navigation bar transparent
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       systemNavigationBarColor: Colors.transparent,
     ),
   );
-  // make flutter draw behind navigation bar
+
+  // Make flutter draw behind navigation bar
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 
   final realm = configRealm();

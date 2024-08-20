@@ -61,7 +61,7 @@ class _SearchNotesScreenState extends State<SearchNotesScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 const Expanded(
-                  child: SearchBodyGrid(),
+                  child: SearchBodyContent(),
                 ),
                 SearchBottomBar(
                   searchTextController: _searchTextController,
@@ -81,8 +81,8 @@ class _SearchNotesScreenState extends State<SearchNotesScreen> {
   }
 }
 
-class SearchBodyGrid extends StatelessWidget {
-  const SearchBodyGrid({super.key});
+class SearchBodyContent extends StatelessWidget {
+  const SearchBodyContent({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -108,9 +108,11 @@ class SearchBodyGrid extends StatelessWidget {
             );
           }
           return Padding(
-            padding: const EdgeInsets.only(left: 13, right: 13, top: 5),
-            child: NotesGrid(
-              notes: state.foundNotes,
+            padding: const EdgeInsets.only(left: 13, right: 13, top: 2),
+            child: DisableScrollStretching(
+              child: NotesGrid(
+                notes: state.foundNotes,
+              ),
             ),
           );
         }
