@@ -58,7 +58,7 @@ class EditNoteAppBar extends StatelessWidget {
         (stageCubitState.updatedNote != null &&
             stageCubitState.updatedNote == stageCubitState.initialNote)) {
       FocusScope.of(context).unfocus();
-      AutoRouter.of(context).back();
+      AutoRouter.of(context).maybePop();
       return;
     }
 
@@ -70,7 +70,7 @@ class EditNoteAppBar extends StatelessWidget {
       await Future.delayed(const Duration(milliseconds: 200));
 
       if (!context.mounted) return;
-      AutoRouter.of(context).back();
+      AutoRouter.of(context).maybePop();
       return;
     }
 
@@ -84,7 +84,7 @@ class EditNoteAppBar extends StatelessWidget {
     if (!context.mounted) return;
 
     FocusScope.of(context).unfocus();
-    AutoRouter.of(context).back();
+    AutoRouter.of(context).maybePop();
   }
 
   Future<bool?> _showSaveChangesDialog(BuildContext context) {

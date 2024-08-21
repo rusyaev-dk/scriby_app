@@ -30,9 +30,6 @@ class EditNoteBloc extends Bloc<EditNoteEvent, EditNoteState> {
       if (state is! EditNoteLoadingState) {
         emit(EditNoteLoadingState());
       }
-      //
-      // await Future.delayed(const Duration(milliseconds: 4000));
-      //
       return emit(EditNoteEditingState(note: event.initialNote));
     } catch (exception, stackTrace) {
       _logger.exception(exception, stackTrace);

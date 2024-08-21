@@ -1,8 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scriby_app/core/navigation/router.dart';
-import 'package:scriby_app/features/edit_note/presentation/presentation.dart';
 import 'package:scriby_app/uikit/uikit.dart';
 
 class NewNoteButton extends StatefulWidget {
@@ -74,11 +72,10 @@ class _NewNoteButtonState extends State<NewNoteButton>
     });
 
     _animationController.forward();
-    await Future.delayed(const Duration(milliseconds: 85)); // 85?
+    await Future.delayed(const Duration(milliseconds: 85));
 
     if (!mounted) return;
 
-    BlocProvider.of<EditNoteStageCubit>(context).loadNote(initialNote: null);
     context.router.push(EditNoteRoute(initialNote: null)).then((value) async {
       await _animationController.reverse();
       setState(() {

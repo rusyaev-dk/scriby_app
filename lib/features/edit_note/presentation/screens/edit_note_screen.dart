@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:scriby_app/common/utils/utils.dart';
 import 'package:scriby_app/common/widgets/widgets.dart';
 import 'package:scriby_app/core/domain/domain.dart';
 import 'package:scriby_app/features/edit_note/presentation/presentation.dart';
@@ -37,6 +38,58 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
     _noteTextController.addListener(_listenToTextEditing);
   }
 
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = AppColorScheme.of(context);
+
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) {
+            final bloc = EditNoteBloc(
+              notesRepository: context.read<INotesRepository>(),
+              logger: context.read<ILogger>(),
+            );
+            if (widget.initialNote != null) {
+              bloc.add(
+                  PrepareToEditNoteEvent(initialNote: widget.initialNote!));
+            }
+            return bloc;
+          },
+        ),
+        BlocProvider(
+          create: (context) => EditNoteStageCubit(
+            logger: context.read<ILogger>(),
+          )..loadNote(initialNote: widget.initialNote),
+        ),
+      ],
+      child: Scaffold(
+        backgroundColor: colorScheme.background,
+        appBar: PreferredSize(
+          preferredSize: const Size(double.infinity, 60),
+          child: EditNoteAppBar(
+            onSaveButtonPressed: _onSaveButtonPressed,
+          ),
+        ),
+        body: Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: colorScheme.surface,
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(30),
+              topRight: Radius.circular(30),
+            ),
+          ),
+          child: EditNoteContent(
+            titleController: _titleController,
+            noteTextController: _noteTextController,
+            colorScheme: colorScheme,
+          ),
+        ),
+      ),
+    );
+  }
+
   void _listenToTitleEditing() {
     BlocProvider.of<EditNoteStageCubit>(context)
         .stageTitleText(_titleController.text);
@@ -45,66 +98,6 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
   void _listenToTextEditing() {
     BlocProvider.of<EditNoteStageCubit>(context)
         .stageNoteText(_noteTextController.text);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = AppColorScheme.of(context);
-
-    return Scaffold(
-      backgroundColor: colorScheme.background,
-      appBar: PreferredSize(
-        preferredSize: const Size(double.infinity, 60),
-        child: EditNoteAppBar(
-          onSaveButtonPressed: _onSaveButtonPressed,
-        ),
-      ),
-      body: Container(
-        width: double.infinity,
-        decoration: BoxDecoration(
-          color: colorScheme.surface,
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(30),
-            topRight: Radius.circular(30),
-          ),
-        ),
-        child: BlocBuilder<EditNoteBloc, EditNoteState>(
-          builder: (context, state) {
-            if (state is EditNoteEditingState || state is EditNoteSavingState) {
-              return DisableScrollStretching(
-                child: CustomScrollView(
-                  slivers: [
-                    const SliverToBoxAdapter(
-                      child: SizedBox(height: 15),
-                    ),
-                    SliverToBoxAdapter(
-                      child: TitleTextField(
-                        controller: _titleController,
-                      ),
-                    ),
-                    const SliverToBoxAdapter(
-                      child: SizedBox(height: 15),
-                    ),
-                    SliverFillRemaining(
-                      hasScrollBody: false,
-                      child: MainInputTextField(
-                        controller: _noteTextController,
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            }
-
-            return Center(
-              child: CircularProgressIndicator(
-                color: colorScheme.onBackground,
-              ),
-            );
-          },
-        ),
-      ),
-    );
   }
 
   void _onSaveButtonPressed(BuildContext context) async {
@@ -159,16 +152,68 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
 
   void _closeKeyboardAndPop(BuildContext context) {
     FocusScope.of(context).unfocus();
-    AutoRouter.of(context).back();
+    AutoRouter.of(context).maybePop();
   }
 
   @override
   void dispose() {
     _titleController.removeListener(_listenToTitleEditing);
-    _noteTextController.removeListener(_listenToTextEditing);
-
     _titleController.dispose();
+    _noteTextController.removeListener(_listenToTextEditing);
     _noteTextController.dispose();
     super.dispose();
+  }
+}
+
+class EditNoteContent extends StatelessWidget {
+  const EditNoteContent({
+    super.key,
+    required TextEditingController titleController,
+    required TextEditingController noteTextController,
+    required this.colorScheme,
+  })  : _titleController = titleController,
+        _noteTextController = noteTextController;
+
+  final TextEditingController _titleController;
+  final TextEditingController _noteTextController;
+  final AppColorScheme colorScheme;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<EditNoteBloc, EditNoteState>(
+      builder: (context, state) {
+        if (state is EditNoteEditingState || state is EditNoteSavingState) {
+          return DisableScrollStretching(
+            child: CustomScrollView(
+              slivers: [
+                const SliverToBoxAdapter(
+                  child: SizedBox(height: 15),
+                ),
+                SliverToBoxAdapter(
+                  child: TitleTextField(
+                    controller: _titleController,
+                  ),
+                ),
+                const SliverToBoxAdapter(
+                  child: SizedBox(height: 15),
+                ),
+                SliverFillRemaining(
+                  hasScrollBody: false,
+                  child: MainInputTextField(
+                    controller: _noteTextController,
+                  ),
+                ),
+              ],
+            ),
+          );
+        }
+
+        return Center(
+          child: CircularProgressIndicator(
+            color: colorScheme.onBackground,
+          ),
+        );
+      },
+    );
   }
 }

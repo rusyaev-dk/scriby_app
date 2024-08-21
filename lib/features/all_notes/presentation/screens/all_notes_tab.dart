@@ -53,7 +53,10 @@ class _AllNotesTabState extends State<AllNotesTab> {
                 ),
                 if (state is AllNotesLoadedState)
                   if (state.notes.isEmpty)
-                    const NoNotesWidget()
+                    const SliverFillRemaining(
+                      hasScrollBody: false,
+                      child: NoNotesWidget(),
+                    )
                   else
                     SliverPadding(
                       padding: _padding,

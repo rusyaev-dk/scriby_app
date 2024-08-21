@@ -9,7 +9,6 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:scriby_app/core/blocs/blocs.dart';
 import 'package:scriby_app/core/domain/domain.dart';
 import 'package:scriby_app/core/navigation/router.dart';
-import 'package:scriby_app/features/edit_note/presentation/presentation.dart';
 import 'package:scriby_app/uikit/uikit.dart';
 
 class NotesSliverGrid extends StatefulWidget {
@@ -99,10 +98,6 @@ class _NotesSliverGridState extends State<NotesSliverGrid> {
     Note note,
   ) async {
     final Alignment alignment = _calculateTransitionAlignment(note);
-
-    BlocProvider.of<EditNoteBloc>(context)
-        .add(PrepareToEditNoteEvent(initialNote: note));
-    BlocProvider.of<EditNoteStageCubit>(context).loadNote(initialNote: note);
 
     await Future.delayed(const Duration(milliseconds: 65));
 

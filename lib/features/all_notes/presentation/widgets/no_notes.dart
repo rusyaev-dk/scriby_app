@@ -8,14 +8,13 @@ class NoNotesWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SliverFillRemaining(
-      hasScrollBody: false,
-      child: Center(
-        child: Text(
-          "No notes yet...",
-          style: TextStyle(
-            color: AppColorScheme.of(context).onBackground,
-          ),
+    final colorScheme = AppColorScheme.of(context);
+
+    return Center(
+      child: Text(
+        "No notes yet...",
+        style: TextStyle(
+          color: colorScheme.onBackground,
         ),
       ),
     );
