@@ -82,10 +82,6 @@ class NotesGrid extends StatelessWidget {
     final Alignment alignment =
         _calculateTransitionAlignment(note, key, context);
 
-    BlocProvider.of<EditNoteBloc>(context)
-        .add(PrepareToEditNoteEvent(initialNote: note));
-    BlocProvider.of<EditNoteStageCubit>(context).loadNote(initialNote: note);
-
     await Future.delayed(const Duration(milliseconds: 65));
 
     if (!context.mounted) return;

@@ -33,12 +33,6 @@ class HomeAppBar extends StatelessWidget {
       expandedHeight: 110,
       actions: [
         CustomIconButton(
-          icon: Icons.filter_alt,
-          iconSize: 25,
-          onPressed: () {},
-        ),
-        const SizedBox(width: 4),
-        CustomIconButton(
           icon: Icons.search_rounded,
           iconSize: 25,
           onPressed: () => _openSearch(context),
@@ -56,11 +50,11 @@ class HomeAppBar extends StatelessWidget {
   }
 
   Future<void> _openSettings(BuildContext context) async {
-    AutoRouter.of(context).push(const GeneralSettingsRoute());
+    AutoRouter.of(context).push(const GeneralSettingsShellRoute());
   }
 
   Future<void> _openSearch(BuildContext context) async {
-    AutoRouter.of(context).push(const SearchNotesRoute());
+    AutoRouter.of(context).push(const SearchNotesShellRoute());
   }
 }
 
