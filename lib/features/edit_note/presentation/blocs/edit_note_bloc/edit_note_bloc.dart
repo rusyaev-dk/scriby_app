@@ -15,21 +15,26 @@ class EditNoteBloc extends Bloc<EditNoteEvent, EditNoteState> {
   })  : _notesRepository = notesRepository,
         _logger = logger,
         super(EditNoteEditingState()) {
-    on<PrepareToEditNoteEvent>(_onPrepareToEditNote);
+    on<LoadNoteToEditEvent>(_onLoadNoteToEdit);
     on<SaveNoteEvent>(_onSaveNote);
   }
 
   final INotesRepository _notesRepository;
   final ILogger _logger;
 
-  Future<void> _onPrepareToEditNote(
-    PrepareToEditNoteEvent event,
+  Future<void> _onLoadNoteToEdit(
+    LoadNoteToEditEvent event,
     Emitter<EditNoteState> emit,
   ) async {
     try {
       if (state is! EditNoteLoadingState) {
         emit(EditNoteLoadingState());
       }
+
+      if (event.initialNote.isEmpty()) {
+        await _notesRepository.addNote(event.initialNote.copyWith(title: "Untitled"));
+      }
+
       return emit(EditNoteEditingState(note: event.initialNote));
     } catch (exception, stackTrace) {
       _logger.exception(exception, stackTrace);

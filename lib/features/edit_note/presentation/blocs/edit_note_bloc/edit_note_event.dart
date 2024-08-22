@@ -2,8 +2,8 @@ part of 'edit_note_bloc.dart';
 
 sealed class EditNoteEvent extends Equatable {}
 
-final class PrepareToEditNoteEvent extends EditNoteEvent {
-  PrepareToEditNoteEvent({required this.initialNote});
+final class LoadNoteToEditEvent extends EditNoteEvent {
+  LoadNoteToEditEvent({required this.initialNote});
 
   final Note initialNote;
 

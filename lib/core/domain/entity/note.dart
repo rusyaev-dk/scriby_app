@@ -54,6 +54,10 @@ class Note extends Equatable {
     );
   }
 
+  bool isEmpty() {
+    return title.trim().isEmpty && text.trim().isEmpty;
+  }
+
   LocalNote toLocal() => LocalNote(
         id,
         title,

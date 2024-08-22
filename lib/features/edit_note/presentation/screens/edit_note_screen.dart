@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:scriby_app/common/utils/utils.dart';
 import 'package:scriby_app/common/widgets/widgets.dart';
 import 'package:scriby_app/core/domain/domain.dart';
 import 'package:scriby_app/features/edit_note/presentation/presentation.dart';
@@ -11,13 +10,13 @@ import 'package:scriby_app/uikit/uikit.dart';
 
 @RoutePage(name: "EditNoteRoute")
 class EditNoteScreen extends StatefulWidget {
-  const EditNoteScreen({
+  EditNoteScreen({
     super.key,
-    this.initialNote,
+    required Note? initialNoteToEdit,
     this.animationAlignment,
-  });
+  }) : initialNote = initialNoteToEdit ?? Note.empty();
 
-  final Note? initialNote;
+  final Note initialNote;
   final Alignment? animationAlignment;
 
   @override
@@ -31,8 +30,13 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
   @override
   void initState() {
     super.initState();
-    _titleController = TextEditingController(text: widget.initialNote?.title);
-    _noteTextController = TextEditingController(text: widget.initialNote?.text);
+
+    final bool isEmptyNote = widget.initialNote.isEmpty();
+
+    _titleController = TextEditingController(
+        text: isEmptyNote ? null : widget.initialNote.title);
+    _noteTextController = TextEditingController(
+        text: isEmptyNote ? null : widget.initialNote.text);
 
     _titleController.addListener(_listenToTitleEditing);
     _noteTextController.addListener(_listenToTextEditing);
@@ -42,49 +46,27 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
   Widget build(BuildContext context) {
     final colorScheme = AppColorScheme.of(context);
 
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) {
-            final bloc = EditNoteBloc(
-              notesRepository: context.read<INotesRepository>(),
-              logger: context.read<ILogger>(),
-            );
-            if (widget.initialNote != null) {
-              bloc.add(
-                  PrepareToEditNoteEvent(initialNote: widget.initialNote!));
-            }
-            return bloc;
-          },
+    return Scaffold(
+      backgroundColor: colorScheme.background,
+      appBar: PreferredSize(
+        preferredSize: const Size(double.infinity, 60),
+        child: EditNoteAppBar(
+          onSaveButtonPressed: _onSaveButtonPressed,
         ),
-        BlocProvider(
-          create: (context) => EditNoteStageCubit(
-            logger: context.read<ILogger>(),
-          )..loadNote(initialNote: widget.initialNote),
-        ),
-      ],
-      child: Scaffold(
-        backgroundColor: colorScheme.background,
-        appBar: PreferredSize(
-          preferredSize: const Size(double.infinity, 60),
-          child: EditNoteAppBar(
-            onSaveButtonPressed: _onSaveButtonPressed,
+      ),
+      body: Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: colorScheme.surface,
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(30),
+            topRight: Radius.circular(30),
           ),
         ),
-        body: Container(
-          width: double.infinity,
-          decoration: BoxDecoration(
-            color: colorScheme.surface,
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(30),
-              topRight: Radius.circular(30),
-            ),
-          ),
-          child: EditNoteContent(
-            titleController: _titleController,
-            noteTextController: _noteTextController,
-            colorScheme: colorScheme,
-          ),
+        child: EditNoteContent(
+          titleController: _titleController,
+          noteTextController: _noteTextController,
+          colorScheme: colorScheme,
         ),
       ),
     );

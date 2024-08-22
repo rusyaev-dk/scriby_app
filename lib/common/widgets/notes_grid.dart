@@ -9,7 +9,6 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:scriby_app/core/blocs/blocs.dart';
 import 'package:scriby_app/core/domain/domain.dart';
 import 'package:scriby_app/core/navigation/navigation.dart';
-import 'package:scriby_app/features/edit_note/presentation/presentation.dart';
 import 'package:scriby_app/uikit/uikit.dart';
 
 class NotesGrid extends StatelessWidget {
@@ -87,7 +86,8 @@ class NotesGrid extends StatelessWidget {
     if (!context.mounted) return;
 
     AutoRouter.of(context)
-        .push(EditNoteRoute(initialNote: note, animationAlignment: alignment))
+        .push(EditNoteRoute(
+            initialNoteToEdit: note, animationAlignment: alignment))
         .then((value) async {});
   }
 

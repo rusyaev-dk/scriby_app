@@ -22,13 +22,12 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     EditNoteRoute.name: (routeData) {
-      final args = routeData.argsAs<EditNoteRouteArgs>(
-          orElse: () => const EditNoteRouteArgs());
+      final args = routeData.argsAs<EditNoteRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: EditNoteScreen(
           key: args.key,
-          initialNote: args.initialNote,
+          initialNoteToEdit: args.initialNoteToEdit,
           animationAlignment: args.animationAlignment,
         ),
       );
@@ -103,14 +102,14 @@ class AllNotesRoute extends PageRouteInfo<void> {
 class EditNoteRoute extends PageRouteInfo<EditNoteRouteArgs> {
   EditNoteRoute({
     Key? key,
-    Note? initialNote,
+    required Note? initialNoteToEdit,
     Alignment? animationAlignment,
     List<PageRouteInfo>? children,
   }) : super(
           EditNoteRoute.name,
           args: EditNoteRouteArgs(
             key: key,
-            initialNote: initialNote,
+            initialNoteToEdit: initialNoteToEdit,
             animationAlignment: animationAlignment,
           ),
           initialChildren: children,
@@ -125,19 +124,19 @@ class EditNoteRoute extends PageRouteInfo<EditNoteRouteArgs> {
 class EditNoteRouteArgs {
   const EditNoteRouteArgs({
     this.key,
-    this.initialNote,
+    required this.initialNoteToEdit,
     this.animationAlignment,
   });
 
   final Key? key;
 
-  final Note? initialNote;
+  final Note? initialNoteToEdit;
 
   final Alignment? animationAlignment;
 
   @override
   String toString() {
-    return 'EditNoteRouteArgs{key: $key, initialNote: $initialNote, animationAlignment: $animationAlignment}';
+    return 'EditNoteRouteArgs{key: $key, initialNoteToEdit: $initialNoteToEdit, animationAlignment: $animationAlignment}';
   }
 }
 
