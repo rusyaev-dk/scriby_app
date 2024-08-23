@@ -33,6 +33,14 @@ class GeneralSettingsRepository implements IGeneralSettingsRepository {
   }
 
   @override
+  Future<bool> toggleAutosave(bool value) async {
+    return await _settingsStorage.toggleSetting(
+      LocalStorageKeys.autosaveKey,
+      value,
+    );
+  }
+
+  @override
   Future<bool> getNotificationsStatus() async {
     return await _settingsStorage
             .getSetting(LocalStorageKeys.notificationsKey) ??
@@ -48,6 +56,12 @@ class GeneralSettingsRepository implements IGeneralSettingsRepository {
   @override
   Future<bool> getCloudSyncStatus() async {
     return await _settingsStorage.getSetting(LocalStorageKeys.cloudSyncKey) ??
+        false;
+  }
+
+  @override
+  Future<bool> getAutosaveStatus() async {
+    return await _settingsStorage.getSetting(LocalStorageKeys.autosaveKey) ??
         false;
   }
 }

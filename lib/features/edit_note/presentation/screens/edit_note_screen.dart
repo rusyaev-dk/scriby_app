@@ -1,11 +1,11 @@
-import 'dart:async';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:scriby_app/common/utils/utils.dart';
 import 'package:scriby_app/common/widgets/widgets.dart';
 import 'package:scriby_app/core/domain/domain.dart';
 import 'package:scriby_app/features/edit_note/presentation/presentation.dart';
+import 'package:scriby_app/features/settings/domain/domain.dart';
 import 'package:scriby_app/uikit/uikit.dart';
 
 @RoutePage(name: "EditNoteRoute")
@@ -24,6 +24,46 @@ class EditNoteScreen extends StatefulWidget {
 }
 
 class _EditNoteScreenState extends State<EditNoteScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => EditNoteBloc(
+            notesRepository: context.read<INotesRepository>(),
+            logger: context.read<ILogger>(),
+          )..add(LoadNoteToEditEvent(initialNote: widget.initialNote)),
+        ),
+        BlocProvider(
+          lazy: false,
+          create: (context) => EditNoteStageCubit(
+            notesRepository: context.read<INotesRepository>(),
+            generalSettingsRepository:
+                context.read<IGeneralSettingsRepository>(),
+            logger: context.read<ILogger>(),
+          )..loadNote(initialNote: widget.initialNote),
+        ),
+      ],
+      child: EditNoteView(
+        initialNote: widget.initialNote,
+      ),
+    );
+  }
+}
+
+class EditNoteView extends StatefulWidget {
+  const EditNoteView({
+    super.key,
+    required this.initialNote,
+  });
+
+  final Note initialNote;
+
+  @override
+  State<EditNoteView> createState() => _EditNoteViewState();
+}
+
+class _EditNoteViewState extends State<EditNoteView> {
   late final TextEditingController _titleController;
   late final TextEditingController _noteTextController;
 
@@ -48,11 +88,9 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
 
     return Scaffold(
       backgroundColor: colorScheme.background,
-      appBar: PreferredSize(
-        preferredSize: const Size(double.infinity, 60),
-        child: EditNoteAppBar(
-          onSaveButtonPressed: _onSaveButtonPressed,
-        ),
+      appBar: const PreferredSize(
+        preferredSize: Size(double.infinity, 60),
+        child: EditNoteAppBar(),
       ),
       body: Container(
         width: double.infinity,
@@ -80,61 +118,6 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
   void _listenToTextEditing() {
     BlocProvider.of<EditNoteStageCubit>(context)
         .stageNoteText(_noteTextController.text);
-  }
-
-  void _onSaveButtonPressed(BuildContext context) async {
-    final stageCubitState = BlocProvider.of<EditNoteStageCubit>(context).state;
-    if (stageCubitState is! EditNoteStageEditingState) return;
-
-    if (_noteTextController.text.trim().isEmpty &&
-        _titleController.text.trim().isEmpty) {
-      bool shouldSave = await _showSaveEmptyNoteDialog(context) ?? false;
-      if (!shouldSave) return;
-    }
-
-    if (!context.mounted) return;
-
-    if (stageCubitState.updatedNote == stageCubitState.initialNote) {
-      _closeKeyboardAndPop(context);
-      return;
-    }
-
-    final Completer completer = Completer();
-    BlocProvider.of<EditNoteBloc>(context).add(SaveNoteEvent(
-      note: stageCubitState.updatedNote ?? stageCubitState.initialNote,
-      completer: completer,
-    ));
-    await completer.future;
-
-    if (!context.mounted) return;
-
-    _closeKeyboardAndPop(context);
-  }
-
-  Future<bool?> _showSaveEmptyNoteDialog(BuildContext context) {
-    return showDialog<bool?>(
-      context: context,
-      builder: (context) {
-        return AppAlertDialog(
-          actions: [
-            AppAlertDialogAction(
-              onPressed: () => AutoRouter.of(context).maybePop<bool?>(true),
-              child: const Text("Yes"),
-            ),
-            AppAlertDialogAction(
-              onPressed: () => AutoRouter.of(context).maybePop<bool?>(false),
-              child: const Text("No"),
-            ),
-          ],
-          title: const Text("Save empty note?"),
-        );
-      },
-    );
-  }
-
-  void _closeKeyboardAndPop(BuildContext context) {
-    FocusScope.of(context).unfocus();
-    AutoRouter.of(context).maybePop();
   }
 
   @override

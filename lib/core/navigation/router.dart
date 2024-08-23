@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scriby_app/common/utils/utils.dart';
 import 'package:scriby_app/core/domain/domain.dart';
 import 'package:scriby_app/core/navigation/navigation.dart';
@@ -49,8 +48,6 @@ class AppRouter extends _$AppRouter {
             final alignment =
                 (page.arguments as EditNoteRouteArgs).animationAlignment;
 
-            final initialNote = (page.arguments as EditNoteRouteArgs).initialNoteToEdit ?? Note.empty();
-
             return PageRouteBuilder(
               transitionDuration: const Duration(milliseconds: 450),
               fullscreenDialog: page.fullscreenDialog,
@@ -65,23 +62,7 @@ class AppRouter extends _$AppRouter {
                 );
               },
               settings: page,
-              pageBuilder: (context, animation, _) => MultiBlocProvider(
-                providers: [
-                BlocProvider(
-                  create: (context) => EditNoteBloc(
-                    notesRepository: context.read<INotesRepository>(),
-                    logger: context.read<ILogger>(),
-                  )..add(LoadNoteToEditEvent(initialNote: initialNote)),
-                ),
-                BlocProvider(
-                  lazy: false,
-                  create: (context) => EditNoteStageCubit(
-                    notesRepository: context.read<INotesRepository>(),
-                    logger: context.read<ILogger>(),
-                  )..loadNote(initialNote: initialNote),
-                ),
-              ],
-                child: child),
+              pageBuilder: (context, animation, _) => child,
             );
           },
         ),

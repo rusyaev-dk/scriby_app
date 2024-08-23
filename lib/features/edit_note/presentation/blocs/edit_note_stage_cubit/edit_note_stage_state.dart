@@ -11,10 +11,12 @@ final class EditNoteStageEditingState extends EditNoteStageState {
   EditNoteStageEditingState({
     required this.initialNote,
     required this.updatedNote,
+    required this.autosavingEnabled,
   });
 
   final Note initialNote;
   final Note? updatedNote;
+  final bool autosavingEnabled;
 
   EditNoteStageEditingState copyWith({
     Note? initialNote,
@@ -23,9 +25,10 @@ final class EditNoteStageEditingState extends EditNoteStageState {
     return EditNoteStageEditingState(
       initialNote: initialNote ?? this.initialNote,
       updatedNote: updatedNote ?? this.updatedNote,
+      autosavingEnabled: autosavingEnabled,
     );
   }
 
   @override
-  List<Object?> get props => [initialNote, updatedNote];
+  List<Object?> get props => [initialNote, updatedNote, autosavingEnabled];
 }

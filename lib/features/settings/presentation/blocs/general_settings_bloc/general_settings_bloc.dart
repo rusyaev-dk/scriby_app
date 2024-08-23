@@ -19,6 +19,7 @@ class GeneralSettingsBloc
     on<ToggleNotificationsEvent>(_onToggleNotifications);
     on<ToggleVibrationEvent>(_onToggleVibration);
     on<ToggleCloudSyncEvent>(_onToggleCloudSync);
+    on<ToggleAutosaveEvent>(_onToggleAutosave);
   }
 
   final IGeneralSettingsRepository _generalSettingsRepository;
@@ -35,11 +36,14 @@ class GeneralSettingsBloc
           await _generalSettingsRepository.getVibrationStatus();
       final bool cloudSync =
           await _generalSettingsRepository.getCloudSyncStatus();
+      final bool autosave =
+          await _generalSettingsRepository.getAutosaveStatus();
 
       emit(GeneralSettingsLoadedState(
         notifications: notifications,
         vibration: vibration,
         cloudSync: cloudSync,
+        autosave: autosave,
       ));
     } catch (exception, stackTrace) {
       _logger.exception(exception, stackTrace);
@@ -105,4 +109,24 @@ class GeneralSettingsBloc
       emit(GeneralSettingsFailureState(exception: exception));
     }
   }
+
+  Future<void> _onToggleAutosave(
+    ToggleAutosaveEvent event,
+    Emitter<GeneralSettingsState> emit,
+  ) async {
+    try {
+      final bool curAutosave =
+          await _generalSettingsRepository.getAutosaveStatus();
+
+      await _generalSettingsRepository.toggleAutosave(!curAutosave);
+      final curState = state;
+      if (curState is GeneralSettingsLoadedState) {
+        emit(curState.copyWith(autosave: !curAutosave));
+      }
+    } catch (exception, stackTrace) {
+      _logger.exception(exception, stackTrace);
+      emit(GeneralSettingsFailureState(exception: exception));
+    }
+  }
+
 }

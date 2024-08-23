@@ -9,10 +9,7 @@ import 'package:scriby_app/uikit/uikit.dart';
 class EditNoteAppBar extends StatelessWidget {
   const EditNoteAppBar({
     super.key,
-    required this.onSaveButtonPressed,
   });
-
-  final void Function(BuildContext context) onSaveButtonPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -29,15 +26,15 @@ class EditNoteAppBar extends StatelessWidget {
                 PopScreenButtonCirlced(
                   diameter: 40,
                   icon: Icons.close_rounded,
-                  onPressed: () => _onScreenPopButtonPressed(context),
+                  onPressed: () => _onScreenPop(context),
                 ),
                 const Spacer(),
                 BlocBuilder<EditNoteBloc, EditNoteState>(
                   builder: (context, state) {
                     return SaveNoteButton(
                       onPressed: () => (state is EditNoteEditingState)
-                          ? onSaveButtonPressed(context)
-                          : () {},
+                          ? _onSaveButtonPressed(context)
+                          : null,
                       isSaving: state is EditNoteSavingState,
                       height: 40,
                     );
@@ -51,18 +48,23 @@ class EditNoteAppBar extends StatelessWidget {
     );
   }
 
-  Future<void> _onScreenPopButtonPressed(BuildContext context) async {
+  Future<void> _onScreenPop(BuildContext context) async {
     final stageCubitState = BlocProvider.of<EditNoteStageCubit>(context).state;
     if (stageCubitState is! EditNoteStageEditingState ||
         stageCubitState.updatedNote == null ||
         (stageCubitState.updatedNote != null &&
             stageCubitState.updatedNote == stageCubitState.initialNote)) {
-      FocusScope.of(context).unfocus();
-      AutoRouter.of(context).maybePop();
+      _closeKeyboardAndPop(context);
       return;
     }
 
-    bool shouldSave = await _showSaveChangesDialog(context) ?? false;
+    if (stageCubitState.autosavingEnabled) {
+      _closeKeyboardAndPop(context);
+      return;
+    }
+
+    bool shouldSave =
+        await _showConfirmationDialog(context, "Save changes?", true) ?? false;
     if (!context.mounted) return;
 
     if (!shouldSave) {
@@ -83,11 +85,48 @@ class EditNoteAppBar extends StatelessWidget {
 
     if (!context.mounted) return;
 
-    FocusScope.of(context).unfocus();
-    AutoRouter.of(context).maybePop();
+    _closeKeyboardAndPop(context);
   }
 
-  Future<bool?> _showSaveChangesDialog(BuildContext context) {
+  void _onSaveButtonPressed(BuildContext context) async {
+    final stageCubitState = BlocProvider.of<EditNoteStageCubit>(context).state;
+    if (stageCubitState is! EditNoteStageEditingState) return;
+
+    if (stageCubitState.autosavingEnabled) {
+      _closeKeyboardAndPop(context);
+      return;
+    }
+
+    if (stageCubitState.updatedNote == null) {
+      bool shouldSave =
+          await _showConfirmationDialog(context, "Save empty note?") ?? false;
+      if (!shouldSave) return;
+    }
+
+    if (!context.mounted) return;
+
+    if (stageCubitState.updatedNote == stageCubitState.initialNote) {
+      _closeKeyboardAndPop(context);
+      return;
+    }
+
+    final Completer completer = Completer();
+    BlocProvider.of<EditNoteBloc>(context).add(SaveNoteEvent(
+      note: stageCubitState.updatedNote ?? stageCubitState.initialNote,
+      completer: completer,
+    ));
+    await completer.future;
+
+    if (!context.mounted) return;
+
+    _closeKeyboardAndPop(context);
+  }
+
+  Future<bool?> _showConfirmationDialog(
+    BuildContext context,
+    String title, [
+    bool? withDestructiveAction,
+  ]) {
     return showDialog<bool?>(
       context: context,
       builder: (context) {
@@ -98,14 +137,19 @@ class EditNoteAppBar extends StatelessWidget {
               child: const Text("Yes"),
             ),
             AppAlertDialogAction(
-              isDestructiveAction: true,
+              isDefaultAction: withDestructiveAction ?? false,
               onPressed: () => AutoRouter.of(context).maybePop<bool?>(false),
               child: const Text("No"),
             ),
           ],
-          title: const Text("Save changes?"),
+          title: Text(title),
         );
       },
     );
+  }
+
+  void _closeKeyboardAndPop(BuildContext context) {
+    FocusScope.of(context).unfocus();
+    AutoRouter.of(context).maybePop();
   }
 }

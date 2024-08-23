@@ -21,3 +21,8 @@ final class ToggleCloudSyncEvent extends GeneralSettingsEvent {
   @override
   List<Object?> get props => [];
 }
+
+final class ToggleAutosaveEvent extends GeneralSettingsEvent {
+  @override
+  List<Object?> get props => [];
+}

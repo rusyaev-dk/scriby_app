@@ -32,7 +32,8 @@ class EditNoteBloc extends Bloc<EditNoteEvent, EditNoteState> {
       }
 
       if (event.initialNote.isEmpty()) {
-        await _notesRepository.addNote(event.initialNote.copyWith(title: "Untitled"));
+        await _notesRepository
+            .addNote(event.initialNote.copyWith(title: "Untitled"));
       }
 
       return emit(EditNoteEditingState(note: event.initialNote));

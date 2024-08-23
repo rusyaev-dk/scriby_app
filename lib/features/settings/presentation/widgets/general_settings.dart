@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scriby_app/core/navigation/router.dart';
-import 'package:scriby_app/features/settings/presentation/blocs/blocs.dart';
 import 'package:scriby_app/features/settings/presentation/presentation.dart';
 import 'package:scriby_app/uikit/uikit.dart';
 
@@ -61,6 +60,23 @@ class GeneralSettings extends StatelessWidget {
                     context
                         .read<GeneralSettingsBloc>()
                         .add(ToggleCloudSyncEvent());
+                  },
+                ),
+                const SizedBox(height: 5),
+                Divider(
+                  color: colorScheme.onBackground,
+                  endIndent: 10,
+                  indent: 10,
+                ),
+                const SizedBox(height: 5),
+                SettingsSwitcherRow(
+                  text: "Note autosave",
+                  icon: Icons.save,
+                  isActive: state.autosave,
+                  onSwitcherChanged: (bool isActive) {
+                    context
+                        .read<GeneralSettingsBloc>()
+                        .add(ToggleAutosaveEvent());
                   },
                 ),
                 const SizedBox(height: 5),
