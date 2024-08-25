@@ -97,7 +97,8 @@ class EditNoteAppBar extends StatelessWidget {
       return;
     }
 
-    if (stageCubitState.updatedNote == null) {
+    if (stageCubitState.updatedNote == null &&
+        stageCubitState.initialNote.isEmpty()) {
       bool shouldSave =
           await _showConfirmationDialog(context, "Save empty note?") ?? false;
       if (!shouldSave) return;
@@ -105,7 +106,9 @@ class EditNoteAppBar extends StatelessWidget {
 
     if (!context.mounted) return;
 
-    if (stageCubitState.updatedNote == stageCubitState.initialNote) {
+    if ((stageCubitState.updatedNote == null &&
+            !stageCubitState.initialNote.isEmpty()) ||
+        stageCubitState.updatedNote == stageCubitState.initialNote) {
       _closeKeyboardAndPop(context);
       return;
     }
