@@ -103,10 +103,8 @@ class _NotesSliverGridState extends State<NotesSliverGrid> {
 
     if (!context.mounted) return;
 
-    AutoRouter.of(context)
-        .push(EditNoteRoute(
-            initialNoteToEdit: note, animationAlignment: alignment))
-        .then((value) async {});
+    AutoRouter.of(context).push(
+        EditNoteRoute(initialNoteToEdit: note, animationAlignment: alignment));
   }
 
   Alignment _calculateTransitionAlignment(Note note) {

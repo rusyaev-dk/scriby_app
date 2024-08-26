@@ -54,12 +54,12 @@ class EditNoteAppBar extends StatelessWidget {
         stageCubitState.updatedNote == null ||
         (stageCubitState.updatedNote != null &&
             stageCubitState.updatedNote == stageCubitState.initialNote)) {
-      _closeKeyboardAndPop(context);
+      _closeKeyboardAndPopScreen(context);
       return;
     }
 
     if (stageCubitState.autosavingEnabled) {
-      _closeKeyboardAndPop(context);
+      _closeKeyboardAndPopScreen(context);
       return;
     }
 
@@ -85,7 +85,7 @@ class EditNoteAppBar extends StatelessWidget {
 
     if (!context.mounted) return;
 
-    _closeKeyboardAndPop(context);
+    _closeKeyboardAndPopScreen(context);
   }
 
   void _onSaveButtonPressed(BuildContext context) async {
@@ -93,7 +93,14 @@ class EditNoteAppBar extends StatelessWidget {
     if (stageCubitState is! EditNoteStageEditingState) return;
 
     if (stageCubitState.autosavingEnabled) {
-      _closeKeyboardAndPop(context);
+      _closeKeyboardAndPopScreen(context);
+      return;
+    }
+
+    if ((stageCubitState.updatedNote == null &&
+            !stageCubitState.initialNote.isEmpty()) ||
+        stageCubitState.updatedNote == stageCubitState.initialNote) {
+      _closeKeyboardAndPopScreen(context);
       return;
     }
 
@@ -106,13 +113,6 @@ class EditNoteAppBar extends StatelessWidget {
 
     if (!context.mounted) return;
 
-    if ((stageCubitState.updatedNote == null &&
-            !stageCubitState.initialNote.isEmpty()) ||
-        stageCubitState.updatedNote == stageCubitState.initialNote) {
-      _closeKeyboardAndPop(context);
-      return;
-    }
-
     final Completer completer = Completer();
     BlocProvider.of<EditNoteBloc>(context).add(SaveNoteEvent(
       note: stageCubitState.updatedNote ?? stageCubitState.initialNote,
@@ -122,7 +122,7 @@ class EditNoteAppBar extends StatelessWidget {
 
     if (!context.mounted) return;
 
-    _closeKeyboardAndPop(context);
+    _closeKeyboardAndPopScreen(context);
   }
 
   Future<bool?> _showConfirmationDialog(
@@ -151,7 +151,7 @@ class EditNoteAppBar extends StatelessWidget {
     );
   }
 
-  void _closeKeyboardAndPop(BuildContext context) {
+  void _closeKeyboardAndPopScreen(BuildContext context) {
     FocusScope.of(context).unfocus();
     AutoRouter.of(context).maybePop();
   }

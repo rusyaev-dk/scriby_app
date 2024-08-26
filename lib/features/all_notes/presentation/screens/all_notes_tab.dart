@@ -61,7 +61,7 @@ class _AllNotesTabState extends State<AllNotesTab> {
                     SliverPadding(
                       padding: _padding,
                       sliver: NotesSliverGrid(
-                        key: ValueKey(state.notes.length),
+                        key: ValueKey(state.notes),
                         notes: state.notes,
                       ),
                     )

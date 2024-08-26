@@ -31,6 +31,8 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
         BlocProvider(
           create: (context) => EditNoteBloc(
             notesRepository: context.read<INotesRepository>(),
+            generalSettingsRepository:
+                context.read<IGeneralSettingsRepository>(),
             logger: context.read<ILogger>(),
           )..add(LoadNoteToEditEvent(initialNote: widget.initialNote)),
         ),

@@ -16,13 +16,13 @@ final class _NoteAddedEvent extends AllNotesEvent {
   List<Object?> get props => [addedNote];
 }
 
-final class _NoteEditedEvent extends AllNotesEvent {
-  _NoteEditedEvent({required this.editedNote});
+final class _NoteUpdatedEvent extends AllNotesEvent {
+  _NoteUpdatedEvent({required this.updatedNote});
 
-  final Note editedNote;
+  final Note updatedNote;
 
   @override
-  List<Object?> get props => [editedNote];
+  List<Object?> get props => [updatedNote];
 }
 
 final class _NoteDeletedEvent extends AllNotesEvent {
@@ -44,7 +44,7 @@ final class _AllNotesFailureEvent extends AllNotesEvent {
     required this.exception,
     required this.stackTrace,
   });
-  
+
   final Object exception;
   final StackTrace stackTrace;
 

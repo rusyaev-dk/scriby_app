@@ -16,7 +16,7 @@ abstract class CustomPageTransitionsBuilder {
     );
 
     return ScaleTransition(
-      alignment: alignment ?? const FractionalOffset(0.88, 0.95),
+      alignment: alignment ?? const FractionalOffset(0.90, 0.95),
       scale: curvedAnimation,
       child: child,
     );

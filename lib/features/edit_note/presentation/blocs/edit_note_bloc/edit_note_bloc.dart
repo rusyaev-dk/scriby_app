@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:scriby_app/common/utils/utils.dart';
 import 'package:scriby_app/core/domain/domain.dart';
+import 'package:scriby_app/features/settings/domain/domain.dart';
 
 part 'edit_note_event.dart';
 part 'edit_note_state.dart';
@@ -11,8 +12,10 @@ part 'edit_note_state.dart';
 class EditNoteBloc extends Bloc<EditNoteEvent, EditNoteState> {
   EditNoteBloc({
     required INotesRepository notesRepository,
+    required IGeneralSettingsRepository generalSettingsRepository,
     required ILogger logger,
   })  : _notesRepository = notesRepository,
+        _generalSettingsRepository = generalSettingsRepository,
         _logger = logger,
         super(EditNoteEditingState()) {
     on<LoadNoteToEditEvent>(_onLoadNoteToEdit);
@@ -20,6 +23,7 @@ class EditNoteBloc extends Bloc<EditNoteEvent, EditNoteState> {
   }
 
   final INotesRepository _notesRepository;
+  final IGeneralSettingsRepository _generalSettingsRepository;
   final ILogger _logger;
 
   Future<void> _onLoadNoteToEdit(
@@ -31,10 +35,13 @@ class EditNoteBloc extends Bloc<EditNoteEvent, EditNoteState> {
         emit(EditNoteLoadingState());
       }
 
-      if (event.initialNote.isEmpty()) {
+      final bool autosaveEnabled =
+          await _generalSettingsRepository.getAutosaveStatus();
+
+      if (autosaveEnabled && event.initialNote.isEmpty()) {
         await _notesRepository
             .addNote(event.initialNote.copyWith(title: "Untitled"));
-      }
+      } //compute in an Isolate...
 
       return emit(EditNoteEditingState(note: event.initialNote));
     } catch (exception, stackTrace) {
@@ -52,13 +59,8 @@ class EditNoteBloc extends Bloc<EditNoteEvent, EditNoteState> {
         emit(EditNoteSavingState());
       }
 
-      final bool exists = await _notesRepository.exists(event.note.id);
       final Note formattedNote = _formatNote(event.note);
-      if (exists) {
-        await _notesRepository.updateNote(formattedNote);
-      } else {
-        await _notesRepository.addNote(formattedNote);
-      }
+      await _notesRepository.updateNote(formattedNote);
 
       //
       await Future.delayed(const Duration(milliseconds: 500));

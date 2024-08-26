@@ -17,7 +17,7 @@ class AllNotesBloc extends Bloc<AllNotesEvent, AllNotesState> {
         super(AllNotesLoadingState()) {
     on<LoadAllNotesEvent>(_onLoadNotes);
     on<_NoteAddedEvent>(_onNoteAdded);
-    on<_NoteEditedEvent>(_onNoteEdited);
+    on<_NoteUpdatedEvent>(_onNoteUpdated);
     on<_NoteDeletedEvent>(_onNoteDeleted);
     add(LoadAllNotesEvent());
     _subscribeToNotesStream();
@@ -35,7 +35,7 @@ class AllNotesBloc extends Bloc<AllNotesEvent, AllNotesState> {
             add(_NoteAddedEvent(addedNote: record.note!));
             return;
           case NoteAction.updated:
-            add(_NoteEditedEvent(editedNote: record.note!));
+            add(_NoteUpdatedEvent(updatedNote: record.note!));
             return;
           case NoteAction.deleted:
             add(_NoteDeletedEvent(deletedNote: record.note!));
@@ -83,52 +83,38 @@ class AllNotesBloc extends Bloc<AllNotesEvent, AllNotesState> {
     Emitter<AllNotesState> emit,
   ) async {
     try {
-      //
-      await Future.delayed(const Duration(milliseconds: 700));
-      //
-
       final curState = state;
       if (curState is AllNotesLoadedState) {
         final updatedNotes = [event.addedNote] + curState.notes;
         return emit(curState.copyWith(notes: updatedNotes));
       }
 
-      if (state is! AllNotesLoadingState) {
-        emit(AllNotesLoadingState());
-      }
-      final notes = await _notesRepository.getAllNotes();
-      emit(AllNotesLoadedState(notes: notes));
+      add(LoadAllNotesEvent());
     } catch (exception, stackTrace) {
       _logger.exception(exception, stackTrace);
       emit(AllNotesFailureState(exception: exception));
     }
   }
 
-  Future<void> _onNoteEdited(
-    _NoteEditedEvent event,
+  Future<void> _onNoteUpdated(
+    _NoteUpdatedEvent event,
     Emitter<AllNotesState> emit,
   ) async {
     try {
-      //
-      await Future.delayed(const Duration(milliseconds: 700));
-      //
-
       final curState = state;
       if (curState is AllNotesLoadedState) {
+        emit(AllNotesLoadingState());
+
         List<Note> updatedNotes = List.from(curState.notes);
         updatedNotes.removeWhere(
-          (Note note) => note.id == event.editedNote.id,
+          (Note note) => note.id == event.updatedNote.id,
         );
-        updatedNotes = [event.editedNote] + updatedNotes;
+        updatedNotes = [event.updatedNote] + updatedNotes;
 
         return emit(curState.copyWith(notes: updatedNotes));
       }
 
-      if (state is! AllNotesLoadingState) {
-        emit(AllNotesLoadingState());
-      }
-      final notes = await _notesRepository.getAllNotes();
-      emit(AllNotesLoadedState(notes: notes));
+      add(LoadAllNotesEvent());
     } catch (exception, stackTrace) {
       _logger.exception(exception, stackTrace);
       emit(AllNotesFailureState(exception: exception));
@@ -140,10 +126,6 @@ class AllNotesBloc extends Bloc<AllNotesEvent, AllNotesState> {
     Emitter<AllNotesState> emit,
   ) async {
     try {
-      //
-      await Future.delayed(const Duration(milliseconds: 700));
-      //
-
       final curState = state;
       if (curState is AllNotesLoadedState) {
         List<Note> updatedNotes = List.from(curState.notes);
@@ -154,11 +136,7 @@ class AllNotesBloc extends Bloc<AllNotesEvent, AllNotesState> {
         return emit(curState.copyWith(notes: updatedNotes));
       }
 
-      if (state is! AllNotesLoadingState) {
-        emit(AllNotesLoadingState());
-      }
-      final notes = await _notesRepository.getAllNotes();
-      emit(AllNotesLoadedState(notes: notes));
+      add(LoadAllNotesEvent());
     } catch (exception, stackTrace) {
       _logger.exception(exception, stackTrace);
       emit(AllNotesFailureState(exception: exception));

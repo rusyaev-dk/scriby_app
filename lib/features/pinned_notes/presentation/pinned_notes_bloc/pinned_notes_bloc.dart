@@ -96,11 +96,7 @@ class PinnedNotesBloc extends Bloc<PinnedNotesEvent, PinnedNotesState> {
         return emit(curState.copyWith(notes: updatedNotes));
       }
 
-      if (state is! PinnedNotesLoadingState) {
-        emit(PinnedNotesLoadingState());
-      }
-      final notes = await _notesRepository.getPinnedNotes();
-      emit(PinnedNotesLoadedState(notes: notes));
+      add(LoadPinnedNotesEvent());
     } catch (exception, stackTrace) {
       _logger.exception(exception, stackTrace);
       emit(PinnedNotesFailureState(exception: exception));
@@ -127,11 +123,7 @@ class PinnedNotesBloc extends Bloc<PinnedNotesEvent, PinnedNotesState> {
         return emit(curState.copyWith(notes: updatedNotes));
       }
 
-      if (state is! PinnedNotesLoadingState) {
-        emit(PinnedNotesLoadingState());
-      }
-      final notes = await _notesRepository.getPinnedNotes();
-      emit(PinnedNotesLoadedState(notes: notes));
+      add(LoadPinnedNotesEvent());
     } catch (exception, stackTrace) {
       _logger.exception(exception, stackTrace);
       emit(PinnedNotesFailureState(exception: exception));
@@ -157,11 +149,7 @@ class PinnedNotesBloc extends Bloc<PinnedNotesEvent, PinnedNotesState> {
         return emit(curState.copyWith(notes: updatedNotes));
       }
 
-      if (state is! PinnedNotesLoadingState) {
-        emit(PinnedNotesLoadingState());
-      }
-      final notes = await _notesRepository.getPinnedNotes();
-      emit(PinnedNotesLoadedState(notes: notes));
+      add(LoadPinnedNotesEvent());
     } catch (exception, stackTrace) {
       _logger.exception(exception, stackTrace);
       emit(PinnedNotesFailureState(exception: exception));

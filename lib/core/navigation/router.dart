@@ -47,7 +47,7 @@ class AppRouter extends _$AppRouter {
               (BuildContext context, Widget child, AutoRoutePage page) {
             final alignment =
                 (page.arguments as EditNoteRouteArgs).animationAlignment;
-
+            
             return PageRouteBuilder(
               transitionDuration: const Duration(milliseconds: 450),
               fullscreenDialog: page.fullscreenDialog,
