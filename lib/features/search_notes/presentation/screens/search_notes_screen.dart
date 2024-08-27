@@ -4,6 +4,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scriby_app/common/utils/utils.dart';
 import 'package:scriby_app/common/widgets/widgets.dart';
+import 'package:scriby_app/core/domain/domain.dart';
 import 'package:scriby_app/features/search_notes/domain/domain.dart';
 import 'package:scriby_app/features/search_notes/presentation/presentation.dart';
 import 'package:scriby_app/uikit/uikit.dart';
@@ -37,6 +38,7 @@ class _SearchNotesScreenState extends State<SearchNotesScreen> {
     return BlocProvider(
       create: (context) => SearchNotesBloc(
         searchNotesRepository: context.read<ISearchNotesRepository>(),
+        notesRepository: context.read<INotesRepository>(),
         logger: context.read<ILogger>(),
       ),
       child: Scaffold(
@@ -98,7 +100,7 @@ class SearchBodyContent extends StatelessWidget {
           );
         }
         if (state is SearchNotesLoadedState) {
-          if (state.foundNotes.isEmpty) {
+          if (state.notes.isEmpty) {
             return Center(
               child: Animate(
                 key: ValueKey(state),
@@ -111,7 +113,8 @@ class SearchBodyContent extends StatelessWidget {
             padding: const EdgeInsets.only(left: 13, right: 13, top: 2),
             child: DisableScrollStretching(
               child: NotesGrid(
-                notes: state.foundNotes,
+                key: ValueKey(state.notes),
+                notes: state.notes,
               ),
             ),
           );

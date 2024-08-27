@@ -13,16 +13,16 @@ final class SearchNotesLoadingState extends SearchNotesState {
 }
 
 final class SearchNotesLoadedState extends SearchNotesState {
-  SearchNotesLoadedState({required this.foundNotes});
+  SearchNotesLoadedState({required this.notes});
 
-  final List<Note> foundNotes;
+  final List<Note> notes;
 
   @override
-  List<Object?> get props => [foundNotes];
+  List<Object?> get props => [notes];
 }
 
 final class SearchNotesFailureState extends SearchNotesState {
-  SearchNotesFailureState(this.exception);
+  SearchNotesFailureState({required this.exception});
 
   final Object exception;
 

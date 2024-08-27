@@ -49,5 +49,5 @@ final class _PinnedNotesFailureEvent extends PinnedNotesEvent {
   final StackTrace stackTrace;
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [exception, stackTrace];
 }

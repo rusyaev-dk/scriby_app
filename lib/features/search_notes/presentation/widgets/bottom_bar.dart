@@ -129,7 +129,7 @@ class _SearchBottomBarState extends State<SearchBottomBar>
 
   void _onSearchTextChanged(String query) {
     BlocProvider.of<SearchNotesBloc>(context)
-        .add(SearchNotesEvent(query: query));
+        .add(SearchNotesByQueryEvent(query: query));
   }
 
   @override

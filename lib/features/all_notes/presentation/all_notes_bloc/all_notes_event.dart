@@ -49,5 +49,5 @@ final class _AllNotesFailureEvent extends AllNotesEvent {
   final StackTrace stackTrace;
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [exception, stackTrace];
 }
