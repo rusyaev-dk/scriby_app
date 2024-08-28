@@ -40,4 +40,7 @@ The `talker_flutter` package is employed for logging, providing efficient tracki
 
 ## Data Storage
 
-Two types of data storage are utilized in the application. For local data persistence, the app utilizes both `SharedPreferences` for simple key-value storage and `Realm` for handling complex data structures and relationships.
+Two packages for data storage are utilized in the application:
+
+- `shared_preferences`: for storing regular data;
+- `realm`: for handling complex data structures and relationships.
