@@ -41,12 +41,3 @@ The `talker_flutter` package is employed for logging, providing efficient tracki
 ## Data Storage
 
 Two types of data storage are utilized in the application. For local data persistence, the app utilizes both `SharedPreferences` for simple key-value storage and `Realm` for handling complex data structures and relationships.
-
-## Getting Started
-
-To get started with Scriby, clone the repository and install the required dependencies:
-
-```bash
-git clone https://github.com/yourusername/scriby_app.git
-cd scriby_app
-flutter pub get
