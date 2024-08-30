@@ -20,7 +20,7 @@ void main() async {
 
   final realm = configRealm();
   final prefs = await configSharedPreferences();
-  final talker = Talker();
+  final talker = TalkerFlutter.init();
   final appConfig = AppConfig(
     realm: realm,
     sharedPreferences: prefs,

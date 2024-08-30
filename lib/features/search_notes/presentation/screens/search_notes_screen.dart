@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:scriby_app/app/app.dart';
 import 'package:scriby_app/common/utils/utils.dart';
 import 'package:scriby_app/common/widgets/widgets.dart';
 import 'package:scriby_app/core/domain/domain.dart';
@@ -35,40 +36,45 @@ class _SearchNotesScreenState extends State<SearchNotesScreen> {
   Widget build(BuildContext context) {
     final colorScheme = AppColorScheme.of(context);
 
-    return BlocProvider(
-      create: (context) => SearchNotesBloc(
-        searchNotesRepository: context.read<ISearchNotesRepository>(),
-        notesRepository: context.read<INotesRepository>(),
-        logger: context.read<ILogger>(),
+    return RepositoryProvider<ISearchNotesRepository>(
+      create: (context) => SearchNotesRepository(
+        realm: AppConfig.of(context).realm,
       ),
-      child: Scaffold(
-        backgroundColor: colorScheme.background,
-        appBar: const PreferredSize(
-          preferredSize: Size(double.infinity, 60),
-          child: SearchNotesAppBar(),
+      child: BlocProvider(
+        create: (context) => SearchNotesBloc(
+          searchNotesRepository: context.read<ISearchNotesRepository>(),
+          notesRepository: context.read<INotesRepository>(),
+          logger: context.read<ILogger>(),
         ),
-        body: SafeArea(
-          bottom: true,
-          child: Container(
-            height: double.infinity,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: colorScheme.surface,
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(30),
-                topRight: Radius.circular(30),
+        child: Scaffold(
+          backgroundColor: colorScheme.background,
+          appBar: const PreferredSize(
+            preferredSize: Size(double.infinity, 60),
+            child: SearchNotesAppBar(),
+          ),
+          body: SafeArea(
+            bottom: true,
+            child: Container(
+              height: double.infinity,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: colorScheme.surface,
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(30),
+                  topRight: Radius.circular(30),
+                ),
               ),
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Expanded(
-                  child: SearchBodyContent(),
-                ),
-                SearchBottomBar(
-                  searchTextController: _searchTextController,
-                ),
-              ],
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Expanded(
+                    child: SearchBodyContent(),
+                  ),
+                  SearchBottomBar(
+                    searchTextController: _searchTextController,
+                  ),
+                ],
+              ),
             ),
           ),
         ),

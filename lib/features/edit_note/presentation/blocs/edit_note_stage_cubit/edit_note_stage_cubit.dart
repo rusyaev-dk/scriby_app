@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:scriby_app/common/utils/utils.dart';
 import 'package:scriby_app/core/domain/domain.dart';
+import 'package:scriby_app/features/edit_note/domain/domain.dart';
 import 'package:scriby_app/features/settings/domain/domain.dart';
 
 part 'edit_note_stage_state.dart';
@@ -10,14 +11,17 @@ class EditNoteStageCubit extends Cubit<EditNoteStageState> {
   EditNoteStageCubit({
     required INotesRepository notesRepository,
     required IGeneralSettingsRepository generalSettingsRepository,
+    required IEditStagesRepository editStackRepository,
     required ILogger logger,
   })  : _notesRepository = notesRepository,
         _generalSettingsRepository = generalSettingsRepository,
+        _editStackRepository = editStackRepository,
         _logger = logger,
         super(EditNoteStageInitialState());
 
   final INotesRepository _notesRepository;
   final IGeneralSettingsRepository _generalSettingsRepository;
+  final IEditStagesRepository _editStackRepository;
   final ILogger _logger;
 
   Future<void> loadNote({required Note initialNote}) async {

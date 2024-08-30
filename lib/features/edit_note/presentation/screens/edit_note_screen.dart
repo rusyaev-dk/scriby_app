@@ -1,15 +1,18 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:scriby_app/app/app_config.dart';
 import 'package:scriby_app/common/utils/utils.dart';
 import 'package:scriby_app/common/widgets/widgets.dart';
 import 'package:scriby_app/core/domain/domain.dart';
+import 'package:scriby_app/features/edit_note/domain/domain.dart';
 import 'package:scriby_app/features/edit_note/presentation/presentation.dart';
 import 'package:scriby_app/features/settings/domain/domain.dart';
+import 'package:scriby_app/persistence/storage/storage.dart';
 import 'package:scriby_app/uikit/uikit.dart';
 
 @RoutePage(name: "EditNoteRoute")
-class EditNoteScreen extends StatefulWidget {
+class EditNoteScreen extends StatelessWidget {
   EditNoteScreen({
     super.key,
     required Note? initialNoteToEdit,
@@ -20,34 +23,37 @@ class EditNoteScreen extends StatefulWidget {
   final Alignment? animationAlignment;
 
   @override
-  State<EditNoteScreen> createState() => _EditNoteScreenState();
-}
-
-class _EditNoteScreenState extends State<EditNoteScreen> {
-  @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => EditNoteBloc(
-            notesRepository: context.read<INotesRepository>(),
-            generalSettingsRepository:
-                context.read<IGeneralSettingsRepository>(),
-            logger: context.read<ILogger>(),
-          )..add(LoadNoteToEditEvent(initialNote: widget.initialNote)),
+    return RepositoryProvider<IEditStagesRepository>(
+      create: (context) => EditStagesRepository(
+        editStackStorage: EditStackStorage(
+          realm: AppConfig.of(context).realm,
         ),
-        BlocProvider(
-          lazy: false,
-          create: (context) => EditNoteStageCubit(
-            notesRepository: context.read<INotesRepository>(),
-            generalSettingsRepository:
-                context.read<IGeneralSettingsRepository>(),
-            logger: context.read<ILogger>(),
-          )..loadNote(initialNote: widget.initialNote),
+      ),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => EditNoteBloc(
+              notesRepository: context.read<INotesRepository>(),
+              generalSettingsRepository:
+                  context.read<IGeneralSettingsRepository>(),
+              logger: context.read<ILogger>(),
+            )..add(LoadNoteToEditEvent(initialNote: initialNote)),
+          ),
+          BlocProvider(
+            lazy: false,
+            create: (context) => EditNoteStageCubit(
+              notesRepository: context.read<INotesRepository>(),
+              generalSettingsRepository:
+                  context.read<IGeneralSettingsRepository>(),
+              editStackRepository: context.read<IEditStagesRepository>(),
+              logger: context.read<ILogger>(),
+            )..loadNote(initialNote: initialNote),
+          ),
+        ],
+        child: EditNoteView(
+          initialNote: initialNote,
         ),
-      ],
-      child: EditNoteView(
-        initialNote: widget.initialNote,
       ),
     );
   }

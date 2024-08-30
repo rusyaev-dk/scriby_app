@@ -29,6 +29,9 @@ class AppInitializer extends StatelessWidget {
 
     return MultiRepositoryProvider(
       providers: [
+        RepositoryProvider<AppConfig>(
+          create: (context) => appConfig,
+        ),
         RepositoryProvider<ILogger>(
           create: (context) => AppLogger(talker: appConfig.talker),
         ),
