@@ -16,14 +16,38 @@ class SearchNotesSheelScreen extends AutoRouter {
 }
 
 @RoutePage(name: "SearchNotesRoute")
-class SearchNotesScreen extends StatefulWidget {
+class SearchNotesScreen extends StatelessWidget {
   const SearchNotesScreen({super.key});
 
   @override
-  State<SearchNotesScreen> createState() => _SearchNotesScreenState();
+  Widget build(BuildContext context) {
+    return RepositoryProvider<ISearchNotesRepository>(
+      create: (context) => SearchNotesRepository(
+        realm: AppConfig.of(context).realm,
+      ),
+      child: BlocProvider(
+        create: (context) => SearchNotesBloc(
+          searchNotesRepository:
+              RepositoryProvider.of<ISearchNotesRepository>(context),
+          notesRepository: RepositoryProvider.of<INotesRepository>(context),
+          logger: RepositoryProvider.of<ILogger>(context),
+        ),
+        child: const SearchNotesView(),
+      ),
+    );
+  }
 }
 
-class _SearchNotesScreenState extends State<SearchNotesScreen> {
+class SearchNotesView extends StatefulWidget {
+  const SearchNotesView({
+    super.key,
+  });
+
+  @override
+  State<SearchNotesView> createState() => _SearchNotesViewState();
+}
+
+class _SearchNotesViewState extends State<SearchNotesView> {
   late final TextEditingController _searchTextController;
 
   @override
@@ -36,46 +60,34 @@ class _SearchNotesScreenState extends State<SearchNotesScreen> {
   Widget build(BuildContext context) {
     final colorScheme = AppColorScheme.of(context);
 
-    return RepositoryProvider<ISearchNotesRepository>(
-      create: (context) => SearchNotesRepository(
-        realm: AppConfig.of(context).realm,
+    return Scaffold(
+      backgroundColor: colorScheme.background,
+      appBar: const PreferredSize(
+        preferredSize: Size(double.infinity, 60),
+        child: SearchNotesAppBar(),
       ),
-      child: BlocProvider(
-        create: (context) => SearchNotesBloc(
-          searchNotesRepository: context.read<ISearchNotesRepository>(),
-          notesRepository: context.read<INotesRepository>(),
-          logger: context.read<ILogger>(),
-        ),
-        child: Scaffold(
-          backgroundColor: colorScheme.background,
-          appBar: const PreferredSize(
-            preferredSize: Size(double.infinity, 60),
-            child: SearchNotesAppBar(),
-          ),
-          body: SafeArea(
-            bottom: true,
-            child: Container(
-              height: double.infinity,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: colorScheme.surface,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(30),
-                  topRight: Radius.circular(30),
-                ),
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Expanded(
-                    child: SearchBodyContent(),
-                  ),
-                  SearchBottomBar(
-                    searchTextController: _searchTextController,
-                  ),
-                ],
-              ),
+      body: SafeArea(
+        bottom: true,
+        child: Container(
+          height: double.infinity,
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: colorScheme.surface,
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(30),
+              topRight: Radius.circular(30),
             ),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Expanded(
+                child: SearchBodyContent(),
+              ),
+              SearchBottomBar(
+                searchTextController: _searchTextController,
+              ),
+            ],
           ),
         ),
       ),

@@ -34,20 +34,21 @@ class EditNoteScreen extends StatelessWidget {
         providers: [
           BlocProvider(
             create: (context) => EditNoteBloc(
-              notesRepository: context.read<INotesRepository>(),
+              notesRepository: RepositoryProvider.of<INotesRepository>(context),
               generalSettingsRepository:
-                  context.read<IGeneralSettingsRepository>(),
-              logger: context.read<ILogger>(),
+                  RepositoryProvider.of<IGeneralSettingsRepository>(context),
+              logger: RepositoryProvider.of<ILogger>(context),
             )..add(LoadNoteToEditEvent(initialNote: initialNote)),
           ),
           BlocProvider(
             lazy: false,
             create: (context) => EditNoteStageCubit(
-              notesRepository: context.read<INotesRepository>(),
+              notesRepository: RepositoryProvider.of<INotesRepository>(context),
               generalSettingsRepository:
-                  context.read<IGeneralSettingsRepository>(),
-              editStackRepository: context.read<IEditStagesRepository>(),
-              logger: context.read<ILogger>(),
+                  RepositoryProvider.of<IGeneralSettingsRepository>(context),
+              editStackRepository:
+                  RepositoryProvider.of<IEditStagesRepository>(context),
+              logger: RepositoryProvider.of<ILogger>(context),
             )..loadNote(initialNote: initialNote),
           ),
         ],

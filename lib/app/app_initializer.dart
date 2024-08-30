@@ -6,7 +6,6 @@ import 'package:scriby_app/core/blocs/blocs.dart';
 import 'package:scriby_app/core/domain/domain.dart';
 import 'package:scriby_app/features/all_notes/presentation/presentation.dart';
 import 'package:scriby_app/features/pinned_notes/presentation/presentation.dart';
-import 'package:scriby_app/features/search_notes/domain/domain.dart';
 import 'package:scriby_app/features/settings/domain/domain.dart';
 import 'package:scriby_app/persistence/storage/storage.dart';
 
@@ -42,11 +41,6 @@ class AppInitializer extends StatelessWidget {
         RepositoryProvider<INotesRepository>(
           create: (context) => NotesRepository(realm: appConfig.realm),
         ),
-        RepositoryProvider<ISearchNotesRepository>(
-          create: (context) => SearchNotesRepository(
-            realm: appConfig.realm,
-          ),
-        ),
         RepositoryProvider<IGeneralSettingsRepository>(
           create: (context) => GeneralSettingsRepository(
             settingsStorage: settingsStorage,
@@ -57,26 +51,27 @@ class AppInitializer extends StatelessWidget {
         providers: [
           BlocProvider(
             create: (context) => ThemeCubit(
-              themeModeRepository: context.read<IThemeModeRepository>(),
-              logger: context.read<ILogger>(),
+              themeModeRepository:
+                  RepositoryProvider.of<IThemeModeRepository>(context),
+              logger: RepositoryProvider.of<ILogger>(context),
             ),
           ),
           BlocProvider(
             create: (context) => NotesManagerBloc(
-              notesRepository: context.read<INotesRepository>(),
-              logger: context.read<ILogger>(),
+              notesRepository: RepositoryProvider.of<INotesRepository>(context),
+              logger: RepositoryProvider.of<ILogger>(context),
             ),
           ),
           BlocProvider(
             create: (context) => AllNotesBloc(
-              notesRepository: context.read<INotesRepository>(),
-              logger: context.read<ILogger>(),
+              notesRepository: RepositoryProvider.of<INotesRepository>(context),
+              logger: RepositoryProvider.of<ILogger>(context),
             ),
           ),
           BlocProvider(
             create: (context) => PinnedNotesBloc(
-              notesRepository: context.read<INotesRepository>(),
-              logger: context.read<ILogger>(),
+              notesRepository: RepositoryProvider.of<INotesRepository>(context),
+              logger: RepositoryProvider.of<ILogger>(context),
             ),
           ),
         ],

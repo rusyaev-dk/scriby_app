@@ -16,6 +16,6 @@ class AppConfig {
   final Talker talker;
 
   static AppConfig of(BuildContext context) {
-    return context.read<AppConfig>();
+    return RepositoryProvider.of<AppConfig>(context);
   }
 }
