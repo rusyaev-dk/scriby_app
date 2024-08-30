@@ -39,8 +39,13 @@ class EditNoteBloc extends Bloc<EditNoteEvent, EditNoteState> {
           await _generalSettingsRepository.getAutosaveStatus();
 
       if (autosaveEnabled && event.initialNote.isEmpty()) {
-        await _notesRepository
-            .addNote(event.initialNote.copyWith(title: "Untitled"));
+        Future.delayed(
+          const Duration(milliseconds: 600),
+          () async {
+            await _notesRepository
+                .addNote(event.initialNote.copyWith(title: "Untitled"));
+          },
+        );
       } //compute in an Isolate...
 
       return emit(EditNoteEditingState(note: event.initialNote));

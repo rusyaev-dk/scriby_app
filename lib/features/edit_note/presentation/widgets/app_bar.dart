@@ -29,6 +29,8 @@ class EditNoteAppBar extends StatelessWidget {
                   onPressed: () => _onScreenPop(context),
                 ),
                 const Spacer(),
+                const UndoRedoBar(),
+                const Spacer(),
                 BlocBuilder<EditNoteBloc, EditNoteState>(
                   builder: (context, state) {
                     return SaveNoteButton(
@@ -140,7 +142,7 @@ class EditNoteAppBar extends StatelessWidget {
               child: const Text("Yes"),
             ),
             AppAlertDialogAction(
-              isDefaultAction: withDestructiveAction ?? false,
+              isDestructiveAction: withDestructiveAction ?? false,
               onPressed: () => AutoRouter.of(context).maybePop<bool?>(false),
               child: const Text("No"),
             ),

@@ -22,7 +22,8 @@ class EditNoteStageCubit extends Cubit<EditNoteStageState> {
 
   Future<void> loadNote({required Note initialNote}) async {
     try {
-      final bool autosavingEnabled = await _generalSettingsRepository.getAutosaveStatus();
+      final bool autosavingEnabled =
+          await _generalSettingsRepository.getAutosaveStatus();
       emit(EditNoteStageEditingState(
         initialNote: initialNote,
         updatedNote: null,
@@ -68,6 +69,22 @@ class EditNoteStageCubit extends Cubit<EditNoteStageState> {
         await _notesRepository.updateNote(updatedNote);
       }
       emit(curState.copyWith(updatedNote: updatedNote));
+    } catch (exception, stackTrace) {
+      _logger.exception(exception, stackTrace);
+    }
+  }
+
+  Future<void> undoLastAction() async {
+    try {
+      print("undo pressed");
+    } catch (exception, stackTrace) {
+      _logger.exception(exception, stackTrace);
+    }
+  }
+
+  Future<void> redoLastAction() async {
+    try {
+      print("redo pressed");
     } catch (exception, stackTrace) {
       _logger.exception(exception, stackTrace);
     }
