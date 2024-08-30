@@ -30,10 +30,6 @@ BLoC pattern (via `flutter_bloc` package) is used for state management, leveragi
 
 The app uses the `auto_route` package for seamless and scalable navigation.
 
-## Error Handling
-
-The application has its own hierarchy of errors and error handlers. Error handling is implemented throughout the application, including network-related errors and other types of exceptions.
-
 ## Logging
 
 The `talker_flutter` package is employed for logging, providing efficient tracking and debugging of the app’s operations. Navigation logging is also implemented to track navigation events.
