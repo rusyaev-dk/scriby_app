@@ -24,8 +24,9 @@ class GeneralSettingsScreen extends StatelessWidget {
 
     return BlocProvider(
       create: (context) => GeneralSettingsBloc(
-        generalSettingsRepository: context.read<IGeneralSettingsRepository>(),
-        logger: context.read<ILogger>(),
+        generalSettingsRepository:
+            RepositoryProvider.of<IGeneralSettingsRepository>(context),
+        logger: RepositoryProvider.of<ILogger>(context),
       ),
       child: Scaffold(
         appBar: AppBar(

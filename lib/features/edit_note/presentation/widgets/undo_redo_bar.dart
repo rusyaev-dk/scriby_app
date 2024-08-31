@@ -24,12 +24,12 @@ class UndoRedoBar extends StatelessWidget {
         children: [
           CustomIconButton(
             onPressed: () =>
-                BlocProvider.of<EditNoteStageCubit>(context).undoLastAction(),
+                BlocProvider.of<EditNoteStageCubit>(context).undo(),
             icon: Icons.undo_rounded,
           ),
           CustomIconButton(
             onPressed: () =>
-                BlocProvider.of<EditNoteStageCubit>(context).redoLastAction(),
+                BlocProvider.of<EditNoteStageCubit>(context).redo(),
             icon: Icons.redo_rounded,
           ),
         ],

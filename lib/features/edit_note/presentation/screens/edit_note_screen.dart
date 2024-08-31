@@ -1,14 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:scriby_app/app/app_config.dart';
 import 'package:scriby_app/common/utils/utils.dart';
 import 'package:scriby_app/common/widgets/widgets.dart';
 import 'package:scriby_app/core/domain/domain.dart';
 import 'package:scriby_app/features/edit_note/domain/domain.dart';
 import 'package:scriby_app/features/edit_note/presentation/presentation.dart';
 import 'package:scriby_app/features/settings/domain/domain.dart';
-import 'package:scriby_app/persistence/storage/storage.dart';
 import 'package:scriby_app/uikit/uikit.dart';
 
 @RoutePage(name: "EditNoteRoute")
@@ -25,11 +23,7 @@ class EditNoteScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RepositoryProvider<IEditStagesRepository>(
-      create: (context) => EditStagesRepository(
-        editStackStorage: EditStackStorage(
-          realm: AppConfig.of(context).realm,
-        ),
-      ),
+      create: (context) => EditStagesRepository(),
       child: MultiBlocProvider(
         providers: [
           BlocProvider(
@@ -46,7 +40,7 @@ class EditNoteScreen extends StatelessWidget {
               notesRepository: RepositoryProvider.of<INotesRepository>(context),
               generalSettingsRepository:
                   RepositoryProvider.of<IGeneralSettingsRepository>(context),
-              editStackRepository:
+              editStagesRepository:
                   RepositoryProvider.of<IEditStagesRepository>(context),
               logger: RepositoryProvider.of<ILogger>(context),
             )..loadNote(initialNote: initialNote),

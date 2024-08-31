@@ -11,17 +11,17 @@ class EditNoteStageCubit extends Cubit<EditNoteStageState> {
   EditNoteStageCubit({
     required INotesRepository notesRepository,
     required IGeneralSettingsRepository generalSettingsRepository,
-    required IEditStagesRepository editStackRepository,
+    required IEditStagesRepository editStagesRepository,
     required ILogger logger,
   })  : _notesRepository = notesRepository,
         _generalSettingsRepository = generalSettingsRepository,
-        _editStackRepository = editStackRepository,
+        _editStagesRepository = editStagesRepository,
         _logger = logger,
         super(EditNoteStageInitialState());
 
   final INotesRepository _notesRepository;
   final IGeneralSettingsRepository _generalSettingsRepository;
-  final IEditStagesRepository _editStackRepository;
+  final IEditStagesRepository _editStagesRepository;
   final ILogger _logger;
 
   Future<void> loadNote({required Note initialNote}) async {
@@ -52,6 +52,7 @@ class EditNoteStageCubit extends Cubit<EditNoteStageState> {
       if (curState.autosavingEnabled) {
         await _notesRepository.updateNote(updatedNote);
       }
+      _editStagesRepository.addStage(updatedNote);
       emit(curState.copyWith(updatedNote: updatedNote));
     } catch (exception, stackTrace) {
       _logger.exception(exception, stackTrace);
@@ -72,23 +73,32 @@ class EditNoteStageCubit extends Cubit<EditNoteStageState> {
       if (curState.autosavingEnabled) {
         await _notesRepository.updateNote(updatedNote);
       }
+      _editStagesRepository.addStage(updatedNote);
       emit(curState.copyWith(updatedNote: updatedNote));
     } catch (exception, stackTrace) {
       _logger.exception(exception, stackTrace);
     }
   }
 
-  Future<void> undoLastAction() async {
+  Future<void> undo() async {
     try {
-      print("undo pressed");
+      final curState = state;
+      if (curState is! EditNoteStageEditingState) return;
+
+      final Note updatedNote = await _editStagesRepository.undo();
+      emit(curState.copyWith(updatedNote: updatedNote));
     } catch (exception, stackTrace) {
       _logger.exception(exception, stackTrace);
     }
   }
 
-  Future<void> redoLastAction() async {
+  Future<void> redo() async {
     try {
-      print("redo pressed");
+      final curState = state;
+      if (curState is! EditNoteStageEditingState) return;
+
+      final Note updatedNote = await _editStagesRepository.redo();
+      emit(curState.copyWith(updatedNote: updatedNote));
     } catch (exception, stackTrace) {
       _logger.exception(exception, stackTrace);
     }
