@@ -65,7 +65,7 @@ class EditNoteBloc extends Bloc<EditNoteEvent, EditNoteState> {
       }
 
       final Note formattedNote = _formatNote(event.note);
-      await _notesRepository.updateNote(formattedNote);
+      await _notesRepository.updateNote(formattedNote.copyWith(date: DateTime.now()));
 
       //
       await Future.delayed(const Duration(milliseconds: 500));

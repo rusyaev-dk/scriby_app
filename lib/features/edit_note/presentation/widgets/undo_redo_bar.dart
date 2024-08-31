@@ -18,22 +18,49 @@ class UndoRedoBar extends StatelessWidget {
         color: colorScheme.surface,
         borderRadius: BorderRadius.circular(20),
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          CustomIconButton(
-            onPressed: () =>
-                BlocProvider.of<EditNoteStageCubit>(context).undo(),
-            icon: Icons.undo_rounded,
-          ),
-          CustomIconButton(
-            onPressed: () =>
-                BlocProvider.of<EditNoteStageCubit>(context).redo(),
-            icon: Icons.redo_rounded,
-          ),
-        ],
+      child: BlocBuilder<EditNoteStageCubit, EditNoteStageState>(
+        builder: (context, state) {
+          bool undoAvailable;
+          bool redoAvailable;
+
+          if (state is EditNoteStageEditingState) {
+            undoAvailable = state.undoAvailable;
+            redoAvailable = state.redoAvailable;
+          } else {
+            undoAvailable = false;
+            redoAvailable = false;
+          }
+
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              CustomIconButton(
+                onPressed: () => undoAvailable ? _undo(context) : null,
+                icon: Icons.undo_rounded,
+                iconColor: undoAvailable
+                    ? colorScheme.onBackground
+                    : colorScheme.surfaceBright,
+              ),
+              CustomIconButton(
+                onPressed: () => redoAvailable ? _redo(context) : null,
+                icon: Icons.redo_rounded,
+                iconColor: redoAvailable
+                    ? colorScheme.onBackground
+                    : colorScheme.surfaceBright,
+              ),
+            ],
+          );
+        },
       ),
     );
+  }
+
+  void _undo(BuildContext context) {
+    BlocProvider.of<EditNoteStageCubit>(context).undo();
+  }
+
+  void _redo(BuildContext context) {
+    BlocProvider.of<EditNoteStageCubit>(context).redo();
   }
 }

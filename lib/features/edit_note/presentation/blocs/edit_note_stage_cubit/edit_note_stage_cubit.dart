@@ -32,6 +32,8 @@ class EditNoteStageCubit extends Cubit<EditNoteStageState> {
         initialNote: initialNote,
         updatedNote: null,
         autosavingEnabled: autosavingEnabled,
+        undoAvailable: false,
+        redoAvailable: false,
       ));
     } catch (exception, stackTrace) {
       _logger.exception(exception, stackTrace);
@@ -46,14 +48,22 @@ class EditNoteStageCubit extends Cubit<EditNoteStageState> {
       final Note noteToCopyFrom = curState.updatedNote ?? curState.initialNote;
       final Note updatedNote = noteToCopyFrom.copyWith(
         title: updatedTitle.trim().isEmpty ? "Untitled" : updatedTitle,
-        date: DateTime.now(),
       );
 
       if (curState.autosavingEnabled) {
-        await _notesRepository.updateNote(updatedNote);
+        await _notesRepository.updateNote(
+          updatedNote.copyWith(
+            date: DateTime.now(),
+          ),
+        );
       }
+
       _editStagesRepository.addStage(updatedNote);
-      emit(curState.copyWith(updatedNote: updatedNote));
+      emit(curState.copyWith(
+        updatedNote: updatedNote,
+        undoAvailable: await _editStagesRepository.isUndoAvailable(),
+        redoAvailable: await _editStagesRepository.isRedoAvailable(),
+      ));
     } catch (exception, stackTrace) {
       _logger.exception(exception, stackTrace);
     }
@@ -67,15 +77,22 @@ class EditNoteStageCubit extends Cubit<EditNoteStageState> {
       final Note noteToCopyFrom = curState.updatedNote ?? curState.initialNote;
       final Note updatedNote = noteToCopyFrom.copyWith(
         text: updatedNoteText,
-        date: DateTime.now(),
       );
 
       if (curState.autosavingEnabled) {
-        await _notesRepository.updateNote(updatedNote);
+        await _notesRepository.updateNote(
+          updatedNote.copyWith(
+            date: DateTime.now(),
+          ),
+        );
       }
-      print("STAGED");
+
       _editStagesRepository.addStage(updatedNote);
-      emit(curState.copyWith(updatedNote: updatedNote));
+      emit(curState.copyWith(
+        updatedNote: updatedNote,
+        undoAvailable: await _editStagesRepository.isUndoAvailable(),
+        redoAvailable: await _editStagesRepository.isRedoAvailable(),
+      ));
     } catch (exception, stackTrace) {
       _logger.exception(exception, stackTrace);
     }
@@ -87,7 +104,11 @@ class EditNoteStageCubit extends Cubit<EditNoteStageState> {
       if (curState is! EditNoteStageEditingState) return;
 
       final Note updatedNote = await _editStagesRepository.undo();
-      emit(curState.copyWith(updatedNote: updatedNote));
+      emit(curState.copyWith(
+        updatedNote: updatedNote,
+        undoAvailable: await _editStagesRepository.isUndoAvailable(),
+        redoAvailable: await _editStagesRepository.isRedoAvailable(),
+      ));
     } catch (exception, stackTrace) {
       _logger.exception(exception, stackTrace);
     }
@@ -99,7 +120,11 @@ class EditNoteStageCubit extends Cubit<EditNoteStageState> {
       if (curState is! EditNoteStageEditingState) return;
 
       final Note updatedNote = await _editStagesRepository.redo();
-      emit(curState.copyWith(updatedNote: updatedNote));
+      emit(curState.copyWith(
+        updatedNote: updatedNote,
+        undoAvailable: await _editStagesRepository.isUndoAvailable(),
+        redoAvailable: await _editStagesRepository.isRedoAvailable(),
+      ));
     } catch (exception, stackTrace) {
       _logger.exception(exception, stackTrace);
     }

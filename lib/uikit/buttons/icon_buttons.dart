@@ -8,12 +8,14 @@ class CustomIconButton extends StatelessWidget {
   const CustomIconButton({
     super.key,
     required this.icon,
-    required this.onPressed,
     this.iconSize,
+    this.iconColor,
+    required this.onPressed,
   });
 
   final IconData icon;
   final double? iconSize;
+  final Color? iconColor;
   final VoidCallback onPressed;
 
   @override
@@ -27,7 +29,7 @@ class CustomIconButton extends StatelessWidget {
         child: Icon(
           icon,
           size: iconSize,
-          color: colorScheme.onBackground,
+          color: iconColor ?? colorScheme.onBackground,
         ),
       );
     } else {
@@ -37,7 +39,7 @@ class CustomIconButton extends StatelessWidget {
         icon: Icon(
           icon,
           size: iconSize,
-          color: colorScheme.onBackground,
+          color: iconColor ?? colorScheme.onBackground,
         ),
       );
     }
@@ -49,6 +51,7 @@ class CustomIconButtonCircled extends StatelessWidget {
     super.key,
     required this.icon,
     this.iconSize,
+    this.iconColor,
     required this.onPressed,
     required this.diameter,
     this.backgroundColor,
@@ -56,6 +59,7 @@ class CustomIconButtonCircled extends StatelessWidget {
 
   final IconData icon;
   final double? iconSize;
+  final Color? iconColor;
   final VoidCallback onPressed;
   final double diameter;
   final Color? backgroundColor;
@@ -75,6 +79,7 @@ class CustomIconButtonCircled extends StatelessWidget {
         icon: icon,
         onPressed: onPressed,
         iconSize: iconSize,
+        iconColor: iconColor,
       ),
     );
   }

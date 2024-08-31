@@ -70,6 +70,9 @@ class _EditNoteViewState extends State<EditNoteView> {
   late final TextEditingController _titleController;
   late final TextEditingController _noteTextController;
 
+  bool _firstTitleListen = true;
+  bool _firstTextListen = true;
+
   @override
   void initState() {
     super.initState();
@@ -107,18 +110,27 @@ class _EditNoteViewState extends State<EditNoteView> {
         child: EditNoteContent(
           titleController: _titleController,
           noteTextController: _noteTextController,
-          colorScheme: colorScheme,
         ),
       ),
     );
   }
 
   void _listenToTitleEditing() {
+    if (_firstTitleListen) {
+      _firstTitleListen = false;
+      return;
+    }
+
     BlocProvider.of<EditNoteStageCubit>(context)
         .stageTitleText(_titleController.text);
   }
 
   void _listenToTextEditing() {
+    if (_firstTextListen) {
+      _firstTextListen = false;
+      return;
+    }
+
     BlocProvider.of<EditNoteStageCubit>(context)
         .stageNoteText(_noteTextController.text);
   }
@@ -138,16 +150,16 @@ class EditNoteContent extends StatelessWidget {
     super.key,
     required TextEditingController titleController,
     required TextEditingController noteTextController,
-    required this.colorScheme,
   })  : _titleController = titleController,
         _noteTextController = noteTextController;
 
   final TextEditingController _titleController;
   final TextEditingController _noteTextController;
-  final AppColorScheme colorScheme;
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = AppColorScheme.of(context);
+
     return BlocBuilder<EditNoteBloc, EditNoteState>(
       builder: (context, state) {
         if (state is EditNoteEditingState || state is EditNoteSavingState) {
