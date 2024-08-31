@@ -1,22 +1,22 @@
-import 'package:scriby_app/core/domain/domain.dart';
 import 'package:scriby_app/features/edit_note/domain/domain.dart';
 import 'package:scriby_app/persistence/utils/utils.dart';
 
 class EditStagesRepository implements IEditStagesRepository {
-  final DataStack<Note> _editingNoteStack = DataStack();
-  final DataStack<Note> _editingNoteTempStack = DataStack();
+  final DataStack<EditActionRecord> _editingNoteStack = DataStack();
+  final DataStack<EditActionRecord> _editingNoteTempStack = DataStack();
 
   @override
-  Future<void> addStage(Note note) async {
-    if (_editingNoteStack.isNotEmpty && note == _editingNoteStack.peek()) {
+  Future<void> addStage(EditActionRecord editActionRecord) async {
+    if (_editingNoteStack.isNotEmpty &&
+        editActionRecord == _editingNoteStack.peek()) {
       return;
     }
 
-    _editingNoteStack.push(note);
+    _editingNoteStack.push(editActionRecord);
   }
 
   @override
-  Future<Note> undo() async {
+  Future<EditActionRecord> undo() async {
     final poppedStage = _editingNoteStack.pop();
     _editingNoteTempStack.push(poppedStage);
     if (_editingNoteStack.isEmpty) {
@@ -26,7 +26,7 @@ class EditStagesRepository implements IEditStagesRepository {
   }
 
   @override
-  Future<Note> redo() async {
+  Future<EditActionRecord> redo() async {
     final poppedTempStage = _editingNoteTempStack.pop();
     _editingNoteStack.push(poppedTempStage);
     return poppedTempStage;

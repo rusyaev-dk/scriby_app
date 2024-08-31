@@ -58,7 +58,8 @@ class EditNoteStageCubit extends Cubit<EditNoteStageState> {
         );
       }
 
-      _editStagesRepository.addStage(updatedNote);
+      _editStagesRepository
+          .addStage((action: EditAction.title, data: updatedTitle));
       emit(curState.copyWith(
         updatedNote: updatedNote,
         undoAvailable: await _editStagesRepository.isUndoAvailable(),
@@ -87,7 +88,8 @@ class EditNoteStageCubit extends Cubit<EditNoteStageState> {
         );
       }
 
-      _editStagesRepository.addStage(updatedNote);
+      _editStagesRepository
+          .addStage((action: EditAction.noteText, data: updatedNoteText));
       emit(curState.copyWith(
         updatedNote: updatedNote,
         undoAvailable: await _editStagesRepository.isUndoAvailable(),
@@ -103,7 +105,9 @@ class EditNoteStageCubit extends Cubit<EditNoteStageState> {
       final curState = state;
       if (curState is! EditNoteStageEditingState) return;
 
-      final Note updatedNote = await _editStagesRepository.undo();
+      final actionRecord = await _editStagesRepository.undo();
+      final updatedNote = _getNoteViaEditActionRecord(actionRecord);
+
       emit(curState.copyWith(
         updatedNote: updatedNote,
         undoAvailable: await _editStagesRepository.isUndoAvailable(),
@@ -119,7 +123,9 @@ class EditNoteStageCubit extends Cubit<EditNoteStageState> {
       final curState = state;
       if (curState is! EditNoteStageEditingState) return;
 
-      final Note updatedNote = await _editStagesRepository.redo();
+      final actionRecord = await _editStagesRepository.redo();
+      final updatedNote = _getNoteViaEditActionRecord(actionRecord);
+
       emit(curState.copyWith(
         updatedNote: updatedNote,
         undoAvailable: await _editStagesRepository.isUndoAvailable(),
@@ -127,6 +133,19 @@ class EditNoteStageCubit extends Cubit<EditNoteStageState> {
       ));
     } catch (exception, stackTrace) {
       _logger.exception(exception, stackTrace);
+    }
+  }
+
+  Note _getNoteViaEditActionRecord(EditActionRecord actionRecord) {
+    final note = (state as EditNoteStageEditingState).updatedNote!;
+
+    switch (actionRecord.action) {
+      case EditAction.title:
+        return note.copyWith(title: actionRecord.data as String);
+      case EditAction.noteText:
+        return note.copyWith(text: actionRecord.data as String);
+      default:
+        return note;
     }
   }
 
