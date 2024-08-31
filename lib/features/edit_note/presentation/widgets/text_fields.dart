@@ -27,8 +27,8 @@ class TitleTextField extends StatelessWidget {
         return false;
       },
       builder: (context, state) {
-        if (state is EditNoteStageEditingState) {
-          final newText = state.updatedNote?.title ?? controller.text;
+        if (state is EditNoteStageEditingState && state.updatedNote != null) {
+          final newText = state.updatedNote!.title;
 
           controller.value = TextEditingValue(
             text: newText,
@@ -84,8 +84,8 @@ class MainInputTextField extends StatelessWidget {
         return false;
       },
       builder: (context, state) {
-        if (state is EditNoteStageEditingState) {
-          final newText = state.updatedNote?.text ?? controller.text;
+        if (state is EditNoteStageEditingState && state.updatedNote != null) {
+          final newText = state.updatedNote!.text;
 
           controller.value = TextEditingValue(
             text: newText,

@@ -73,6 +73,7 @@ class EditNoteStageCubit extends Cubit<EditNoteStageState> {
       if (curState.autosavingEnabled) {
         await _notesRepository.updateNote(updatedNote);
       }
+      print("STAGED");
       _editStagesRepository.addStage(updatedNote);
       emit(curState.copyWith(updatedNote: updatedNote));
     } catch (exception, stackTrace) {
@@ -102,5 +103,11 @@ class EditNoteStageCubit extends Cubit<EditNoteStageState> {
     } catch (exception, stackTrace) {
       _logger.exception(exception, stackTrace);
     }
+  }
+
+  @override
+  Future<void> close() {
+    _editStagesRepository.clear();
+    return super.close();
   }
 }

@@ -8,6 +8,9 @@ class EditStagesRepository implements IEditStagesRepository {
 
   @override
   Future<void> addStage(Note note) async {
+    if (_editingNoteStack.isNotEmpty) {
+      print(note == _editingNoteStack.peek());
+    }
     _editingNoteStack.push(note);
   }
 
@@ -27,12 +30,12 @@ class EditStagesRepository implements IEditStagesRepository {
 
   @override
   Future<bool> isUndoAvailable() async {
-    return !_editingNoteStack.isEmpty;
+    return _editingNoteStack.isNotEmpty;
   }
 
   @override
   Future<bool> isRedoAvailable() async {
-    return !_editingNoteTempStack.isEmpty;
+    return _editingNoteTempStack.isNotEmpty;
   }
 
   @override
