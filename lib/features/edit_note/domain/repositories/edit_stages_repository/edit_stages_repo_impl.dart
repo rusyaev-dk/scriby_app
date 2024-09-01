@@ -5,12 +5,15 @@ class EditStagesRepository implements IEditStagesRepository {
   final DataStack<EditActionRecord> _editingNoteStack = DataStack();
   final DataStack<EditActionRecord> _editingNoteTempStack = DataStack();
 
+  bool _isLastStagePopped = false;
+
   @override
   Future<void> addStage(EditActionRecord editActionRecord) async {
     if (_editingNoteStack.isNotEmpty &&
         editActionRecord == _editingNoteStack.peek()) {
       return;
-    } else if (_editingNoteStack.isEmpty && _editingNoteTempStack.isNotEmpty) {
+    } else if (_isLastStagePopped) {
+      _isLastStagePopped = false;
       return;
     }
 
@@ -23,6 +26,7 @@ class EditStagesRepository implements IEditStagesRepository {
     _editingNoteTempStack.push(poppedStage);
 
     if (_editingNoteStack.isEmpty) {
+      _isLastStagePopped = true;
       return null;
     }
 
