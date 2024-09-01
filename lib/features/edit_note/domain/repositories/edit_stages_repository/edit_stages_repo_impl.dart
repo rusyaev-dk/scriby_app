@@ -10,18 +10,22 @@ class EditStagesRepository implements IEditStagesRepository {
     if (_editingNoteStack.isNotEmpty &&
         editActionRecord == _editingNoteStack.peek()) {
       return;
+    } else if (_editingNoteStack.isEmpty && _editingNoteTempStack.isNotEmpty) {
+      return;
     }
 
     _editingNoteStack.push(editActionRecord);
   }
 
   @override
-  Future<EditActionRecord> undo() async {
+  Future<EditActionRecord?> undo() async {
     final poppedStage = _editingNoteStack.pop();
     _editingNoteTempStack.push(poppedStage);
+
     if (_editingNoteStack.isEmpty) {
-      return poppedStage;
+      return null;
     }
+
     return _editingNoteStack.peek();
   }
 

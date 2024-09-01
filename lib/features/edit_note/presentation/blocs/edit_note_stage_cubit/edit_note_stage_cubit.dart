@@ -105,8 +105,10 @@ class EditNoteStageCubit extends Cubit<EditNoteStageState> {
       final curState = state;
       if (curState is! EditNoteStageEditingState) return;
 
-      final actionRecord = await _editStagesRepository.undo();
-      final updatedNote = _getNoteViaEditActionRecord(actionRecord);
+      final EditActionRecord? actionRecord = await _editStagesRepository.undo();
+      final Note updatedNote = actionRecord == null
+          ? curState.initialNote
+          : _getNoteViaEditActionRecord(actionRecord);
 
       emit(curState.copyWith(
         updatedNote: updatedNote,
