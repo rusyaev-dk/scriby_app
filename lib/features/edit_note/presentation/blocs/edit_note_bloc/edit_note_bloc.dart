@@ -38,7 +38,10 @@ class EditNoteBloc extends Bloc<EditNoteEvent, EditNoteState> {
       final bool autosaveEnabled =
           await _generalSettingsRepository.getAutosaveStatus();
 
-      if (autosaveEnabled && event.initialNote.isEmpty()) {
+      final bool exists = await _notesRepository.exists(event.initialNote.id);
+
+      // TODO: compute in an Isolate
+      if (autosaveEnabled && !exists) {
         Future.delayed(
           const Duration(milliseconds: 600),
           () async {
@@ -46,7 +49,7 @@ class EditNoteBloc extends Bloc<EditNoteEvent, EditNoteState> {
                 .addNote(event.initialNote.copyWith(title: "Untitled"));
           },
         );
-      } //compute in an Isolate...
+      }
 
       return emit(EditNoteEditingState(note: event.initialNote));
     } catch (exception, stackTrace) {
@@ -65,7 +68,8 @@ class EditNoteBloc extends Bloc<EditNoteEvent, EditNoteState> {
       }
 
       final Note formattedNote = _formatNote(event.note);
-      await _notesRepository.updateNote(formattedNote.copyWith(date: DateTime.now()));
+      await _notesRepository
+          .updateNote(formattedNote.copyWith(date: DateTime.now()));
 
       //
       await Future.delayed(const Duration(milliseconds: 500));

@@ -47,12 +47,13 @@ class EditNoteStageCubit extends Cubit<EditNoteStageState> {
 
       final Note noteToCopyFrom = curState.updatedNote ?? curState.initialNote;
       final Note updatedNote = noteToCopyFrom.copyWith(
-        title: updatedTitle.trim().isEmpty ? "Untitled" : updatedTitle,
+        title: updatedTitle,
       );
 
       if (curState.autosavingEnabled) {
         await _notesRepository.updateNote(
           updatedNote.copyWith(
+            title: updatedTitle.trim().isEmpty ? "Untitled" : updatedTitle,
             date: DateTime.now(),
           ),
         );
