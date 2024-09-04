@@ -98,18 +98,32 @@ class _EditNoteViewState extends State<EditNoteView> {
         preferredSize: Size(double.infinity, 60),
         child: EditNoteAppBar(),
       ),
-      body: Container(
-        width: double.infinity,
-        decoration: BoxDecoration(
-          color: colorScheme.surface,
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(30),
-            topRight: Radius.circular(30),
-          ),
-        ),
-        child: EditNoteContent(
-          titleController: _titleController,
-          noteTextController: _noteTextController,
+      body: SafeArea(
+        bottom: true,
+        child: Stack(
+          children: [
+            Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: colorScheme.surface,
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(30),
+                  topRight: Radius.circular(30),
+                ),
+              ),
+              child: EditNoteContent(
+                titleController: _titleController,
+                noteTextController: _noteTextController,
+              ),
+            ),
+            const SafeArea(
+              bottom: true,
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: EditUtilsBar(),
+              ),
+            )
+          ],
         ),
       ),
     );
