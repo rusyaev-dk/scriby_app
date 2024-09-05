@@ -12,9 +12,14 @@ import 'package:scriby_app/core/navigation/navigation.dart';
 import 'package:scriby_app/uikit/uikit.dart';
 
 class NotesGrid extends StatelessWidget {
-  const NotesGrid({super.key, required this.notes});
+  const NotesGrid({
+    super.key,
+    required this.notes,
+    this.scrollController,
+  });
 
   final List<Note> notes;
+  final ScrollController? scrollController;
 
   static Widget loading() {
     return const _NotesGridLoading();
@@ -23,6 +28,8 @@ class NotesGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MasonryGridView.count(
+      padding: const EdgeInsets.only(top: 13),
+      controller: scrollController,
       crossAxisCount: 2,
       mainAxisSpacing: 10,
       crossAxisSpacing: 10,

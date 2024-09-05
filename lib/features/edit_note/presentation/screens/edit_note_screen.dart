@@ -64,26 +64,41 @@ class EditNoteView extends StatefulWidget {
   State<EditNoteView> createState() => _EditNoteViewState();
 }
 
-class _EditNoteViewState extends State<EditNoteView> {
+class _EditNoteViewState extends State<EditNoteView>
+    with SingleTickerProviderStateMixin {
   late final TextEditingController _titleController;
   late final TextEditingController _noteTextController;
+  late final ScrollController _scrollController;
+  late final AnimationController _borderRadiusAnimationController;
+  late final Animation<double> _borderRadiusAnimation;
 
   bool _firstTitleListen = true;
   bool _firstTextListen = true;
+  bool _isCircular = true;
 
   @override
   void initState() {
     super.initState();
 
+    _scrollController = ScrollController();
+    _scrollController.addListener(_animateBorderRadius);
+
     final bool isEmptyNote = widget.initialNote.isEmpty();
 
     _titleController = TextEditingController(
         text: isEmptyNote ? null : widget.initialNote.title);
+    _titleController.addListener(_listenToTitleEditing);
+
     _noteTextController = TextEditingController(
         text: isEmptyNote ? null : widget.initialNote.text);
-
-    _titleController.addListener(_listenToTitleEditing);
     _noteTextController.addListener(_listenToTextEditing);
+
+    _borderRadiusAnimationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 85),
+    );
+    _borderRadiusAnimation = Tween<double>(begin: 30, end: 0)
+        .animate(_borderRadiusAnimationController);
   }
 
   @override
@@ -98,20 +113,32 @@ class _EditNoteViewState extends State<EditNoteView> {
       ),
       body: SafeArea(
         bottom: true,
-        child: Stack(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: colorScheme.surface,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(30),
-                  topRight: Radius.circular(30),
+            Expanded(
+              child: AnimatedBuilder(
+                animation: _borderRadiusAnimation,
+                child: EditNoteContent(
+                  titleController: _titleController,
+                  noteTextController: _noteTextController,
+                  scrollController: _scrollController,
                 ),
-              ),
-              child: EditNoteContent(
-                titleController: _titleController,
-                noteTextController: _noteTextController,
+                builder: (context, child) {
+                  return AnimatedContainer(
+                    duration: _borderRadiusAnimationController.duration!,
+                    curve: Curves.easeOutQuart,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: colorScheme.surface,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(_borderRadiusAnimation.value),
+                        topRight: Radius.circular(_borderRadiusAnimation.value),
+                      ),
+                    ),
+                    child: child,
+                  );
+                },
               ),
             ),
             const Align(
@@ -144,12 +171,27 @@ class _EditNoteViewState extends State<EditNoteView> {
         .stageNoteText(_noteTextController.text);
   }
 
+  Future<void> _animateBorderRadius() async {
+    if (!_scrollController.hasClients) return;
+
+    if (_isCircular && _scrollController.offset > 5) {
+      _isCircular = false;
+      await _borderRadiusAnimationController.forward();
+    } else if (!_isCircular && _scrollController.offset <= 0) {
+      _isCircular = true;
+      await _borderRadiusAnimationController.reverse();
+    }
+  }
+
   @override
   void dispose() {
+    _scrollController.removeListener(_animateBorderRadius);
+    _scrollController.dispose();
     _titleController.removeListener(_listenToTitleEditing);
     _titleController.dispose();
     _noteTextController.removeListener(_listenToTextEditing);
     _noteTextController.dispose();
+    _borderRadiusAnimationController.dispose();
     super.dispose();
   }
 }
@@ -157,13 +199,14 @@ class _EditNoteViewState extends State<EditNoteView> {
 class EditNoteContent extends StatelessWidget {
   const EditNoteContent({
     super.key,
-    required TextEditingController titleController,
-    required TextEditingController noteTextController,
-  })  : _titleController = titleController,
-        _noteTextController = noteTextController;
+    required this.titleController,
+    required this.noteTextController,
+    required this.scrollController,
+  });
 
-  final TextEditingController _titleController;
-  final TextEditingController _noteTextController;
+  final TextEditingController titleController;
+  final TextEditingController noteTextController;
+  final ScrollController scrollController;
 
   @override
   Widget build(BuildContext context) {
@@ -174,13 +217,14 @@ class EditNoteContent extends StatelessWidget {
         if (state is EditNoteEditingState || state is EditNoteSavingState) {
           return DisableScrollStretching(
             child: CustomScrollView(
+              controller: scrollController,
               slivers: [
                 const SliverToBoxAdapter(
-                  child: SizedBox(height: 15),
+                  child: SizedBox(height: 13),
                 ),
                 SliverToBoxAdapter(
                   child: TitleTextField(
-                    controller: _titleController,
+                    controller: titleController,
                   ),
                 ),
                 const SliverToBoxAdapter(
@@ -189,7 +233,7 @@ class EditNoteContent extends StatelessWidget {
                 SliverFillRemaining(
                   hasScrollBody: false,
                   child: MainInputTextField(
-                    controller: _noteTextController,
+                    controller: noteTextController,
                   ),
                 ),
               ],

@@ -47,13 +47,27 @@ class SearchNotesView extends StatefulWidget {
   State<SearchNotesView> createState() => _SearchNotesViewState();
 }
 
-class _SearchNotesViewState extends State<SearchNotesView> {
-  late final TextEditingController _searchTextController;
+class _SearchNotesViewState extends State<SearchNotesView>
+    with SingleTickerProviderStateMixin {
+  late final ScrollController _scrollController;
+  late final AnimationController _borderRadiusAnimationController;
+  late final Animation<double> _borderRadiusAnimation;
+
+  bool _isCircular = true;
 
   @override
   void initState() {
     super.initState();
-    _searchTextController = TextEditingController();
+
+    _borderRadiusAnimationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 85),
+    );
+    _borderRadiusAnimation = Tween<double>(begin: 30, end: 0)
+        .animate(_borderRadiusAnimationController);
+
+    _scrollController = ScrollController();
+    _scrollController.addListener(_animateBorderRadius);
   }
 
   @override
@@ -68,41 +82,69 @@ class _SearchNotesViewState extends State<SearchNotesView> {
       ),
       body: SafeArea(
         bottom: true,
-        child: Container(
-          height: double.infinity,
-          width: double.infinity,
-          decoration: BoxDecoration(
-            color: colorScheme.surface,
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(30),
-              topRight: Radius.circular(30),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Expanded(
+              child: AnimatedBuilder(
+                animation: _borderRadiusAnimation,
+                child: SearchBodyContent(
+                  scrollController: _scrollController,
+                ),
+                builder: (context, child) {
+                  return AnimatedContainer(
+                    duration: _borderRadiusAnimationController.duration!,
+                    curve: Curves.easeOutQuart,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: colorScheme.surface,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(_borderRadiusAnimation.value),
+                        topRight: Radius.circular(_borderRadiusAnimation.value),
+                      ),
+                    ),
+                    child: child,
+                  );
+                },
+              ),
             ),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Expanded(
-                child: SearchBodyContent(),
-              ),
-              SearchBottomBar(
-                searchTextController: _searchTextController,
-              ),
-            ],
-          ),
+            const Align(
+              alignment: Alignment.bottomCenter,
+              child: SearchBottomBar(),
+            ),
+          ],
         ),
       ),
     );
   }
 
+  Future<void> _animateBorderRadius() async {
+    if (!_scrollController.hasClients) return;
+
+    if (_isCircular && _scrollController.offset > 5) {
+      _isCircular = false;
+      await _borderRadiusAnimationController.forward();
+    } else if (!_isCircular && _scrollController.offset <= 0) {
+      _isCircular = true;
+      await _borderRadiusAnimationController.reverse();
+    }
+  }
+
   @override
   void dispose() {
-    _searchTextController.dispose();
+    _scrollController.removeListener(_animateBorderRadius);
+    _scrollController.dispose();
     super.dispose();
   }
 }
 
 class SearchBodyContent extends StatelessWidget {
-  const SearchBodyContent({super.key});
+  const SearchBodyContent({
+    super.key,
+    required this.scrollController,
+  });
+
+  final ScrollController scrollController;
 
   @override
   Widget build(BuildContext context) {
@@ -128,9 +170,10 @@ class SearchBodyContent extends StatelessWidget {
             );
           }
           return Padding(
-            padding: const EdgeInsets.only(left: 13, right: 13, top: 2),
+            padding: const EdgeInsets.only(left: 13, right: 13),
             child: DisableScrollStretching(
               child: NotesGrid(
+                scrollController: scrollController,
                 key: ValueKey(state.notes),
                 notes: state.notes,
               ),

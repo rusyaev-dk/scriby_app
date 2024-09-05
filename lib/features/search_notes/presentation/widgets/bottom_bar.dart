@@ -6,10 +6,7 @@ import 'package:scriby_app/uikit/uikit.dart';
 class SearchBottomBar extends StatefulWidget {
   const SearchBottomBar({
     super.key,
-    required this.searchTextController,
   });
-
-  final TextEditingController searchTextController;
 
   @override
   State<SearchBottomBar> createState() => _SearchBottomBarState();
@@ -17,13 +14,18 @@ class SearchBottomBar extends StatefulWidget {
 
 class _SearchBottomBarState extends State<SearchBottomBar>
     with SingleTickerProviderStateMixin {
+  late final TextEditingController _searchTextController;
   late final AnimationController _textFieldAnimationController;
   late final Animation<double> _textFieldSizeAnimation;
+
   bool _isExpanded = false;
 
   @override
   void initState() {
     super.initState();
+
+    _searchTextController = TextEditingController();
+    _searchTextController.addListener(_resizeBottomBar);
 
     _textFieldAnimationController = AnimationController(
       vsync: this,
@@ -31,12 +33,10 @@ class _SearchBottomBarState extends State<SearchBottomBar>
     );
     _textFieldSizeAnimation = Tween<double>(begin: 40.0, end: 100.0)
         .animate(_textFieldAnimationController);
-
-    widget.searchTextController.addListener(_resizeBottomBar);
   }
 
   void _resizeBottomBar() {
-    String controllerText = widget.searchTextController.text;
+    String controllerText = _searchTextController.text;
 
     if ((controllerText.contains('\n') || controllerText.length >= 25) &&
         !_isExpanded) {
@@ -49,7 +49,7 @@ class _SearchBottomBarState extends State<SearchBottomBar>
     } else if ((controllerText.replaceAll('\n', "").isEmpty &&
             controllerText.length < 25) &&
         _isExpanded) {
-      widget.searchTextController.clear();
+      _searchTextController.clear();
       _textFieldAnimationController.reverse();
       _isExpanded = false;
     }
@@ -90,7 +90,7 @@ class _SearchBottomBarState extends State<SearchBottomBar>
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: TextField(
-                    controller: widget.searchTextController,
+                    controller: _searchTextController,
                     maxLines: 5,
                     onChanged: _onSearchTextChanged,
                     scrollPhysics: const ClampingScrollPhysics(),
@@ -101,8 +101,8 @@ class _SearchBottomBarState extends State<SearchBottomBar>
                         color: colorScheme.secondary.withOpacity(0.7),
                       ),
                       border: InputBorder.none,
-                      contentPadding: const EdgeInsets.only(
-                          left: 15, right: 15, bottom: 5),
+                      contentPadding:
+                          const EdgeInsets.only(left: 15, right: 15, bottom: 5),
                     ),
                     cursorHeight: 25,
                     style: textScheme.headline.copyWith(
@@ -121,7 +121,7 @@ class _SearchBottomBarState extends State<SearchBottomBar>
   }
 
   void _cleanSearchText() {
-    widget.searchTextController.clear();
+    _searchTextController.clear();
   }
 
   void _onSearchTextChanged(String query) {
@@ -132,7 +132,8 @@ class _SearchBottomBarState extends State<SearchBottomBar>
   @override
   void dispose() {
     _textFieldAnimationController.dispose();
-    widget.searchTextController.removeListener(_resizeBottomBar);
+    _searchTextController.removeListener(_resizeBottomBar);
+    _searchTextController.dispose();
     super.dispose();
   }
 }
