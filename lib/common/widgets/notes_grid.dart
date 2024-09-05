@@ -32,14 +32,12 @@ class NotesGrid extends StatelessWidget {
       keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
       itemBuilder: (context, i) {
         final Note note = notes[i];
-        final key = GlobalKey();
 
         Widget card = GestureDetector(
-          key: key,
-          onTap: () => _openNoteEditor(context, note, key),
+          key: ValueKey(note),
+          onTap: () => _openNoteEditor(context, note),
           onLongPress: () => _deleteNote(context, note),
           child: NoteCard(
-            key: ValueKey(note),
             note: note,
           ),
         );
@@ -73,38 +71,11 @@ class NotesGrid extends StatelessWidget {
     await completer.future;
   }
 
-  Future<void> _openNoteEditor(
+  void _openNoteEditor(
     BuildContext context,
     Note note,
-    GlobalKey key,
-  ) async {
-    final Alignment alignment =
-        _calculateTransitionAlignment(note, key, context);
-
-    await Future.delayed(const Duration(milliseconds: 65));
-
-    if (!context.mounted) return;
-
-    AutoRouter.of(context)
-        .push(EditNoteRoute(
-            initialNoteToEdit: note, animationAlignment: alignment))
-        .then((value) async {});
-  }
-
-  Alignment _calculateTransitionAlignment(
-    Note note,
-    GlobalKey key,
-    BuildContext context,
   ) {
-    final RenderBox box = key.currentContext!.findRenderObject() as RenderBox;
-    final Offset position = box.localToGlobal(Offset.zero);
-    final Size size = box.size;
-    return Alignment(
-      (position.dx + size.width / 2) / MediaQuery.of(context).size.width * 2 -
-          1,
-      (position.dy + size.height / 2) / MediaQuery.of(context).size.height * 2 -
-          1,
-    );
+    AutoRouter.of(context).push(EditNoteRoute(initialNoteToEdit: note));
   }
 }
 

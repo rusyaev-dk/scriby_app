@@ -14,11 +14,9 @@ class EditNoteScreen extends StatelessWidget {
   EditNoteScreen({
     super.key,
     required Note? initialNoteToEdit,
-    this.animationAlignment,
   }) : initialNote = initialNoteToEdit ?? Note.empty();
 
   final Note initialNote;
-  final Alignment? animationAlignment;
 
   @override
   Widget build(BuildContext context) {
@@ -116,12 +114,9 @@ class _EditNoteViewState extends State<EditNoteView> {
                 noteTextController: _noteTextController,
               ),
             ),
-            const SafeArea(
-              bottom: true,
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: EditUtilsBar(),
-              ),
+            const Align(
+              alignment: Alignment.bottomCenter,
+              child: EditUtilsBar(),
             )
           ],
         ),

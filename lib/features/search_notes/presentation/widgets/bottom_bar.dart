@@ -60,66 +60,63 @@ class _SearchBottomBarState extends State<SearchBottomBar>
     final textScheme = AppTextScheme.of(context);
     final colorScheme = AppColorScheme.of(context);
 
-    return SafeArea(
-      bottom: true,
-      child: AnimatedBuilder(
-        animation: _textFieldSizeAnimation,
-        builder: (context, child) {
-          return Container(
-            height: _textFieldSizeAnimation.value + 30,
-            width: double.infinity,
-            padding: const EdgeInsets.only(
-              left: 12,
-              right: 12,
-            ),
-            decoration: BoxDecoration(
-              color: colorScheme.background,
-            ),
-            child: Row(
-              children: [
-                CustomIconButtonCircled(
-                  diameter: 40,
-                  icon: Icons.delete_forever,
-                  iconSize: 22,
-                  onPressed: _cleanSearchText,
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: Container(
-                    height: _textFieldSizeAnimation.value,
-                    decoration: BoxDecoration(
-                      color: colorScheme.surface,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: TextField(
-                      controller: widget.searchTextController,
-                      maxLines: 5,
-                      onChanged: _onSearchTextChanged,
-                      scrollPhysics: const ClampingScrollPhysics(),
-                      decoration: InputDecoration(
-                        hintText: "What to look for?",
-                        hintStyle: textScheme.headline.copyWith(
-                          fontSize: 22,
-                          color: colorScheme.secondary.withOpacity(0.7),
-                        ),
-                        border: InputBorder.none,
-                        contentPadding: const EdgeInsets.only(
-                            left: 15, right: 15, bottom: 5),
-                      ),
-                      cursorHeight: 25,
-                      style: textScheme.headline.copyWith(
-                        height: 1.5,
-                        color: colorScheme.onBackground,
+    return AnimatedBuilder(
+      animation: _textFieldSizeAnimation,
+      builder: (context, child) {
+        return Container(
+          height: _textFieldSizeAnimation.value + 30,
+          width: double.infinity,
+          padding: const EdgeInsets.only(
+            left: 12,
+            right: 12,
+          ),
+          decoration: BoxDecoration(
+            color: colorScheme.background,
+          ),
+          child: Row(
+            children: [
+              CustomIconButtonCircled(
+                diameter: 40,
+                icon: Icons.delete_forever,
+                iconSize: 22,
+                onPressed: _cleanSearchText,
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Container(
+                  height: _textFieldSizeAnimation.value,
+                  decoration: BoxDecoration(
+                    color: colorScheme.surface,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: TextField(
+                    controller: widget.searchTextController,
+                    maxLines: 5,
+                    onChanged: _onSearchTextChanged,
+                    scrollPhysics: const ClampingScrollPhysics(),
+                    decoration: InputDecoration(
+                      hintText: "What to look for?",
+                      hintStyle: textScheme.headline.copyWith(
                         fontSize: 22,
+                        color: colorScheme.secondary.withOpacity(0.7),
                       ),
+                      border: InputBorder.none,
+                      contentPadding: const EdgeInsets.only(
+                          left: 15, right: 15, bottom: 5),
+                    ),
+                    cursorHeight: 25,
+                    style: textScheme.headline.copyWith(
+                      height: 1.5,
+                      color: colorScheme.onBackground,
+                      fontSize: 22,
                     ),
                   ),
                 ),
-              ],
-            ),
-          );
-        },
-      ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 

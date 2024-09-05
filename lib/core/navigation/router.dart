@@ -45,20 +45,17 @@ class AppRouter extends _$AppRouter {
           opaque: true,
           customRouteBuilder:
               (BuildContext context, Widget child, AutoRoutePage page) {
-            final alignment =
-                (page.arguments as EditNoteRouteArgs).animationAlignment;
-            
             return PageRouteBuilder(
               transitionDuration: const Duration(milliseconds: 450),
               fullscreenDialog: page.fullscreenDialog,
               transitionsBuilder:
                   (context, animation, secondaryAnimation, child) {
-                return CustomPageTransitionsBuilder.scaleTransitionsBuilder(
+                return CustomPageTransitionsBuilder.fadeTransitionsBuilder(
                   context,
                   animation,
                   secondaryAnimation,
                   child,
-                  alignment,
+                  Curves.easeInOutQuint,
                 );
               },
               settings: page,

@@ -28,7 +28,6 @@ abstract class _$AppRouter extends RootStackRouter {
         child: EditNoteScreen(
           key: args.key,
           initialNoteToEdit: args.initialNoteToEdit,
-          animationAlignment: args.animationAlignment,
         ),
       );
     },
@@ -103,14 +102,12 @@ class EditNoteRoute extends PageRouteInfo<EditNoteRouteArgs> {
   EditNoteRoute({
     Key? key,
     required Note? initialNoteToEdit,
-    Alignment? animationAlignment,
     List<PageRouteInfo>? children,
   }) : super(
           EditNoteRoute.name,
           args: EditNoteRouteArgs(
             key: key,
             initialNoteToEdit: initialNoteToEdit,
-            animationAlignment: animationAlignment,
           ),
           initialChildren: children,
         );
@@ -125,18 +122,15 @@ class EditNoteRouteArgs {
   const EditNoteRouteArgs({
     this.key,
     required this.initialNoteToEdit,
-    this.animationAlignment,
   });
 
   final Key? key;
 
   final Note? initialNoteToEdit;
 
-  final Alignment? animationAlignment;
-
   @override
   String toString() {
-    return 'EditNoteRouteArgs{key: $key, initialNoteToEdit: $initialNoteToEdit, animationAlignment: $animationAlignment}';
+    return 'EditNoteRouteArgs{key: $key, initialNoteToEdit: $initialNoteToEdit}';
   }
 }
 

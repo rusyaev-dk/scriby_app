@@ -26,10 +26,9 @@ abstract class CustomPageTransitionsBuilder {
     BuildContext context,
     Animation<double> animation,
     Animation<double> secondaryAnimation,
-    Widget child,
-  ) {
-    const curve = Curves.easeInOutQuad;
-
+    Widget child, [
+    Curve curve = Curves.easeInOutQuad,
+  ]) {
     final curvedAnimation = CurvedAnimation(
       parent: animation,
       curve: curve,
