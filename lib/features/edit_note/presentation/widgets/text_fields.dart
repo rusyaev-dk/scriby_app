@@ -30,9 +30,15 @@ class TitleTextField extends StatelessWidget {
         if (state is EditNoteStageEditingState && state.updatedNote != null) {
           final newText = state.updatedNote!.title;
 
+          final previousSelection = controller.selection;
+
           controller.value = TextEditingValue(
             text: newText,
-            selection: TextSelection.collapsed(offset: newText.length),
+            selection: previousSelection.copyWith(
+              baseOffset: previousSelection.baseOffset.clamp(0, newText.length),
+              extentOffset:
+                  previousSelection.extentOffset.clamp(0, newText.length),
+            ),
           );
         }
 
@@ -87,9 +93,15 @@ class MainInputTextField extends StatelessWidget {
         if (state is EditNoteStageEditingState && state.updatedNote != null) {
           final newText = state.updatedNote!.text;
 
+          final previousSelection = controller.selection;
+
           controller.value = TextEditingValue(
             text: newText,
-            selection: TextSelection.collapsed(offset: newText.length),
+            selection: previousSelection.copyWith(
+              baseOffset: previousSelection.baseOffset.clamp(0, newText.length),
+              extentOffset:
+                  previousSelection.extentOffset.clamp(0, newText.length),
+            ),
           );
         }
 
