@@ -45,11 +45,22 @@ class AppRouter extends _$AppRouter {
           opaque: true,
           customRouteBuilder:
               (BuildContext context, Widget child, AutoRoutePage page) {
+            final initialNote =
+                (page.arguments as EditNoteRouteArgs).initialNoteToEdit;
+
             return PageRouteBuilder(
               transitionDuration: const Duration(milliseconds: 450),
               fullscreenDialog: page.fullscreenDialog,
               transitionsBuilder:
                   (context, animation, secondaryAnimation, child) {
+                if (initialNote == null) {
+                  return CustomPageTransitionsBuilder.scaleTransitionsBuilder(
+                    context,
+                    animation,
+                    secondaryAnimation,
+                    child,
+                  );
+                }
                 return CustomPageTransitionsBuilder.fadeTransitionsBuilder(
                   context,
                   animation,

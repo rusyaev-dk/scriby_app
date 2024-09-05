@@ -5,9 +5,9 @@ abstract class CustomPageTransitionsBuilder {
     BuildContext context,
     Animation<double> animation,
     Animation<double> secondaryAnimation,
-    Widget child,
-    Alignment? alignment,
-  ) {
+    Widget child, [
+    Alignment alignment = const FractionalOffset(0.90, 0.95),
+  ]) {
     const curve = Curves.ease;
 
     final curvedAnimation = CurvedAnimation(
@@ -16,7 +16,7 @@ abstract class CustomPageTransitionsBuilder {
     );
 
     return ScaleTransition(
-      alignment: alignment ?? const FractionalOffset(0.90, 0.95),
+      alignment: alignment,
       scale: curvedAnimation,
       child: child,
     );
