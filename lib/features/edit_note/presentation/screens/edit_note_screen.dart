@@ -218,6 +218,7 @@ class EditNoteContent extends StatelessWidget {
           return DisableScrollStretching(
             child: CustomScrollView(
               controller: scrollController,
+              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
               slivers: [
                 const SliverToBoxAdapter(
                   child: SizedBox(height: 13),
@@ -228,7 +229,7 @@ class EditNoteContent extends StatelessWidget {
                   ),
                 ),
                 const SliverToBoxAdapter(
-                  child: SizedBox(height: 15),
+                  child: SizedBox(height: 13),
                 ),
                 SliverFillRemaining(
                   hasScrollBody: false,
