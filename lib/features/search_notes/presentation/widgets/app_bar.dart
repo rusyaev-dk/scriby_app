@@ -28,10 +28,32 @@ class SearchNotesAppBar extends StatelessWidget {
                       diameter: 40,
                       icon: Icons.close_rounded,
                     ),
-                    CustomIconButtonCircled(
-                      icon: Icons.tune,
-                      onPressed: () {},
-                      diameter: 40,
+                    Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        color: colorScheme.surface,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Center(
+                        child: CustomContextMenu(
+                          menuIcon: Icons.tune,
+                          actions: [
+                            ContextMenuAction(
+                              title: "Search among pinned",
+                              onPressed: () {},
+                            ),
+                            ContextMenuAction(
+                              title: "Filter 2",
+                              onPressed: () {},
+                            ),
+                            ContextMenuAction(
+                              title: "Filter 3",
+                              onPressed: () {},
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -82,11 +104,11 @@ class SearchResultsIndicator extends StatelessWidget {
                     style: textScheme.headline.copyWith(
                       color: colorScheme.onBackground,
                       fontSize: 20,
-                    ), // Можно задать другой стиль для числа
+                    ),
                   ),
                 ),
                 Text(
-                  " notes",
+                  foundNotes.length > 1 ? " notes" : " note",
                   style: textScheme.headline.copyWith(
                     color: colorScheme.onBackground,
                     fontSize: 20,

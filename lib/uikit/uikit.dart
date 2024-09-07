@@ -6,3 +6,4 @@ export 'buttons/buttons.dart';
 export 'cards/cards.dart';
 export 'tab_bars/tab_bars.dart';
 export 'dialogs/dialogs.dart';
+export 'menu/menu.dart';
