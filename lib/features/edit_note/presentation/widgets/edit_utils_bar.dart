@@ -17,40 +17,25 @@ class EditUtilsBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          IconButton(
-            onPressed: null,
-            icon: Icon(
-              Icons.table_chart,
-              color: colorScheme.onBackground,
-            ),
+          CustomIconButton(
+            onPressed: () {},
+            icon: Icons.table_chart,
           ),
-          IconButton(
-            onPressed: null,
-            icon: Icon(
-              Icons.text_format,
-              color: colorScheme.onBackground,
-            ),
+          CustomIconButton(
+            onPressed: () {},
+            icon: Icons.text_format,
           ),
-          IconButton(
-            onPressed: null,
-            icon: Icon(
-              Icons.list,
-              color: colorScheme.onBackground,
-            ),
+          CustomIconButton(
+            onPressed: () {},
+            icon: Icons.list,
           ),
-          IconButton(
-            onPressed: null,
-            icon: Icon(
-              Icons.photo,
-              color: colorScheme.onBackground,
-            ),
+          CustomIconButton(
+            onPressed: () {},
+            icon: Icons.photo,
           ),
-          IconButton(
-            onPressed: null,
-            icon: Icon(
-              Icons.draw,
-              color: colorScheme.onBackground,
-            ),
+          CustomIconButton(
+            onPressed: () {},
+            icon: Icons.draw,
           ),
         ],
       ),
