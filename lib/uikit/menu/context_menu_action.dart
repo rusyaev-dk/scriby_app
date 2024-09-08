@@ -21,13 +21,22 @@ class ContextMenuAction extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = AppColorScheme.of(context);
+    final textScheme = AppTextScheme.of(context);
     final List<Widget> rowChildren = [];
 
     if (icon != null) {
       rowChildren.add(Icon(icon));
       rowChildren.add(const SizedBox(width: 10));
     }
-    rowChildren.add(Text(title));
+    rowChildren.add(
+      Text(
+        title,
+        style: textScheme.label.copyWith(
+          color: colorScheme.onBackground,
+          fontSize: 18,
+        ),
+      ),
+    );
 
     if (Platform.isIOS) {
       return CupertinoContextMenuAction(
@@ -39,8 +48,7 @@ class ContextMenuAction extends StatelessWidget {
     }
 
     return Container(
-      // color: color ?? colorScheme.surfaceBright,
-      color: Colors.red,
+      color: color ?? colorScheme.surfaceBright,
       child: PopupMenuItem(
         onTap: onPressed,
         child: Row(

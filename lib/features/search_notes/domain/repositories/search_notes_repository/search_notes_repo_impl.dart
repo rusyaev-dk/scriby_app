@@ -9,10 +9,17 @@ class SearchNotesRepository implements ISearchNotesRepository {
   final Realm _realm;
 
   @override
-  Future<List<Note>> searchNoteByQuery(String query) async {
-    List<LocalNote> foundLocalNotes = _realm.query<LocalNote>(
-        "text CONTAINS[c] \$0 OR title CONTAINS[c] \$0 SORT(date ASC)",
-        [query]).toList();
+  Future<List<Note>> searchNotesByQuery(
+    String query, {
+    required SearchFilters filters,
+  }) async {
+    List<LocalNote> foundLocalNotes = [];
+
+    if (filters.areDefault()) {
+      foundLocalNotes = _realm.query<LocalNote>(
+          "text CONTAINS[c] \$0 OR title CONTAINS[c] \$0 SORT(date ASC)",
+          [query]).toList();
+    }
 
     return _convertNotesFromLocal(foundLocalNotes);
   }

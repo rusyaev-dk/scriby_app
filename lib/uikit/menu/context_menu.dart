@@ -52,27 +52,28 @@ class CustomContextMenu extends StatelessWidget {
 
     return PopupMenuButton(
       position: PopupMenuPosition.under,
-      menuPadding: const EdgeInsets.all(20),
       elevation: 0,
       borderRadius: BorderRadius.circular(30),
       color: colorScheme.surfaceBright,
       popUpAnimationStyle: AnimationStyle(
         curve: Curves.linear,
       ),
-      itemBuilder: (context) {
-        final List<PopupMenuItem<dynamic>> entries = [];
-        for (Widget action in actions) {
-          entries.add(PopupMenuItem(
-            child: action,
-          ));
-        }
-        return entries;
-      },
       icon: Icon(
         menuIcon,
         color: colorScheme.onBackground,
         size: menuIconSize,
       ),
+      itemBuilder: (context) {
+        final List<PopupMenuItem<dynamic>> entries = [];
+        for (Widget action in actions) {
+          entries.add(
+            PopupMenuItem(
+              child: action,
+            ),
+          );
+        }
+        return entries;
+      },
     );
   }
 }

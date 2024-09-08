@@ -21,17 +21,39 @@ class SearchNotesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider<ISearchNotesRepository>(
-      create: (context) => SearchNotesRepository(
-        realm: AppConfig.of(context).realm,
-      ),
-      child: BlocProvider(
-        create: (context) => SearchNotesBloc(
-          searchNotesRepository:
-              RepositoryProvider.of<ISearchNotesRepository>(context),
-          notesRepository: RepositoryProvider.of<INotesRepository>(context),
-          logger: RepositoryProvider.of<ILogger>(context),
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider<ISearchNotesRepository>(
+          create: (context) => SearchNotesRepository(
+            realm: AppConfig.of(context).realm,
+          ),
         ),
+        RepositoryProvider<ISearchFiltersRepository>(
+          create: (context) => SearchFiltersRepository(
+            prefs: AppConfig.of(context).sharedPreferences,
+          ),
+        ),
+      ],
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => SearchNotesBloc(
+              searchNotesRepository:
+                  RepositoryProvider.of<ISearchNotesRepository>(context),
+              searchFiltersRepository:
+                  RepositoryProvider.of<ISearchFiltersRepository>(context),
+              notesRepository: RepositoryProvider.of<INotesRepository>(context),
+              logger: RepositoryProvider.of<ILogger>(context),
+            ),
+          ),
+          BlocProvider(
+            create: (context) => SearchFiltersCubit(
+              searchFiltersRepository:
+                  RepositoryProvider.of<ISearchFiltersRepository>(context),
+              logger: RepositoryProvider.of<ILogger>(context),
+            ),
+          ),
+        ],
         child: const SearchNotesView(),
       ),
     );

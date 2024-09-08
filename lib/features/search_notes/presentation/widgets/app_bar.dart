@@ -16,48 +16,22 @@ class SearchNotesAppBar extends StatelessWidget {
     return SafeArea(
       child: Container(
         color: colorScheme.background,
-        child: Center(
+        child: const Center(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
+            padding: EdgeInsets.symmetric(horizontal: 10),
             child: Stack(
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const PopScreenButtonCirlced(
+                    PopScreenButtonCirlced(
                       diameter: 40,
                       icon: Icons.close_rounded,
                     ),
-                    Container(
-                      width: 40,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        color: colorScheme.surface,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Center(
-                        child: CustomContextMenu(
-                          menuIcon: Icons.tune,
-                          actions: [
-                            ContextMenuAction(
-                              title: "Search among pinned",
-                              onPressed: () {},
-                            ),
-                            ContextMenuAction(
-                              title: "Filter 2",
-                              onPressed: () {},
-                            ),
-                            ContextMenuAction(
-                              title: "Filter 3",
-                              onPressed: () {},
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+                    SearchFiltersButton(),
                   ],
                 ),
-                const SizedBox(
+                SizedBox(
                   height: 40,
                   child: Align(
                     alignment: Alignment.center,
@@ -70,6 +44,66 @@ class SearchNotesAppBar extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class SearchFiltersButton extends StatelessWidget {
+  const SearchFiltersButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = AppColorScheme.of(context);
+
+    return Container(
+      width: 40,
+      height: 40,
+      decoration: BoxDecoration(
+        color: colorScheme.surface,
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Center(
+        child: BlocBuilder<SearchFiltersCubit, SearchFiltersState>(
+          builder: (context, state) {
+            if (state is SearchFiltersLoadedState) {
+              return CustomContextMenu(
+                menuIcon: Icons.tune,
+                actions: [
+                  ContextMenuAction(
+                    title: "Search among pinned",
+                    icon: state.filters.searchAmongPinned ? Icons.check : null,
+                    onPressed: () => _toggleSearchAmongPinnedFilter(
+                      context,
+                      state.filters.searchAmongPinned,
+                    ),
+                  ),
+                  ContextMenuAction(
+                    title: "Filter 2",
+                    onPressed: () {},
+                  ),
+                  ContextMenuAction(
+                    title: "Filter 3",
+                    onPressed: () {},
+                  ),
+                ],
+              );
+            }
+
+            if (state is SearchFiltersLoadingState) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+
+            return const Text("Something went wrong...");
+          },
+        ),
+      ),
+    );
+  }
+
+  void _toggleSearchAmongPinnedFilter(BuildContext context, bool curValue) {
+    BlocProvider.of<SearchFiltersCubit>(context)
+        .toggleSearchAmongPinnedFilter(!curValue);
   }
 }
 

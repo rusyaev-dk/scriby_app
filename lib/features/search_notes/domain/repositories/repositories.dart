@@ -1,1 +1,2 @@
 export 'search_notes_repository/search_notes_repository.dart';
+export 'search_filters_repository/search_filters_repository.dart';

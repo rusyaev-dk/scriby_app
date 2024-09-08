@@ -20,9 +20,11 @@ EventTransformer<E> debounceDroppable<E>(Duration duration) {
 class SearchNotesBloc extends Bloc<SearchNotesEvent, SearchNotesState> {
   SearchNotesBloc({
     required ISearchNotesRepository searchNotesRepository,
+    required ISearchFiltersRepository searchFiltersRepository,
     required INotesRepository notesRepository,
     required ILogger logger,
   })  : _searchNotesRepository = searchNotesRepository,
+        _searchFiltersRepository = searchFiltersRepository,
         _notesRepository = notesRepository,
         _logger = logger,
         super(SearchNotesInitialState()) {
@@ -38,8 +40,10 @@ class SearchNotesBloc extends Bloc<SearchNotesEvent, SearchNotesState> {
   }
 
   final ISearchNotesRepository _searchNotesRepository;
+  final ISearchFiltersRepository _searchFiltersRepository;
   final INotesRepository _notesRepository;
   final ILogger _logger;
+
   late final StreamSubscription<NoteActivityRecord>? _notesSubscription;
 
   void _subscribeToNotesStream() {
@@ -85,8 +89,10 @@ class SearchNotesBloc extends Bloc<SearchNotesEvent, SearchNotesState> {
         emit(SearchNotesLoadingState());
       }
 
-      final List<Note> foundNotes =
-          await _searchNotesRepository.searchNoteByQuery(validatedQuery);
+      final SearchFilters filters = await _searchFiltersRepository.getFilters();
+      final List<Note> foundNotes = await _searchNotesRepository
+          .searchNotesByQuery(validatedQuery, filters: filters);
+
       emit(SearchNotesLoadedState(notes: foundNotes));
     } catch (exception, stackTrace) {
       _logger.exception(exception, stackTrace);
@@ -111,8 +117,6 @@ class SearchNotesBloc extends Bloc<SearchNotesEvent, SearchNotesState> {
 
         return emit(SearchNotesLoadedState(notes: updatedNotes));
       }
-
-      // add(LoadAllNotesEvent());
     } catch (exception, stackTrace) {
       _logger.exception(exception, stackTrace);
       emit(SearchNotesFailureState(exception: exception));
@@ -133,8 +137,6 @@ class SearchNotesBloc extends Bloc<SearchNotesEvent, SearchNotesState> {
 
         return emit(SearchNotesLoadedState(notes: updatedNotes));
       }
-
-      // add(LoadAllNotesEvent());
     } catch (exception, stackTrace) {
       _logger.exception(exception, stackTrace);
       emit(SearchNotesFailureState(exception: exception));
