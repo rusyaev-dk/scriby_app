@@ -1,12 +1,4 @@
-enum EditAction {
-  title,
-  color,
-  tags,
-  noteText,
-  pinned,
-}
-
-typedef EditActionRecord = ({EditAction action, dynamic data});
+import 'package:scriby_app/features/edit_note/domain/domain.dart';
 
 abstract interface class IEditStagesRepository {
   Future<void> addStage(EditActionRecord editActionRecord);
