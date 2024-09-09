@@ -1,4 +1,4 @@
-import 'package:scriby_app/core/domain/entity/entity.dart';
+import 'package:scriby_app/core/domain/models/entity.dart';
 
 enum NoteAction { created, updated, pinned, unpinned, deleted, deletedAll }
 

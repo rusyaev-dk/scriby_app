@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:scriby_app/common/utils/formatters/formatters.dart';
-import 'package:scriby_app/core/domain/entity/note.dart';
+import 'package:scriby_app/core/domain/models/note.dart';
 import 'package:scriby_app/uikit/uikit.dart';
 
 class NoteCard extends StatelessWidget {

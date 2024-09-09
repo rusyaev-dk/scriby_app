@@ -69,7 +69,7 @@ class AppColorScheme extends ThemeExtension<AppColorScheme> {
         surfaceContainerHigh = const Color(0xFFE0DAF2),
         surfaceContainerLow = const Color(0xFFF2F0FC),
         surfaceContainerLowest = const Color(0xFFFFFFFF),
-        surfaceBright = const Color.fromARGB(255, 187, 187, 187),
+        surfaceBright = const Color.fromARGB(255, 220, 220, 220),
         surfaceDim = const Color(0xFFFCF7FF),
         shimmer = ColorPalette.platinum,
         activatedFilterButtonColor = const Color(0xFFb2b2b2),

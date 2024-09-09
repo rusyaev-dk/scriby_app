@@ -69,11 +69,11 @@ class SearchFiltersButton extends StatelessWidget {
                 menuIcon: Icons.tune,
                 actions: [
                   ContextMenuAction(
-                    title: "Search among pinned",
-                    icon: state.filters.searchAmongPinned ? Icons.check : null,
-                    onPressed: () => _toggleSearchAmongPinnedFilter(
+                    title: "Search pinned only",
+                    icon: state.filters.pinnedOnly ? Icons.check : null,
+                    onPressed: () => _togglePinnedOnlyFilter(
                       context,
-                      state.filters.searchAmongPinned,
+                      state.filters.pinnedOnly,
                     ),
                   ),
                   ContextMenuAction(
@@ -101,9 +101,9 @@ class SearchFiltersButton extends StatelessWidget {
     );
   }
 
-  void _toggleSearchAmongPinnedFilter(BuildContext context, bool curValue) {
+  void _togglePinnedOnlyFilter(BuildContext context, bool curValue) {
     BlocProvider.of<SearchFiltersCubit>(context)
-        .toggleSearchAmongPinnedFilter(!curValue);
+        .toggleSearchPinnedOnlyFilter(!curValue);
   }
 }
 

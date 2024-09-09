@@ -16,17 +16,6 @@ class CustomContextMenu extends StatelessWidget {
   final double? menuIconSize;
   final List<ContextMenuAction> actions;
 
-  void _showCupertinoMenu(BuildContext context) {
-    showCupertinoModalPopup(
-      context: context,
-      builder: (BuildContext context) {
-        return CupertinoActionSheet(
-          actions: actions,
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final colorScheme = AppColorScheme.of(context);
@@ -40,23 +29,16 @@ class CustomContextMenu extends StatelessWidget {
           size: menuIconSize,
         ),
       );
-      // return GestureDetector(
-      //   onTap: () => _showCupertinoMenu(context),
-      //   child: Icon(
-      //     menuIcon,
-      //     color: colorScheme.onBackground,
-      //     size: menuIconSize,
-      //   ),
-      // );
     }
 
     return PopupMenuButton(
-      position: PopupMenuPosition.under,
       elevation: 0,
-      borderRadius: BorderRadius.circular(30),
+      position: PopupMenuPosition.under,
+      offset: const Offset(-5, 12),
+      borderRadius: BorderRadius.circular(25),
       color: colorScheme.surfaceBright,
       popUpAnimationStyle: AnimationStyle(
-        curve: Curves.linear,
+        curve: Curves.easeInQuint,
       ),
       icon: Icon(
         menuIcon,

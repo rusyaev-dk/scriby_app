@@ -6,5 +6,5 @@ sealed class LocalStorageKeys {
   static const String cloudSyncKey = "cloud_sync";
   static const String autosaveKey = "autosave";
 
-  static const String searchAmongPinnedFilterKey = "search_among_pinned";
+  static const String searchPinnedOnlyFilterKey = "search_pinned_only";
 }

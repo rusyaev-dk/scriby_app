@@ -1,5 +1,5 @@
 import 'package:realm/realm.dart';
-import 'package:scriby_app/core/domain/entity/note.dart';
+import 'package:scriby_app/core/domain/models/note.dart';
 import 'package:scriby_app/features/search_notes/domain/domain.dart';
 import 'package:scriby_app/persistence/storage/storage.dart';
 
@@ -14,12 +14,19 @@ class SearchNotesRepository implements ISearchNotesRepository {
     required SearchFilters filters,
   }) async {
     List<LocalNote> foundLocalNotes = [];
-
+    String storageQuery = "text CONTAINS[c] \$0 OR title CONTAINS[c] \$0 ";
+    
     if (filters.areDefault()) {
-      foundLocalNotes = _realm.query<LocalNote>(
-          "text CONTAINS[c] \$0 OR title CONTAINS[c] \$0 SORT(date ASC)",
-          [query]).toList();
+      storageQuery += "SORT(date ASC)";
+    } else {
+      if (filters.pinnedOnly) {
+        storageQuery += "AND pinned == true ";
+      }
+
+      storageQuery += "SORT(date ASC)";
     }
+
+    foundLocalNotes = _realm.query<LocalNote>(storageQuery, [query]).toList();
 
     return _convertNotesFromLocal(foundLocalNotes);
   }

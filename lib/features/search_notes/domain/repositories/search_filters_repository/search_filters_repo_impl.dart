@@ -8,25 +8,25 @@ class SearchFiltersRepository implements ISearchFiltersRepository {
   final SharedPreferences _prefs;
 
   @override
-  Future<bool> toggleSearchAmongPinnedFilter(bool value) async {
+  Future<bool> toggleSearchPinnedOnlyFilter(bool value) async {
     return await _prefs.setBool(
-      LocalStorageKeys.searchAmongPinnedFilterKey,
+      LocalStorageKeys.searchPinnedOnlyFilterKey,
       value,
     );
   }
 
   @override
   Future<void> clearFilters() async {
-    await toggleSearchAmongPinnedFilter(false);
+    await toggleSearchPinnedOnlyFilter(false);
   }
 
   @override
   Future<SearchFilters> getFilters() async {
-    final bool searchAmongPinnedstatus = _prefs.getBool(
-          LocalStorageKeys.searchAmongPinnedFilterKey,
+    final bool searchPinnedOnlystatus = _prefs.getBool(
+          LocalStorageKeys.searchPinnedOnlyFilterKey,
         ) ??
         false;
 
-    return SearchFilters(searchAmongPinned: searchAmongPinnedstatus);
+    return SearchFilters(pinnedOnly: searchPinnedOnlystatus);
   }
 }

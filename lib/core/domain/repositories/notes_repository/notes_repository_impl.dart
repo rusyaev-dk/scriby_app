@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:realm/realm.dart';
 import 'package:scriby_app/common/utils/utils.dart';
-import 'package:scriby_app/core/domain/entity/entity.dart';
+import 'package:scriby_app/core/domain/models/entity.dart';
 import 'package:scriby_app/core/domain/repositories/repositories.dart';
 import 'package:scriby_app/persistence/storage/realm/realm.dart';
 

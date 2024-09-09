@@ -1,23 +1,22 @@
 import 'package:equatable/equatable.dart';
 
 class SearchFilters extends Equatable {
-  const SearchFilters({required bool searchAmongPinned})
-      : _searchAmongPinned = searchAmongPinned;
+  const SearchFilters({required bool pinnedOnly}) : _pinnedOnly = pinnedOnly;
 
-  final bool _searchAmongPinned;
+  final bool _pinnedOnly;
 
-  SearchFilters copyWith({bool? searchAmongPinned}) {
+  SearchFilters copyWith({bool? pinnedOnly}) {
     return SearchFilters(
-      searchAmongPinned: searchAmongPinned ?? _searchAmongPinned,
+      pinnedOnly: pinnedOnly ?? _pinnedOnly,
     );
   }
 
   bool areDefault() {
-    return (_searchAmongPinned == false);
+    return (_pinnedOnly == false);
   }
 
-  bool get searchAmongPinned => _searchAmongPinned;
+  bool get pinnedOnly => _pinnedOnly;
 
   @override
-  List<Object?> get props => [_searchAmongPinned];
+  List<Object?> get props => [_pinnedOnly];
 }

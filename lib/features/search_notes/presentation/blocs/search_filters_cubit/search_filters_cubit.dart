@@ -30,10 +30,10 @@ class SearchFiltersCubit extends Cubit<SearchFiltersState> {
     }
   }
 
-  Future<void> toggleSearchAmongPinnedFilter(bool value) async {
+  Future<void> toggleSearchPinnedOnlyFilter(bool value) async {
     try {
-      await _searchFiltersRepository.toggleSearchAmongPinnedFilter(value);
-      _filters = _filters.copyWith(searchAmongPinned: value);
+      await _searchFiltersRepository.toggleSearchPinnedOnlyFilter(value);
+      _filters = _filters.copyWith(pinnedOnly: value);
       emit(SearchFiltersLoadedState(filters: _filters));
     } catch (exception, stackTrace) {
       _logger.exception(exception, stackTrace);
