@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,63 +21,72 @@ class GeneralSettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = AppColorScheme.of(context);
-    final textScheme = AppTextScheme.of(context);
-
     return BlocProvider(
       create: (context) => GeneralSettingsBloc(
         generalSettingsRepository:
             RepositoryProvider.of<IGeneralSettingsRepository>(context),
         logger: RepositoryProvider.of<ILogger>(context),
       ),
-      child: Scaffold(
-        appBar: AppBar(
-          forceMaterialTransparency: true,
-          leading: const Padding(
-            padding: EdgeInsets.all(7),
-            child: PopScreenButton(
-              iconSize: 25,
-            ),
+      child: const GeneralSettingsView(),
+    );
+  }
+}
+
+class GeneralSettingsView extends StatelessWidget {
+  const GeneralSettingsView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = AppColorScheme.of(context);
+    final textScheme = AppTextScheme.of(context);
+
+    return Scaffold(
+      appBar: AppBar(
+        forceMaterialTransparency: true,
+        leading: const Padding(
+          padding: EdgeInsets.all(7),
+          child: PopScreenButton(
+            iconSize: 25,
           ),
-          title: Text(
-            "Settings",
-            style: textScheme.headline.copyWith(
-              fontSize: 25,
-              color: colorScheme.onBackground,
-            ),
-          ),
-          toolbarHeight: 60,
-          leadingWidth: 60,
         ),
-        body: DisableScrollStretching(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.only(
-                  right: 10, left: 10, bottom: 30, top: 15),
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  const GeneralSettings(),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.195),
-                  const ThemeSwitcherRow(),
-                  const SizedBox(height: 20),
-                  SettingsButtonRow(
-                    icon: Icons.delete,
-                    backgroundColor: colorScheme.error,
-                    text: "Delete all notes",
-                    onPressed: () => _deleteAllNotes(context),
+        title: Text(
+          "Settings",
+          style: textScheme.headline.copyWith(
+            fontSize: 25,
+            color: colorScheme.onBackground,
+          ),
+        ),
+        toolbarHeight: 60,
+        leadingWidth: 60,
+      ),
+      body: DisableScrollStretching(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding:
+                const EdgeInsets.only(right: 10, left: 10, bottom: 30, top: 15),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                const GeneralSettingsSection(),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.195),
+                const ThemeSettingsSection(),
+                const SizedBox(height: 20),
+                SettingsButtonRow(
+                  icon: Icons.delete,
+                  backgroundColor: colorScheme.error,
+                  text: "Delete all notes",
+                  onPressed: () => _deleteAllNotes(context),
+                ),
+                const SizedBox(height: 20),
+                Text(
+                  "App version: 1.0.0",
+                  style: textScheme.headline.copyWith(
+                    fontSize: 18,
+                    color: colorScheme.surfaceVariant,
                   ),
-                  const SizedBox(height: 20),
-                  Text(
-                    "App version: 1.0.0",
-                    style: textScheme.headline.copyWith(
-                      fontSize: 18,
-                      color: colorScheme.surfaceVariant,
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
