@@ -3,11 +3,12 @@ import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:scriby_app/features/settings/presentation/presentation.dart';
 import 'package:scriby_app/uikit/uikit.dart';
 
-@RoutePage(name: "PrivacySettingsRoute")
-class PrivacyScreen extends StatelessWidget {
-  const PrivacyScreen({super.key});
+@RoutePage(name: "AppearanceSettingsRoute")
+class AppearanceScreen extends StatelessWidget {
+  const AppearanceScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +26,7 @@ class PrivacyScreen extends StatelessWidget {
                 ),
               ),
               middle: Text(
-                "Privacy",
+                "Appearance",
                 style: textScheme.headline.copyWith(
                   fontSize: 25,
                   fontWeight: FontWeight.normal,
@@ -43,7 +44,7 @@ class PrivacyScreen extends StatelessWidget {
                 ),
               ),
               title: Text(
-                "Privacy",
+                "Appearance",
                 style: textScheme.headline.copyWith(
                   fontSize: 25,
                   color: colorScheme.onBackground,
@@ -56,9 +57,7 @@ class PrivacyScreen extends StatelessWidget {
           Platform.isIOS ? colorScheme.settingsBackgroundColor : null,
       body: Container(
         padding: const EdgeInsets.only(left: 20, right: 20, top: 15),
-        child: Platform.isIOS
-            ? const CupertinoActivityIndicator()
-            : const CircularProgressIndicator(),
+        child: const ThemeSettingsSection(),
       ),
     );
   }

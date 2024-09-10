@@ -1,9 +1,9 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scriby_app/core/blocs/blocs.dart';
+import 'package:scriby_app/features/settings/presentation/presentation.dart';
 import 'package:scriby_app/uikit/uikit.dart';
 
 class ThemeSettingsSection extends StatelessWidget {
@@ -12,33 +12,40 @@ class ThemeSettingsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = AppColorScheme.of(context);
+    final textScheme = AppTextScheme.of(context);
 
     return BlocBuilder<ThemeCubit, ThemeState>(
       buildWhen: (previous, current) => previous.themeMode != current.themeMode,
       builder: (context, state) {
         if (Platform.isIOS) {
-          return CupertinoFormSection(
-            header: const Text("Appearance"),
+          return SettingsSectionForm(
             children: [
-              CupertinoSegmentedControl<ThemeMode>(
-                groupValue: state.themeMode,
-                onValueChanged: (ThemeMode value) {
-                  _switchTheme(context, value);
-                },
-                children: const {
-                  ThemeMode.system: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    child: Text('System'),
-                  ),
-                  ThemeMode.light: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    child: Text('Light'),
-                  ),
-                  ThemeMode.dark: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    child: Text('Dark'),
-                  ),
-                },
+              SettingsRadioButtonRow(
+                text: "System",
+                value: state.themeMode == ThemeMode.system,
+                onPressed: () => _switchTheme(context, ThemeMode.system),
+              ),
+              Divider(
+                thickness: 0.4,
+                color: colorScheme.onBackground,
+                endIndent: 0,
+                indent: 18,
+              ),
+              SettingsRadioButtonRow(
+                text: "Light",
+                value: state.themeMode == ThemeMode.light,
+                onPressed: () => _switchTheme(context, ThemeMode.light),
+              ),
+              Divider(
+                thickness: 0.4,
+                color: colorScheme.onBackground,
+                endIndent: 0,
+                indent: 18,
+              ),
+              SettingsRadioButtonRow(
+                text: "Dark",
+                value: state.themeMode == ThemeMode.dark,
+                onPressed: () => _switchTheme(context, ThemeMode.dark),
               ),
             ],
           );

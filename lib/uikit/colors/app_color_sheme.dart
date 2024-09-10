@@ -39,6 +39,8 @@ class AppColorScheme extends ThemeExtension<AppColorScheme> {
   final Color inActivatedFilterButtonColor;
   final Color activatedThemeButtonColor;
   final Color inActivatedThemeButtonColor;
+  final Color sectionBackgroundColor;
+  final Color settingsBackgroundColor;
 
   const AppColorScheme.light()
       : primary = ColorPalette.black,
@@ -75,7 +77,9 @@ class AppColorScheme extends ThemeExtension<AppColorScheme> {
         activatedFilterButtonColor = const Color(0xFFb2b2b2),
         inActivatedFilterButtonColor = const Color(0xFFe0e0e2),
         activatedThemeButtonColor = ColorPalette.white,
-        inActivatedThemeButtonColor = const Color(0xFFDADADA);
+        inActivatedThemeButtonColor = const Color(0xFFDADADA),
+        sectionBackgroundColor = Colors.white,
+        settingsBackgroundColor = const Color.fromARGB(255, 242, 242, 242);
 
   const AppColorScheme.dark()
       : primary = ColorPalette.white,
@@ -90,7 +94,7 @@ class AppColorScheme extends ThemeExtension<AppColorScheme> {
         onTertiary = const Color(0xFFFFFFFF),
         tertiaryContainer = const Color(0xFF332227),
         onTertiaryContainer = const Color(0xFFE6CDD5),
-        error = const Color(0xFFB3261E),
+        error = const Color.fromARGB(255, 217, 47, 38),
         onError = const Color(0xFFFFFFFF),
         errorContainer = const Color(0xFF330B09),
         onErrorContainer = const Color(0xFFE6ACA9),
@@ -112,7 +116,9 @@ class AppColorScheme extends ThemeExtension<AppColorScheme> {
         activatedFilterButtonColor = const Color(0xFF4d4d4d),
         inActivatedFilterButtonColor = const Color(0xFF151515),
         activatedThemeButtonColor = DarkColorPalette.black,
-        inActivatedThemeButtonColor = DarkColorPalette.darkestGrey;
+        inActivatedThemeButtonColor = DarkColorPalette.darkestGrey,
+        sectionBackgroundColor = const Color(0xFF282828),
+        settingsBackgroundColor = Colors.black;
 
   const AppColorScheme._({
     required this.primary,
@@ -150,6 +156,8 @@ class AppColorScheme extends ThemeExtension<AppColorScheme> {
     required this.inActivatedFilterButtonColor,
     required this.activatedThemeButtonColor,
     required this.inActivatedThemeButtonColor,
+    required this.sectionBackgroundColor,
+    required this.settingsBackgroundColor,
   });
 
   @override
@@ -214,6 +222,10 @@ class AppColorScheme extends ThemeExtension<AppColorScheme> {
           activatedThemeButtonColor, other.activatedThemeButtonColor, t)!,
       inActivatedThemeButtonColor: Color.lerp(
           inActivatedThemeButtonColor, other.inActivatedThemeButtonColor, t)!,
+      sectionBackgroundColor:
+          Color.lerp(sectionBackgroundColor, other.sectionBackgroundColor, t)!,
+      settingsBackgroundColor: Color.lerp(
+          settingsBackgroundColor, other.settingsBackgroundColor, t)!,
     );
   }
 
@@ -254,6 +266,8 @@ class AppColorScheme extends ThemeExtension<AppColorScheme> {
     Color? inActivatedFilterButtonColor,
     Color? activatedThemeButtonColor,
     Color? inActivatedThemeButtonColor,
+    Color? sectionBackgroundColor,
+    Color? settingsBackgroundColor,
   }) {
     return AppColorScheme._(
       primary: primary ?? this.primary,
@@ -297,6 +311,10 @@ class AppColorScheme extends ThemeExtension<AppColorScheme> {
           activatedThemeButtonColor ?? this.activatedThemeButtonColor,
       inActivatedThemeButtonColor:
           inActivatedThemeButtonColor ?? this.inActivatedThemeButtonColor,
+      sectionBackgroundColor:
+          sectionBackgroundColor ?? this.sectionBackgroundColor,
+      settingsBackgroundColor:
+          settingsBackgroundColor ?? this.settingsBackgroundColor,
     );
   }
 

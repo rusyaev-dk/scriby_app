@@ -1,15 +1,12 @@
 import 'dart:io';
 
-import 'package:auto_route/auto_route.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:scriby_app/core/navigation/router.dart';
 import 'package:scriby_app/features/settings/presentation/presentation.dart';
 import 'package:scriby_app/uikit/uikit.dart';
 
-class GeneralSettingsSection extends StatelessWidget {
-  const GeneralSettingsSection({super.key});
+class GeneralSettingsTopSection extends StatelessWidget {
+  const GeneralSettingsTopSection({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,20 +15,19 @@ class GeneralSettingsSection extends StatelessWidget {
     return BlocBuilder<GeneralSettingsBloc, GeneralSettingsState>(
       builder: (context, state) {
         if (state is GeneralSettingsLoadedState) {
-          final bool insertDividers = !Platform.isAndroid;
           List<Widget> dividers = [
-            const SizedBox(height: 5),
+            if (Platform.isAndroid) const SizedBox(height: 5),
             Divider(
+              thickness: 0.4,
               color: colorScheme.onBackground,
-              endIndent: 10,
-              indent: 10,
+              endIndent: 0,
+              indent: 18,
             ),
           ];
 
           List<Widget> children = [
             SettingsSwitchRow(
               text: "Notifications",
-              icon: Icons.notifications,
               isActive: state.notifications,
               onSwitchChanged: (bool isActive) {
                 context
@@ -39,61 +35,38 @@ class GeneralSettingsSection extends StatelessWidget {
                     .add(ToggleNotificationsEvent());
               },
             ),
-            if (insertDividers) ...dividers,
+            ...dividers,
             SettingsSwitchRow(
               text: "Vibration",
-              icon: Icons.vibration,
               isActive: state.vibration,
               onSwitchChanged: (bool isActive) {
                 context.read<GeneralSettingsBloc>().add(ToggleVibrationEvent());
               },
             ),
-            if (insertDividers) ...dividers,
+            ...dividers,
             SettingsSwitchRow(
               text: "Cloud sync",
-              icon: Icons.sync,
               isActive: state.cloudSync,
               onSwitchChanged: (bool isActive) {
                 context.read<GeneralSettingsBloc>().add(ToggleCloudSyncEvent());
               },
             ),
-            if (insertDividers) ...dividers,
+            ...dividers,
             SettingsSwitchRow(
               text: "Note autosave",
-              icon: Icons.save,
               isActive: state.autosave,
               onSwitchChanged: (bool isActive) {
                 context.read<GeneralSettingsBloc>().add(ToggleAutosaveEvent());
               },
             ),
-            if (insertDividers) ...dividers,
-            SettingsPageTransitionRow(
-              icon: Icons.security,
-              text: "Privacy",
-              onPressed: () => _openPrivacySettings(context),
-            ),
-            if (insertDividers) ...dividers,
-            SettingsPageTransitionRow(
-              icon: Icons.logout,
-              text: "Logout",
-              onPressed: () {},
-            ),
           ];
 
-          if (!Platform.isIOS) {
-            return SizedBox(
-              width: double.infinity,
-              child: CupertinoFormSection(
-                children: children,
-              ),
-            );
+          if (Platform.isIOS) {
+            return SettingsSectionForm(children: children);
           }
 
-          return SizedBox(
-            width: double.infinity,
-            child: Column(
-              children: children,
-            ),
+          return Column(
+            children: children,
           );
         }
 
@@ -104,9 +77,5 @@ class GeneralSettingsSection extends StatelessWidget {
         );
       },
     );
-  }
-
-  Future<void> _openPrivacySettings(BuildContext context) async {
-    await AutoRouter.of(context).push(const PrivacySettingsRoute());
   }
 }

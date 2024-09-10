@@ -143,6 +143,23 @@ class SettingsRoutes {
         );
       },
     ),
+    CustomRoute(
+      path: 'appearance',
+      page: AppearanceSettingsRoute.page,
+      customRouteBuilder:
+          (BuildContext context, Widget child, AutoRoutePage page) {
+        return PageRouteBuilder(
+          transitionDuration:
+              Duration(milliseconds: Platform.isIOS ? 300 : 250),
+          fullscreenDialog: page.fullscreenDialog,
+          transitionsBuilder: Platform.isIOS
+              ? CustomPageTransitionsBuilder.slideWithFadeTransitionsBuilder
+              : CustomPageTransitionsBuilder.fadeTransitionsBuilder,
+          settings: page,
+          pageBuilder: (context, animation, _) => child,
+        );
+      },
+    ),
   ];
 }
 

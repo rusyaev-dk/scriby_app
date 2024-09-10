@@ -1,11 +1,13 @@
 import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scriby_app/common/utils/utils.dart';
 import 'package:scriby_app/common/widgets/widgets.dart';
 import 'package:scriby_app/core/blocs/blocs.dart';
+import 'package:scriby_app/core/navigation/navigation.dart';
 import 'package:scriby_app/features/settings/domain/domain.dart';
 import 'package:scriby_app/features/settings/presentation/presentation.dart';
 import 'package:scriby_app/uikit/uikit.dart';
@@ -41,51 +43,116 @@ class GeneralSettingsView extends StatelessWidget {
     final textScheme = AppTextScheme.of(context);
 
     return Scaffold(
-      appBar: AppBar(
-        forceMaterialTransparency: true,
-        leading: const Padding(
-          padding: EdgeInsets.all(7),
-          child: PopScreenButton(
-            iconSize: 25,
-          ),
-        ),
-        title: Text(
-          "Settings",
-          style: textScheme.headline.copyWith(
-            fontSize: 25,
-            color: colorScheme.onBackground,
-          ),
-        ),
-        toolbarHeight: 60,
-        leadingWidth: 60,
-      ),
+      appBar: Platform.isIOS
+          ? CupertinoNavigationBar(
+              padding: EdgeInsetsDirectional.zero,
+              leading: const Padding(
+                padding: EdgeInsets.all(7),
+                child: PopScreenButton(
+                  iconSize: 25,
+                ),
+              ),
+              middle: Text(
+                "Settings",
+                style: textScheme.headline.copyWith(
+                  fontSize: 25,
+                  fontWeight: FontWeight.normal,
+                  color: colorScheme.onBackground,
+                ),
+              ),
+              backgroundColor: colorScheme.settingsBackgroundColor,
+            )
+          : AppBar(
+              forceMaterialTransparency: true,
+              leading: const Padding(
+                padding: EdgeInsets.all(7),
+                child: PopScreenButton(
+                  iconSize: 25,
+                ),
+              ),
+              title: Text(
+                "Settings",
+                style: textScheme.headline.copyWith(
+                  fontSize: 25,
+                  color: colorScheme.onBackground,
+                ),
+              ),
+              toolbarHeight: 60,
+              leadingWidth: 60,
+            ),
+      backgroundColor:
+          Platform.isIOS ? colorScheme.settingsBackgroundColor : null,
       body: DisableScrollStretching(
         child: SingleChildScrollView(
           child: Padding(
-            padding:
-                const EdgeInsets.only(right: 10, left: 10, bottom: 30, top: 15),
+            padding: EdgeInsets.only(
+              right: Platform.isIOS ? 20 : 10,
+              left: Platform.isIOS ? 20 : 10,
+              bottom: 30,
+              top: 15,
+            ),
             child: Column(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                const GeneralSettingsSection(),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.195),
-                const ThemeSettingsSection(),
-                const SizedBox(height: 20),
+                const GeneralSettingsTopSection(),
+                const SizedBox(height: 30),
+                SettingsSectionForm(
+                  children: [
+                    SettingsButtonRow(
+                      suffixIcon: Icon(
+                        Icons.arrow_forward_ios,
+                        size: 25,
+                        color: colorScheme.surfaceVariant,
+                      ),
+                      text: "Appearance",
+                      onPressed: () => _openAppearanceSettings(context),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 30),
+                SettingsSectionForm(
+                  children: [
+                    SettingsButtonRow(
+                      suffixIcon: Icon(
+                        Icons.arrow_forward_ios,
+                        size: 25,
+                        color: colorScheme.surfaceVariant,
+                      ),
+                      text: "Privacy",
+                      onPressed: () => _openPrivacySettings(context),
+                    ),
+                    if (Platform.isAndroid) const SizedBox(height: 5),
+                    Divider(
+                      thickness: 0.4,
+                      color: colorScheme.onBackground,
+                      endIndent: 0,
+                      indent: 18,
+                    ),
+                    SettingsButtonRow(
+                      suffixIcon: Icon(
+                        Icons.arrow_forward_ios,
+                        size: 25,
+                        color: colorScheme.surfaceVariant,
+                      ),
+                      text: "Logout",
+                      onPressed: () {},
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 30),
                 SettingsButtonRow(
-                  icon: Icons.delete,
-                  backgroundColor: colorScheme.error,
+                  backgroundColor: Platform.isIOS
+                      ? colorScheme.sectionBackgroundColor
+                      : colorScheme.error,
+                  isDestructiveAction: true,
                   text: "Delete all notes",
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 18, vertical: 18),
                   onPressed: () => _deleteAllNotes(context),
                 ),
                 const SizedBox(height: 20),
-                Text(
-                  "App version: 1.0.0",
-                  style: textScheme.headline.copyWith(
-                    fontSize: 18,
-                    color: colorScheme.surfaceVariant,
-                  ),
-                ),
+                const AppVersionWidget(),
               ],
             ),
           ),
@@ -123,6 +190,32 @@ class GeneralSettingsView extends StatelessWidget {
           content: const Text("This action cannot be undone"),
         );
       },
+    );
+  }
+
+  Future<void> _openPrivacySettings(BuildContext context) async {
+    await AutoRouter.of(context).push(const PrivacySettingsRoute());
+  }
+
+  Future<void> _openAppearanceSettings(BuildContext context) async {
+    await AutoRouter.of(context).push(const AppearanceSettingsRoute());
+  }
+}
+
+class AppVersionWidget extends StatelessWidget {
+  const AppVersionWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = AppColorScheme.of(context);
+    final textScheme = AppTextScheme.of(context);
+
+    return Text(
+      "App version: 1.0.0",
+      style: textScheme.headline.copyWith(
+        fontSize: 18,
+        color: colorScheme.surfaceVariant,
+      ),
     );
   }
 }

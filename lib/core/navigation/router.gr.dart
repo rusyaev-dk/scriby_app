@@ -21,6 +21,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const AllNotesTab(),
       );
     },
+    AppearanceSettingsRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const AppearanceScreen(),
+      );
+    },
     EditNoteRoute.name: (routeData) {
       final args = routeData.argsAs<EditNoteRouteArgs>();
       return AutoRoutePage<dynamic>(
@@ -92,6 +98,20 @@ class AllNotesRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'AllNotesRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [AppearanceScreen]
+class AppearanceSettingsRoute extends PageRouteInfo<void> {
+  const AppearanceSettingsRoute({List<PageRouteInfo>? children})
+      : super(
+          AppearanceSettingsRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'AppearanceSettingsRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
