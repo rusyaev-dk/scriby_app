@@ -18,55 +18,55 @@ class GeneralSettingsTopSection extends StatelessWidget {
           List<Widget> dividers = [
             if (Platform.isAndroid) const SizedBox(height: 5),
             Divider(
-              thickness: 0.4,
+              thickness: 0.5,
               color: colorScheme.onBackground,
               endIndent: 0,
               indent: 18,
             ),
           ];
 
-          List<Widget> children = [
-            SettingsSwitchRow(
-              text: "Notifications",
-              isActive: state.notifications,
-              onSwitchChanged: (bool isActive) {
-                context
-                    .read<GeneralSettingsBloc>()
-                    .add(ToggleNotificationsEvent());
-              },
-            ),
-            ...dividers,
-            SettingsSwitchRow(
-              text: "Vibration",
-              isActive: state.vibration,
-              onSwitchChanged: (bool isActive) {
-                context.read<GeneralSettingsBloc>().add(ToggleVibrationEvent());
-              },
-            ),
-            ...dividers,
-            SettingsSwitchRow(
-              text: "Cloud sync",
-              isActive: state.cloudSync,
-              onSwitchChanged: (bool isActive) {
-                context.read<GeneralSettingsBloc>().add(ToggleCloudSyncEvent());
-              },
-            ),
-            ...dividers,
-            SettingsSwitchRow(
-              text: "Note autosave",
-              isActive: state.autosave,
-              onSwitchChanged: (bool isActive) {
-                context.read<GeneralSettingsBloc>().add(ToggleAutosaveEvent());
-              },
-            ),
-          ];
-
-          if (Platform.isIOS) {
-            return SettingsSectionForm(children: children);
-          }
-
-          return Column(
-            children: children,
+          return SettingsSectionForm(
+            children: [
+              SettingsSwitchRow(
+                text: "Notifications",
+                isActive: state.notifications,
+                onSwitchChanged: (bool isActive) {
+                  context
+                      .read<GeneralSettingsBloc>()
+                      .add(ToggleNotificationsEvent());
+                },
+              ),
+              ...dividers,
+              SettingsSwitchRow(
+                text: "Vibration",
+                isActive: state.vibration,
+                onSwitchChanged: (bool isActive) {
+                  context
+                      .read<GeneralSettingsBloc>()
+                      .add(ToggleVibrationEvent());
+                },
+              ),
+              ...dividers,
+              SettingsSwitchRow(
+                text: "Cloud sync",
+                isActive: state.cloudSync,
+                onSwitchChanged: (bool isActive) {
+                  context
+                      .read<GeneralSettingsBloc>()
+                      .add(ToggleCloudSyncEvent());
+                },
+              ),
+              ...dividers,
+              SettingsSwitchRow(
+                text: "Note autosave",
+                isActive: state.autosave,
+                onSwitchChanged: (bool isActive) {
+                  context
+                      .read<GeneralSettingsBloc>()
+                      .add(ToggleAutosaveEvent());
+                },
+              ),
+            ],
           );
         }
 

@@ -86,8 +86,8 @@ class GeneralSettingsView extends StatelessWidget {
         child: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.only(
-              right: Platform.isIOS ? 20 : 10,
-              left: Platform.isIOS ? 20 : 10,
+              right: Platform.isIOS ? 20 : 15,
+              left: Platform.isIOS ? 20 : 15,
               bottom: 30,
               top: 15,
             ),
@@ -142,13 +142,11 @@ class GeneralSettingsView extends StatelessWidget {
                 ),
                 const SizedBox(height: 30),
                 SettingsButtonRow(
-                  backgroundColor: Platform.isIOS
-                      ? colorScheme.sectionBackgroundColor
-                      : colorScheme.error,
+                  backgroundColor: colorScheme.sectionBackgroundColor,
                   isDestructiveAction: true,
                   text: "Delete all notes",
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 18, vertical: 18),
+                      const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
                   onPressed: () => _deleteAllNotes(context),
                 ),
                 const SizedBox(height: 20),

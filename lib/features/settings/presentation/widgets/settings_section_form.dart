@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:scriby_app/uikit/uikit.dart';
 
@@ -14,10 +16,12 @@ class SettingsSectionForm extends StatelessWidget {
     final colorScheme = AppColorScheme.of(context);
 
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 10),
+      padding: const EdgeInsets.symmetric(vertical: 8),
       decoration: BoxDecoration(
-        color: colorScheme.sectionBackgroundColor,
-        borderRadius: BorderRadius.circular(25),
+        color: Platform.isIOS
+            ? colorScheme.sectionBackgroundColor
+            : colorScheme.surface,
+        borderRadius: BorderRadius.circular(20),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,

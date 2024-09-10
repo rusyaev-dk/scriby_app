@@ -4,6 +4,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:scriby_app/uikit/uikit.dart';
 
+const EdgeInsets _defaultPadding =
+    EdgeInsets.symmetric(horizontal: 18, vertical: 6);
+
+const BorderRadius _defaultBorderRadius = BorderRadius.all(Radius.circular(20));
+
 class SettingsSwitchRow extends StatelessWidget {
   const SettingsSwitchRow({
     super.key,
@@ -11,7 +16,7 @@ class SettingsSwitchRow extends StatelessWidget {
     required this.text,
     required this.onSwitchChanged,
     required this.isActive,
-    this.padding = const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
+    this.padding = _defaultPadding,
   });
 
   final Icon? icon;
@@ -34,7 +39,7 @@ class SettingsSwitchRow extends StatelessWidget {
           Text(
             text,
             style: textScheme.headline.copyWith(
-              fontSize: 23,
+              fontSize: 21,
               color: colorScheme.onBackground,
             ),
           ),
@@ -46,7 +51,7 @@ class SettingsSwitchRow extends StatelessWidget {
                   onChanged: onSwitchChanged,
                 )
               : SizedBox(
-                  height: 30,
+                  height: 25,
                   child: Switch(
                     thumbColor: WidgetStatePropertyAll<Color>(
                       isActive
@@ -55,8 +60,9 @@ class SettingsSwitchRow extends StatelessWidget {
                     ),
                     inactiveTrackColor: colorScheme.surface,
                     trackOutlineColor: WidgetStatePropertyAll<Color>(
-                      colorScheme.background,
+                      colorScheme.onBackground,
                     ),
+                    trackOutlineWidth: WidgetStateProperty.all(1.5),
                     value: isActive,
                     onChanged: onSwitchChanged,
                   ),
@@ -76,7 +82,7 @@ class SettingsButtonRow extends StatelessWidget {
     required this.onPressed,
     this.suffixIcon,
     this.isDestructiveAction = false,
-    this.padding = const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
+    this.padding = _defaultPadding,
   });
 
   final Icon? prefixIcon;
@@ -97,7 +103,7 @@ class SettingsButtonRow extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: backgroundColor,
-          borderRadius: BorderRadius.circular(25),
+          borderRadius: _defaultBorderRadius,
         ),
         padding: padding,
         child: Row(
@@ -107,8 +113,8 @@ class SettingsButtonRow extends StatelessWidget {
             Text(
               text,
               style: textScheme.headline.copyWith(
-                fontSize: 23,
-                color: (isDestructiveAction && Platform.isIOS)
+                fontSize: 21,
+                color: isDestructiveAction
                     ? colorScheme.error
                     : colorScheme.onBackground,
               ),
@@ -129,7 +135,7 @@ class SettingsRadioButtonRow extends StatelessWidget {
     required this.text,
     this.backgroundColor,
     required this.onPressed,
-    this.padding = const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
+    this.padding = _defaultPadding,
     required this.value,
   });
 
@@ -151,7 +157,7 @@ class SettingsRadioButtonRow extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: backgroundColor,
-          borderRadius: BorderRadius.circular(25),
+          borderRadius: _defaultBorderRadius,
         ),
         padding: padding,
         child: Row(
@@ -161,7 +167,7 @@ class SettingsRadioButtonRow extends StatelessWidget {
             Text(
               text,
               style: textScheme.headline.copyWith(
-                fontSize: 23,
+                fontSize: 21,
                 color: colorScheme.onBackground,
               ),
             ),
