@@ -27,9 +27,13 @@ class SaveNoteButton extends StatelessWidget {
         ? SizedBox(
             height: 24,
             width: 24,
-            child: CircularProgressIndicator(
-              color: colorScheme.onBackground,
-            ),
+            child: Platform.isIOS
+                ? CupertinoActivityIndicator(
+                    color: colorScheme.onBackground,
+                  )
+                : CircularProgressIndicator(
+                    color: colorScheme.onBackground,
+                  ),
           )
         : Text(
             'Save',

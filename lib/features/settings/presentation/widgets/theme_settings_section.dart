@@ -12,7 +12,6 @@ class ThemeSettingsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = AppColorScheme.of(context);
-    final textScheme = AppTextScheme.of(context);
 
     return BlocBuilder<ThemeCubit, ThemeState>(
       buildWhen: (previous, current) => previous.themeMode != current.themeMode,
