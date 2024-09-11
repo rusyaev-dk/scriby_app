@@ -4,7 +4,8 @@ Scriby is a mobile application for creating and managing notes efficiently. It o
 
 ## Screenshots
 
-![Scriby app](/screenshots/scriby_app_screenshot_1.jpg "Scriby app")
+![Scriby app](/screenshots/scriby_app_screenshot_1.jpg "Home screen, search and settings")
+![Scriby app](/screenshots/scriby_app_screenshot_2.jpg "Note editing screen")
 
 ## Features
 
