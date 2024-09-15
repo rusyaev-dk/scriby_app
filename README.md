@@ -13,7 +13,6 @@ Scriby is a mobile application for creating and managing notes efficiently. It o
 - Organize notes with tags and categories
 - Search and filter notes
 - Pin important notes to access them quickly
-- Multilingual support
 
 ## Architecture
 
