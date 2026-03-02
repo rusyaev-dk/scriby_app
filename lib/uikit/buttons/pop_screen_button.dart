@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:scriby_app/uikit/uikit.dart';
@@ -49,7 +48,7 @@ class PopScreenButton extends StatelessWidget {
   }
 
   void _defaultBtnAction(BuildContext context) {
-    AutoRouter.of(context).maybePop();
+    Navigator.of(context).maybePop();
     if (callback != null) {
       callback!();
     }

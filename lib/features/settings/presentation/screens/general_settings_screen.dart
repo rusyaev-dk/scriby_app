@@ -1,9 +1,8 @@
 import 'dart:io';
-
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:scriby_app/common/utils/utils.dart';
 import 'package:scriby_app/common/widgets/widgets.dart';
 import 'package:scriby_app/core/blocs/blocs.dart';
@@ -12,12 +11,6 @@ import 'package:scriby_app/features/settings/domain/domain.dart';
 import 'package:scriby_app/features/settings/presentation/presentation.dart';
 import 'package:scriby_app/uikit/uikit.dart';
 
-@RoutePage(name: "GeneralSettingsShellRoute")
-class GeneralSettingsShellScreen extends AutoRouter {
-  const GeneralSettingsShellScreen({super.key});
-}
-
-@RoutePage(name: "GeneralSettingsRoute")
 class GeneralSettingsScreen extends StatelessWidget {
   const GeneralSettingsScreen({super.key});
 
@@ -176,11 +169,11 @@ class GeneralSettingsView extends StatelessWidget {
           actions: [
             AppAlertDialogAction(
               isDestructiveAction: true,
-              onPressed: () => AutoRouter.of(context).maybePop(true),
+              onPressed: () => Navigator.of(context).maybePop(true),
               child: const Text("Yes"),
             ),
             AppAlertDialogAction(
-              onPressed: () => AutoRouter.of(context).maybePop(false),
+              onPressed: () => Navigator.of(context).maybePop(false),
               child: const Text("Cancel"),
             ),
           ],
@@ -192,11 +185,11 @@ class GeneralSettingsView extends StatelessWidget {
   }
 
   Future<void> _openPrivacySettings(BuildContext context) async {
-    await AutoRouter.of(context).push(const PrivacySettingsRoute());
+    GoRouter.of(context).go(AppRoutes.privacySettings);
   }
 
   Future<void> _openAppearanceSettings(BuildContext context) async {
-    await AutoRouter.of(context).push(const AppearanceSettingsRoute());
+    GoRouter.of(context).go(AppRoutes.appearanceSettings);
   }
 }
 

@@ -1,6 +1,6 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:scriby_app/core/navigation/router.dart';
+import 'package:go_router/go_router.dart';
+import 'package:scriby_app/core/navigation/navigation.dart';
 import 'package:scriby_app/uikit/uikit.dart';
 
 class NewNoteButton extends StatefulWidget {
@@ -76,7 +76,9 @@ class _NewNoteButtonState extends State<NewNoteButton>
 
     if (!mounted) return;
 
-    context.router.push(EditNoteRoute(initialNoteToEdit: null)).then((value) async {
+    GoRouter.of(context)
+        .push(AppRoutes.editNote, extra: null)
+        .then((value) async {
       await _animationController.reverse();
       setState(() {
         isVisible = true;

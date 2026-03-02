@@ -1,56 +1,176 @@
 import 'dart:io';
 
-import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:scriby_app/common/utils/utils.dart';
 import 'package:scriby_app/core/domain/domain.dart';
 import 'package:scriby_app/core/navigation/navigation.dart';
-import 'package:scriby_app/features/all_notes/presentation/presentation.dart';
 import 'package:scriby_app/features/edit_note/presentation/presentation.dart';
-import 'package:scriby_app/features/folders/presentation/presentation.dart';
 import 'package:scriby_app/features/home/presentation/presentation.dart';
-import 'package:scriby_app/features/pinned_notes/presentation/presentation.dart';
 import 'package:scriby_app/features/search_notes/presentation/presentation.dart';
 import 'package:scriby_app/features/settings/presentation/presentation.dart';
 
-part 'router.gr.dart';
+class AppRouter {
+  AppRouter._();
 
-@AutoRouterConfig()
-class AppRouter extends _$AppRouter {
-  @override
-  List<AutoRoute> get routes => [
-        AutoRoute(
-          path: '/home',
-          initial: true,
-          page: HomeRoute.page,
-          children: [
-            AutoRoute(
-              page: AllNotesRoute.page,
-              path: 'all_notes',
+  static final GlobalKey<NavigatorState> rootNavigatorKey =
+      GlobalKey<NavigatorState>();
+
+  static GoRouter createRouter({
+    required List<NavigatorObserver> navigatorObservers,
+  }) {
+    return GoRouter(
+      navigatorKey: rootNavigatorKey,
+      debugLogDiagnostics: true,
+      initialLocation: AppRoutes.home,
+      observers: navigatorObservers,
+      routes: <RouteBase>[
+        GoRoute(
+          path: AppRoutes.home,
+          name: 'home',
+          builder: (context, state) => const HomeScreen(),
+        ),
+        GoRoute(
+          path: AppRoutes.search,
+          name: 'search',
+          pageBuilder: (context, state) {
+            return CustomTransitionPage(
+              key: state.pageKey,
+              child: const SearchNotesScreen(),
+              transitionDuration: const Duration(milliseconds: 300),
+              reverseTransitionDuration: const Duration(milliseconds: 200),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                return CustomPageTransitionsBuilder.fadeTransitionsBuilder(
+                  context,
+                  animation,
+                  secondaryAnimation,
+                  child,
+                );
+              },
+            );
+          },
+        ),
+        GoRoute(
+          path: AppRoutes.generalSettings,
+          name: 'general-settings',
+          pageBuilder: (context, state) {
+            return CustomTransitionPage(
+              key: state.pageKey,
+              child: const GeneralSettingsScreen(),
+              transitionDuration: Duration(
+                milliseconds: Platform.isIOS ? 300 : 250,
+              ),
+              reverseTransitionDuration: Duration(
+                milliseconds: Platform.isIOS ? 250 : 200,
+              ),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                if (Platform.isIOS) {
+                  return CustomPageTransitionsBuilder
+                      .slideWithFadeTransitionsBuilder(
+                    context,
+                    animation,
+                    secondaryAnimation,
+                    child,
+                  );
+                }
+
+                return CustomPageTransitionsBuilder.fadeTransitionsBuilder(
+                  context,
+                  animation,
+                  secondaryAnimation,
+                  child,
+                );
+              },
+            );
+          },
+          routes: [
+            GoRoute(
+              path: 'privacy',
+              name: 'privacy-settings',
+              pageBuilder: (context, state) {
+                return CustomTransitionPage(
+                  key: state.pageKey,
+                  child: const PrivacyScreen(),
+                  transitionDuration: Duration(
+                    milliseconds: Platform.isIOS ? 300 : 250,
+                  ),
+                  reverseTransitionDuration: Duration(
+                    milliseconds: Platform.isIOS ? 250 : 200,
+                  ),
+                  transitionsBuilder:
+                      (context, animation, secondaryAnimation, child) {
+                    if (Platform.isIOS) {
+                      return CustomPageTransitionsBuilder
+                          .slideWithFadeTransitionsBuilder(
+                        context,
+                        animation,
+                        secondaryAnimation,
+                        child,
+                      );
+                    }
+
+                    return CustomPageTransitionsBuilder.fadeTransitionsBuilder(
+                      context,
+                      animation,
+                      secondaryAnimation,
+                      child,
+                    );
+                  },
+                );
+              },
             ),
-            AutoRoute(
-              page: PinnedNotesRoute.page,
-              path: 'pinned_notes',
-            ),
-            AutoRoute(
-              page: FoldersRoute.page,
-              path: 'folders',
+            GoRoute(
+              path: 'appearance',
+              name: 'appearance-settings',
+              pageBuilder: (context, state) {
+                return CustomTransitionPage(
+                  key: state.pageKey,
+                  child: const AppearanceScreen(),
+                  transitionDuration: Duration(
+                    milliseconds: Platform.isIOS ? 300 : 250,
+                  ),
+                  reverseTransitionDuration: Duration(
+                    milliseconds: Platform.isIOS ? 250 : 200,
+                  ),
+                  transitionsBuilder:
+                      (context, animation, secondaryAnimation, child) {
+                    if (Platform.isIOS) {
+                      return CustomPageTransitionsBuilder
+                          .slideWithFadeTransitionsBuilder(
+                        context,
+                        animation,
+                        secondaryAnimation,
+                        child,
+                      );
+                    }
+
+                    return CustomPageTransitionsBuilder.fadeTransitionsBuilder(
+                      context,
+                      animation,
+                      secondaryAnimation,
+                      child,
+                    );
+                  },
+                );
+              },
             ),
           ],
         ),
-        SearchRoutes.route,
-        SettingsRoutes.route,
-        CustomRoute(
-          path: '/edit_note',
-          page: EditNoteRoute.page,
-          opaque: true,
-          customRouteBuilder:
-              (BuildContext context, Widget child, AutoRoutePage page) {
-            final initialNote =
-                (page.arguments as EditNoteRouteArgs).initialNoteToEdit;
+        GoRoute(
+          path: AppRoutes.editNote,
+          name: 'edit-note',
+          pageBuilder: (context, state) {
+            final Note? initialNote = state.extra as Note?;
 
-            return PageRouteBuilder(
+            return CustomTransitionPage(
+              key: state.pageKey,
+              child: EditNoteScreen(
+                initialNoteToEdit: initialNote,
+              ),
               transitionDuration: const Duration(milliseconds: 450),
-              fullscreenDialog: page.fullscreenDialog,
+              reverseTransitionDuration: const Duration(milliseconds: 300),
               transitionsBuilder:
                   (context, animation, secondaryAnimation, child) {
                 if (initialNote == null) {
@@ -61,6 +181,7 @@ class AppRouter extends _$AppRouter {
                     child,
                   );
                 }
+
                 return CustomPageTransitionsBuilder.fadeTransitionsBuilder(
                   context,
                   animation,
@@ -69,101 +190,15 @@ class AppRouter extends _$AppRouter {
                   Curves.easeInOutQuint,
                 );
               },
-              settings: page,
-              pageBuilder: (context, animation, _) => child,
             );
           },
         ),
-      ];
+      ],
+    );
+  }
 }
 
-class SearchRoutes {
-  static final route = CustomRoute(
-    path: "/search",
-    page: SearchNotesShellRoute.page,
-    children: _childrenRoutes,
-    customRouteBuilder:
-        (BuildContext context, Widget child, AutoRoutePage page) {
-      return PageRouteBuilder(
-        transitionDuration: const Duration(milliseconds: 300),
-        fullscreenDialog: page.fullscreenDialog,
-        transitionsBuilder: CustomPageTransitionsBuilder.fadeTransitionsBuilder,
-        settings: page,
-        pageBuilder: (context, animation, _) => child,
-      );
-    },
-  );
-
-  static final _childrenRoutes = [
-    AutoRoute(
-      path: '',
-      page: SearchNotesRoute.page,
-    ),
-  ];
-}
-
-class SettingsRoutes {
-  static final route = CustomRoute(
-    path: "/general_settings",
-    page: GeneralSettingsShellRoute.page,
-    children: _childrenRoutes,
-    customRouteBuilder:
-        (BuildContext context, Widget child, AutoRoutePage page) {
-      return PageRouteBuilder(
-        transitionDuration: Duration(milliseconds: Platform.isIOS ? 300 : 250),
-        fullscreenDialog: page.fullscreenDialog,
-        transitionsBuilder: Platform.isIOS
-            ? CustomPageTransitionsBuilder.slideWithFadeTransitionsBuilder
-            : CustomPageTransitionsBuilder.fadeTransitionsBuilder,
-        settings: page,
-        pageBuilder: (context, animation, _) => child,
-      );
-    },
-  );
-
-  static final _childrenRoutes = [
-    AutoRoute(
-      path: '',
-      page: GeneralSettingsRoute.page,
-    ),
-    CustomRoute(
-      path: 'privacy',
-      page: PrivacySettingsRoute.page,
-      customRouteBuilder:
-          (BuildContext context, Widget child, AutoRoutePage page) {
-        return PageRouteBuilder(
-          transitionDuration:
-              Duration(milliseconds: Platform.isIOS ? 300 : 250),
-          fullscreenDialog: page.fullscreenDialog,
-          transitionsBuilder: Platform.isIOS
-              ? CustomPageTransitionsBuilder.slideWithFadeTransitionsBuilder
-              : CustomPageTransitionsBuilder.fadeTransitionsBuilder,
-          settings: page,
-          pageBuilder: (context, animation, _) => child,
-        );
-      },
-    ),
-    CustomRoute(
-      path: 'appearance',
-      page: AppearanceSettingsRoute.page,
-      customRouteBuilder:
-          (BuildContext context, Widget child, AutoRoutePage page) {
-        return PageRouteBuilder(
-          transitionDuration:
-              Duration(milliseconds: Platform.isIOS ? 300 : 250),
-          fullscreenDialog: page.fullscreenDialog,
-          transitionsBuilder: Platform.isIOS
-              ? CustomPageTransitionsBuilder.slideWithFadeTransitionsBuilder
-              : CustomPageTransitionsBuilder.fadeTransitionsBuilder,
-          settings: page,
-          pageBuilder: (context, animation, _) => child,
-        );
-      },
-    ),
-  ];
-}
-
-class CustomNavigationObserver extends AutoRouterObserver {
+class CustomNavigationObserver extends NavigatorObserver {
   CustomNavigationObserver({required ILogger logger}) : _logger = logger;
 
   final ILogger _logger;
@@ -176,15 +211,5 @@ class CustomNavigationObserver extends AutoRouterObserver {
   @override
   void didPop(Route route, Route? previousRoute) {
     _logger.log("Route popped: ${route.settings.name}");
-  }
-
-  @override
-  void didInitTabRoute(TabPageRoute route, TabPageRoute? previousRoute) {
-    _logger.log("Tab route visited: ${route.name}");
-  }
-
-  @override
-  void didChangeTabRoute(TabPageRoute route, TabPageRoute previousRoute) {
-    _logger.log("Tab route re-visited: ${route.name}");
   }
 }

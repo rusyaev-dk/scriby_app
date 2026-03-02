@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:scriby_app/core/navigation/navigation.dart';
 import 'package:scriby_app/features/search_notes/presentation/presentation.dart';
 import 'package:scriby_app/uikit/uikit.dart';
 
 class SearchNotesAppBar extends StatelessWidget {
-  const SearchNotesAppBar({
-    super.key,
-  });
+  const SearchNotesAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class SearchNotesAppBar extends StatelessWidget {
     return SafeArea(
       child: Container(
         color: colorScheme.background,
-        child: const Center(
+        child: Center(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 10),
             child: Stack(
@@ -27,6 +27,7 @@ class SearchNotesAppBar extends StatelessWidget {
                     PopScreenButtonCirlced(
                       diameter: 40,
                       icon: Icons.close_rounded,
+                      onPressed: () => GoRouter.of(context).go(AppRoutes.home),
                     ),
                     SearchFiltersButton(),
                   ],
@@ -76,22 +77,14 @@ class SearchFiltersButton extends StatelessWidget {
                       state.filters.pinnedOnly,
                     ),
                   ),
-                  ContextMenuAction(
-                    title: "Filter 2",
-                    onPressed: () {},
-                  ),
-                  ContextMenuAction(
-                    title: "Filter 3",
-                    onPressed: () {},
-                  ),
+                  ContextMenuAction(title: "Filter 2", onPressed: () {}),
+                  ContextMenuAction(title: "Filter 3", onPressed: () {}),
                 ],
               );
             }
 
             if (state is SearchFiltersLoadingState) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
+              return const Center(child: CircularProgressIndicator());
             }
 
             return const Text("Something went wrong...");
@@ -102,8 +95,9 @@ class SearchFiltersButton extends StatelessWidget {
   }
 
   void _togglePinnedOnlyFilter(BuildContext context, bool curValue) {
-    BlocProvider.of<SearchFiltersCubit>(context)
-        .toggleSearchPinnedOnlyFilter(!curValue);
+    BlocProvider.of<SearchFiltersCubit>(
+      context,
+    ).toggleSearchPinnedOnlyFilter(!curValue);
   }
 }
 

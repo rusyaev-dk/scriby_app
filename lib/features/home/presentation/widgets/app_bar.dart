@@ -1,6 +1,6 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:scriby_app/core/navigation/router.dart';
+import 'package:go_router/go_router.dart';
+import 'package:scriby_app/core/navigation/navigation.dart';
 import 'package:scriby_app/uikit/uikit.dart';
 
 class HomeAppBar extends StatelessWidget {
@@ -50,11 +50,11 @@ class HomeAppBar extends StatelessWidget {
   }
 
   Future<void> _openSettings(BuildContext context) async {
-    AutoRouter.of(context).push(const GeneralSettingsShellRoute());
+    GoRouter.of(context).go(AppRoutes.generalSettings);
   }
 
   Future<void> _openSearch(BuildContext context) async {
-    AutoRouter.of(context).push(const SearchNotesShellRoute());
+    GoRouter.of(context).go(AppRoutes.search);
   }
 }
 

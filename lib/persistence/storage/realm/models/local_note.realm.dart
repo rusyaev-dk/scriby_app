@@ -1,3 +1,4 @@
+// dart format width=80
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 part of 'local_note.dart';
@@ -6,6 +7,7 @@ part of 'local_note.dart';
 // RealmObjectGenerator
 // **************************************************************************
 
+// coverage:ignore-file
 // ignore_for_file: type=lint
 class LocalNote extends _LocalNote
     with RealmEntity, RealmObjectBase, RealmObject {
@@ -23,7 +25,10 @@ class LocalNote extends _LocalNote
     RealmObjectBase.set(this, 'date', date);
     RealmObjectBase.set(this, 'hexColor', hexColor);
     RealmObjectBase.set<RealmList<String>>(
-        this, 'tags', RealmList<String>(tags));
+      this,
+      'tags',
+      RealmList<String>(tags),
+    );
     RealmObjectBase.set(this, 'text', text);
     RealmObjectBase.set(this, 'pinned', pinned);
   }
@@ -93,13 +98,13 @@ class LocalNote extends _LocalNote
 
   static EJsonValue _toEJson(LocalNote value) => value.toEJson();
   static LocalNote _fromEJson(EJsonValue ejson) {
+    if (ejson is! Map<String, dynamic>) return raiseInvalidEJson(ejson);
     return switch (ejson) {
       {
         'id': EJsonValue id,
         'title': EJsonValue title,
         'date': EJsonValue date,
         'hexColor': EJsonValue hexColor,
-        'tags': EJsonValue tags,
         'text': EJsonValue text,
         'pinned': EJsonValue pinned,
       } =>
@@ -110,7 +115,7 @@ class LocalNote extends _LocalNote
           fromEJson(hexColor),
           fromEJson(text),
           fromEJson(pinned),
-          tags: fromEJson(tags),
+          tags: fromEJson(ejson['tags']),
         ),
       _ => raiseInvalidEJson(ejson),
     };
@@ -119,13 +124,16 @@ class LocalNote extends _LocalNote
   static final schema = () {
     RealmObjectBase.registerFactory(LocalNote._);
     register(_toEJson, _fromEJson);
-    return SchemaObject(ObjectType.realmObject, LocalNote, 'LocalNote', [
+    return const SchemaObject(ObjectType.realmObject, LocalNote, 'LocalNote', [
       SchemaProperty('id', RealmPropertyType.string, primaryKey: true),
       SchemaProperty('title', RealmPropertyType.string),
       SchemaProperty('date', RealmPropertyType.timestamp),
       SchemaProperty('hexColor', RealmPropertyType.string),
-      SchemaProperty('tags', RealmPropertyType.string,
-          collectionType: RealmCollectionType.list),
+      SchemaProperty(
+        'tags',
+        RealmPropertyType.string,
+        collectionType: RealmCollectionType.list,
+      ),
       SchemaProperty('text', RealmPropertyType.string),
       SchemaProperty('pinned', RealmPropertyType.bool),
     ]);

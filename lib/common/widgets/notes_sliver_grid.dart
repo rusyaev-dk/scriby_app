@@ -1,14 +1,14 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:go_router/go_router.dart';
 import 'package:scriby_app/core/blocs/blocs.dart';
 import 'package:scriby_app/core/domain/domain.dart';
-import 'package:scriby_app/core/navigation/router.dart';
+import 'package:scriby_app/core/navigation/navigation.dart';
 import 'package:scriby_app/uikit/uikit.dart';
 
 class NotesSliverGrid extends StatefulWidget {
@@ -97,7 +97,7 @@ class _NotesSliverGridState extends State<NotesSliverGrid> {
     BuildContext context,
     Note note,
   ) {
-    AutoRouter.of(context).push(EditNoteRoute(initialNoteToEdit: note));
+    GoRouter.of(context).push(AppRoutes.editNote, extra: note);
   }
 }
 

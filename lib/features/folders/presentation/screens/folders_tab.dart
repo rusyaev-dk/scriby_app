@@ -1,8 +1,6 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:scriby_app/common/utils/utils.dart';
 
-@RoutePage(name: "FoldersRoute")
 class FoldersTab extends StatefulWidget {
   const FoldersTab({super.key});
 

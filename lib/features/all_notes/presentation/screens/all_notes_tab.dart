@@ -1,11 +1,8 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scriby_app/common/utils/utils.dart';
 import 'package:scriby_app/common/widgets/widgets.dart';
 import 'package:scriby_app/features/all_notes/presentation/presentation.dart';
-
-@RoutePage(name: "AllNotesRoute")
 class AllNotesTab extends StatefulWidget {
   const AllNotesTab({
     super.key,

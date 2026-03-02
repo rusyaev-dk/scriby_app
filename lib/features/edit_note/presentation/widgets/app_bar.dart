@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scriby_app/features/edit_note/presentation/presentation.dart';
@@ -74,7 +73,7 @@ class EditNoteAppBar extends StatelessWidget {
       await Future.delayed(const Duration(milliseconds: 200));
 
       if (!context.mounted) return;
-      AutoRouter.of(context).maybePop();
+      Navigator.of(context).maybePop();
       return;
     }
 
@@ -138,12 +137,12 @@ class EditNoteAppBar extends StatelessWidget {
         return AppAlertDialog(
           actions: [
             AppAlertDialogAction(
-              onPressed: () => AutoRouter.of(context).maybePop<bool?>(true),
+              onPressed: () => Navigator.of(context).maybePop<bool?>(true),
               child: const Text("Yes"),
             ),
             AppAlertDialogAction(
               isDestructiveAction: withDestructiveAction ?? false,
-              onPressed: () => AutoRouter.of(context).maybePop<bool?>(false),
+              onPressed: () => Navigator.of(context).maybePop<bool?>(false),
               child: const Text("No"),
             ),
           ],
@@ -155,6 +154,6 @@ class EditNoteAppBar extends StatelessWidget {
 
   void _closeKeyboardAndPopScreen(BuildContext context) {
     FocusScope.of(context).unfocus();
-    AutoRouter.of(context).maybePop();
+    Navigator.of(context).maybePop();
   }
 }

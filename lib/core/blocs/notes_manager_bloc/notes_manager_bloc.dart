@@ -12,9 +12,9 @@ class NotesManagerBloc extends Bloc<NotesManagerEvent, NotesManagerState> {
   NotesManagerBloc({
     required INotesRepository notesRepository,
     required ILogger logger,
-  })  : _notesRepository = notesRepository,
-        _logger = logger,
-        super(NotesManagerInitialState()) {
+  }) : _notesRepository = notesRepository,
+       _logger = logger,
+       super(NotesManagerInitialState()) {
     on<DeleteNoteEvent>(_onDeleteNote);
     on<DeleteAllNotesEvent>(_onDeleteAllNotes);
   }
@@ -30,9 +30,6 @@ class NotesManagerBloc extends Bloc<NotesManagerEvent, NotesManagerState> {
       if (state is! NotesManagerLoadingState) {
         emit(NotesManagerLoadingState());
       }
-      //
-      await Future.delayed(const Duration(milliseconds: 300));
-      //
 
       await _notesRepository.deleteNote(event.note);
       emit(NotesManagerInitialState());
@@ -52,10 +49,6 @@ class NotesManagerBloc extends Bloc<NotesManagerEvent, NotesManagerState> {
       if (state is! NotesManagerLoadingState) {
         emit(NotesManagerLoadingState());
       }
-
-      //
-      await Future.delayed(const Duration(milliseconds: 300));
-      //
 
       await _notesRepository.deleteAllNotes();
       emit(NotesManagerInitialState());

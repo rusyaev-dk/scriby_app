@@ -1,12 +1,9 @@
 import 'dart:io';
-
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:scriby_app/features/settings/presentation/presentation.dart';
 import 'package:scriby_app/uikit/uikit.dart';
 
-@RoutePage(name: "AppearanceSettingsRoute")
 class AppearanceScreen extends StatelessWidget {
   const AppearanceScreen({super.key});
 

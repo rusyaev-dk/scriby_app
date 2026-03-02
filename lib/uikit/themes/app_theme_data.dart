@@ -3,11 +3,7 @@ import 'package:scriby_app/uikit/uikit.dart';
 
 abstract class AppThemeData {
   static final lightTheme = ThemeData(
-    extensions: [
-      _lightColorScheme,
-      _textScheme,
-      _lightGradients,
-    ],
+    extensions: [_lightColorScheme, _textScheme, _lightGradients],
     brightness: Brightness.light,
     colorScheme: ColorScheme(
       brightness: Brightness.light,
@@ -22,10 +18,7 @@ abstract class AppThemeData {
       onSurface: _lightColorScheme.onSurface,
     ),
     scaffoldBackgroundColor: _lightColorScheme.background,
-    appBarTheme: AppBarTheme(
-      color: _lightColorScheme.background,
-      elevation: 0,
-    ),
+    appBarTheme: AppBarTheme(color: _lightColorScheme.background, elevation: 0),
     navigationBarTheme: NavigationBarThemeData(
       labelTextStyle: WidgetStateProperty.all<TextStyle>(
         const TextStyle(fontSize: 14),
@@ -38,11 +31,9 @@ abstract class AppThemeData {
     ),
     snackBarTheme: SnackBarThemeData(
       backgroundColor: _lightColorScheme.primary,
-      contentTextStyle: TextStyle(
-        color: _lightColorScheme.onPrimary,
-      ),
+      contentTextStyle: TextStyle(color: _lightColorScheme.onPrimary),
     ),
-    dialogTheme: DialogTheme(
+    dialogTheme: DialogThemeData(
       backgroundColor: _lightColorScheme.background,
       titleTextStyle: _textScheme.headline.copyWith(
         fontSize: 22,
@@ -56,11 +47,7 @@ abstract class AppThemeData {
   );
 
   static final darkTheme = ThemeData(
-    extensions: [
-      _darkColorScheme,
-      _textScheme,
-      _darkGradients,
-    ],
+    extensions: [_darkColorScheme, _textScheme, _darkGradients],
     brightness: Brightness.dark,
     colorScheme: ColorScheme(
       brightness: Brightness.dark,
@@ -75,10 +62,7 @@ abstract class AppThemeData {
       onSurface: _darkColorScheme.onSurface,
     ),
     scaffoldBackgroundColor: _darkColorScheme.background,
-    appBarTheme: AppBarTheme(
-      color: _darkColorScheme.background,
-      elevation: 0,
-    ),
+    appBarTheme: AppBarTheme(color: _darkColorScheme.background, elevation: 0),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: _darkColorScheme.background,
       selectedItemColor: _darkColorScheme.primary,
@@ -86,11 +70,9 @@ abstract class AppThemeData {
     ),
     snackBarTheme: SnackBarThemeData(
       backgroundColor: _darkColorScheme.primary,
-      contentTextStyle: TextStyle(
-        color: _darkColorScheme.onPrimary,
-      ),
+      contentTextStyle: TextStyle(color: _darkColorScheme.onPrimary),
     ),
-    dialogTheme: DialogTheme(
+    dialogTheme: DialogThemeData(
       backgroundColor: _darkColorScheme.background,
       titleTextStyle: _textScheme.headline.copyWith(
         fontSize: 22,

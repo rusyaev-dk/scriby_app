@@ -1,3 +1,4 @@
+// dart format width=80
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 part of 'editing_local_note.dart';
@@ -6,6 +7,7 @@ part of 'editing_local_note.dart';
 // RealmObjectGenerator
 // **************************************************************************
 
+// coverage:ignore-file
 // ignore_for_file: type=lint
 class EditingLocalNote extends _EditingLocalNote
     with RealmEntity, RealmObjectBase, RealmObject {
@@ -23,7 +25,10 @@ class EditingLocalNote extends _EditingLocalNote
     RealmObjectBase.set(this, 'date', date);
     RealmObjectBase.set(this, 'hexColor', hexColor);
     RealmObjectBase.set<RealmList<String>>(
-        this, 'tags', RealmList<String>(tags));
+      this,
+      'tags',
+      RealmList<String>(tags),
+    );
     RealmObjectBase.set(this, 'text', text);
     RealmObjectBase.set(this, 'pinned', pinned);
   }
@@ -73,9 +78,9 @@ class EditingLocalNote extends _EditingLocalNote
       RealmObjectBase.getChanges<EditingLocalNote>(this);
 
   @override
-  Stream<RealmObjectChanges<EditingLocalNote>> changesFor(
-          [List<String>? keyPaths]) =>
-      RealmObjectBase.getChangesFor<EditingLocalNote>(this, keyPaths);
+  Stream<RealmObjectChanges<EditingLocalNote>> changesFor([
+    List<String>? keyPaths,
+  ]) => RealmObjectBase.getChangesFor<EditingLocalNote>(this, keyPaths);
 
   @override
   EditingLocalNote freeze() =>
@@ -95,13 +100,13 @@ class EditingLocalNote extends _EditingLocalNote
 
   static EJsonValue _toEJson(EditingLocalNote value) => value.toEJson();
   static EditingLocalNote _fromEJson(EJsonValue ejson) {
+    if (ejson is! Map<String, dynamic>) return raiseInvalidEJson(ejson);
     return switch (ejson) {
       {
         'id': EJsonValue id,
         'title': EJsonValue title,
         'date': EJsonValue date,
         'hexColor': EJsonValue hexColor,
-        'tags': EJsonValue tags,
         'text': EJsonValue text,
         'pinned': EJsonValue pinned,
       } =>
@@ -112,7 +117,7 @@ class EditingLocalNote extends _EditingLocalNote
           fromEJson(hexColor),
           fromEJson(text),
           fromEJson(pinned),
-          tags: fromEJson(tags),
+          tags: fromEJson(ejson['tags']),
         ),
       _ => raiseInvalidEJson(ejson),
     };
@@ -121,17 +126,24 @@ class EditingLocalNote extends _EditingLocalNote
   static final schema = () {
     RealmObjectBase.registerFactory(EditingLocalNote._);
     register(_toEJson, _fromEJson);
-    return SchemaObject(
-        ObjectType.realmObject, EditingLocalNote, 'EditingLocalNote', [
-      SchemaProperty('id', RealmPropertyType.string, primaryKey: true),
-      SchemaProperty('title', RealmPropertyType.string),
-      SchemaProperty('date', RealmPropertyType.timestamp),
-      SchemaProperty('hexColor', RealmPropertyType.string),
-      SchemaProperty('tags', RealmPropertyType.string,
-          collectionType: RealmCollectionType.list),
-      SchemaProperty('text', RealmPropertyType.string),
-      SchemaProperty('pinned', RealmPropertyType.bool),
-    ]);
+    return const SchemaObject(
+      ObjectType.realmObject,
+      EditingLocalNote,
+      'EditingLocalNote',
+      [
+        SchemaProperty('id', RealmPropertyType.string, primaryKey: true),
+        SchemaProperty('title', RealmPropertyType.string),
+        SchemaProperty('date', RealmPropertyType.timestamp),
+        SchemaProperty('hexColor', RealmPropertyType.string),
+        SchemaProperty(
+          'tags',
+          RealmPropertyType.string,
+          collectionType: RealmCollectionType.list,
+        ),
+        SchemaProperty('text', RealmPropertyType.string),
+        SchemaProperty('pinned', RealmPropertyType.bool),
+      ],
+    );
   }();
 
   @override

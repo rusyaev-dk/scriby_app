@@ -4,7 +4,7 @@ import 'package:scriby_app/app/app_config.dart';
 import 'package:scriby_app/app/app_initializer.dart';
 import 'package:scriby_app/common/utils/utils.dart';
 import 'package:scriby_app/core/blocs/theme_cubit/theme_cubit.dart';
-import 'package:scriby_app/core/navigation/router.dart';
+import 'package:scriby_app/core/navigation/navigation.dart';
 import 'package:scriby_app/uikit/themes/themes.dart';
 
 class ScribyApp extends StatefulWidget {
@@ -22,26 +22,25 @@ class ScribyApp extends StatefulWidget {
 class _ScribyAppState extends State<ScribyApp> {
   @override
   Widget build(BuildContext context) {
-    final router = AppRouter();
-
     return AppInitializer(
       appConfig: widget.appConfig,
       child: BlocBuilder<ThemeCubit, ThemeState>(
         builder: (context, state) {
+          final router = AppRouter.createRouter(
+            navigatorObservers: [
+              CustomNavigationObserver(
+                logger: context.read<ILogger>(),
+              ),
+            ],
+          );
+
           return MaterialApp.router(
-            
             theme: AppThemeData.lightTheme,
             darkTheme: AppThemeData.darkTheme,
             themeMode: state.themeMode,
             title: "Scriby",
             debugShowCheckedModeBanner: false,
-            routerConfig: router.config(
-              navigatorObservers: () => [
-                CustomNavigationObserver(
-                  logger: context.read<ILogger>(),
-                ),
-              ],
-            ),
+            routerConfig: router,
           );
         },
       ),
